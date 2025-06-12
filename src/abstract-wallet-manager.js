@@ -15,7 +15,7 @@
 
 import * as bip39 from 'bip39'
 
-import { NotImplementedError } from './wallet-account.js';
+import { NotImplementedError } from './wallet-account.js'
 
 /** @typedef {import('./wallet-account.js').default} IWalletAccount */
 
@@ -34,11 +34,11 @@ import { NotImplementedError } from './wallet-account.js';
 export default class AbstractWalletManager {
   /**
    * Creates a new wallet manager.
-   * 
+   *
    * @param {string | Uint8Array} seed - The wallet's [BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) seed phrase.
    * @param {WalletConfig} [config] - The wallet configuration.
    */
-  constructor(seed, config = { }) {
+  constructor (seed, config = { }) {
     if (typeof seed === 'string') {
       if (!AbstractWalletManager.isValidSeedPhrase(seed)) {
         throw new Error('Invalid seed phrase.')
@@ -50,10 +50,10 @@ export default class AbstractWalletManager {
     /** @private */
     this._seed = seed
 
-    /** 
+    /**
      * The wallet configuration.
-     * 
-     * @protected 
+     *
+     * @protected
      * @type {WalletConfig}
      */
     this._config = config
@@ -64,7 +64,7 @@ export default class AbstractWalletManager {
    *
    * @returns {string} The seed phrase.
    */
-  static getRandomSeedPhrase() {
+  static getRandomSeedPhrase () {
     return bip39.generateMnemonic()
   }
 
@@ -74,7 +74,7 @@ export default class AbstractWalletManager {
    * @param {string} seedPhrase - The seed phrase.
    * @returns {boolean} True if the seed phrase is valid.
    */
-  static isValidSeedPhrase(seedPhrase) {
+  static isValidSeedPhrase (seedPhrase) {
     return bip39.validateMnemonic(seedPhrase)
   }
 
@@ -115,16 +115,16 @@ export default class AbstractWalletManager {
    * @abstract
    * @returns {Promise<FeeRates>} The fee rates.
    */
-  async getFeeRates() {
+  async getFeeRates () {
     throw new NotImplementedError('getFeeRates()')
   }
 
   /**
    * Disposes all the wallet accounts, erasing their private keys from the memory.
-   * 
+   *
    * @abstract
    */
-  dispose() {
+  dispose () {
     throw new NotImplementedError('dispose()')
   }
 }

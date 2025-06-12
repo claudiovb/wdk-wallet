@@ -47,10 +47,10 @@
 export class NotImplementedError extends Error {
   /**
    * Create a new not implemented error.
-   * 
+   *
    * @param {string} methodName - The method's name.
    */
-  constructor(methodName) {
+  constructor (methodName) {
     super(`Method '${methodName}' must be implemented.`)
 
     this.name = 'NotImplementedError'
@@ -64,7 +64,7 @@ export default class IWalletAccount {
    *
    * @type {number}
    */
-  get index() {
+  get index () {
     throw new NotImplementedError('index')
   }
 
@@ -73,7 +73,7 @@ export default class IWalletAccount {
    *
    * @type {string}
    */
-  get path() {
+  get path () {
     throw new NotImplementedError('path')
   }
 
@@ -82,7 +82,7 @@ export default class IWalletAccount {
    *
    * @type {KeyPair}
    */
-  get keyPair() {
+  get keyPair () {
     throw new NotImplementedError('keyPair')
   }
 
@@ -91,7 +91,7 @@ export default class IWalletAccount {
    *
    * @returns {Promise<string>} The account's address.
    */
-  async getAddress() {
+  async getAddress () {
     throw new NotImplementedError('getAddress()')
   }
 
@@ -101,7 +101,7 @@ export default class IWalletAccount {
    * @param {string} message - The message to sign.
    * @returns {Promise<string>} The message's signature.
    */
-  async sign(message) {
+  async sign (message) {
     throw new NotImplementedError('sign(message)')
   }
 
@@ -112,7 +112,7 @@ export default class IWalletAccount {
    * @param {string} signature - The signature to verify.
    * @returns {Promise<boolean>} True if the signature is valid.
    */
-  async verify(message, signature) {
+  async verify (message, signature) {
     throw new NotImplementedError('verify(message, signature)')
   }
 
@@ -121,7 +121,7 @@ export default class IWalletAccount {
    *
    * @returns {Promise<number>} The native token balance.
    */
-  async getBalance() {
+  async getBalance () {
     throw new NotImplementedError('getBalance()')
   }
 
@@ -131,7 +131,7 @@ export default class IWalletAccount {
    * @param {string} tokenAddress - The smart contract address of the token.
    * @returns {Promise<number>} The token balance.
    */
-  async getTokenBalance(tokenAddress) {
+  async getTokenBalance (tokenAddress) {
     throw new NotImplementedError('getTokenBalance(tokenAddress)')
   }
 
@@ -141,7 +141,7 @@ export default class IWalletAccount {
    * @param {Transaction} tx - The transaction.
    * @returns {Promise<TransactionResult>} The transaction's result.
    */
-  async sendTransaction(tx) {
+  async sendTransaction (tx) {
     throw new NotImplementedError('sendTransaction(tx)')
   }
 
@@ -152,7 +152,7 @@ export default class IWalletAccount {
    * @param {Transaction} tx - The transaction.
    * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
    */
-  async quoteSendTransaction(tx) {
+  async quoteSendTransaction (tx) {
     throw new NotImplementedError('quoteSendTransaction(tx)')
   }
 
@@ -162,7 +162,7 @@ export default class IWalletAccount {
    * @param {TransferOptions} options - The transfer's options.
    * @returns {Promise<TransferResult>} The transfer's result.
    */
-  async transfer(options) {
+  async transfer (options) {
     throw new NotImplementedError('transfer(options)')
   }
 
@@ -173,14 +173,14 @@ export default class IWalletAccount {
    * @param {TransferOptions} options - The transfer's options.
    * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
    */
-  async quoteTransfer(options) {
+  async quoteTransfer (options) {
     throw new NotImplementedError('quoteTransfer(options)')
   }
 
   /**
    * Disposes the wallet account, erasing the private key from the memory.
    */
-  dispose() {
+  dispose () {
     throw new NotImplementedError('dispose()')
   }
 }
