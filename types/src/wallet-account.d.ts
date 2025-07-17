@@ -1,29 +1,3 @@
-/**
- * @typedef {Object} KeyPair
- * @property {Uint8Array} publicKey - The public key.
- * @property {Uint8Array} privateKey - The private key.
- */
-/**
- * @typedef {Object} Transaction
- * @property {string} to - The transaction's recipient.
- * @property {number} value - The amount of native tokens to send to the recipient (in base unit).
- */
-/**
- * @typedef {Object} TransactionResult
- * @property {string} hash - The transaction's hash.
- * @property {number} fee - The gas cost.
- */
-/**
- * @typedef {Object} TransferOptions
- * @property {string} token - The address of the token to transfer.
- * @property {string} recipient - The address of the recipient.
- * @property {number} amount - The amount of tokens to transfer to the recipient (in base units).
- */
-/**
- * @typedef {Object} TransferResult
- * @property {string} hash - The hash of the transfer operation.
- * @property {number} fee - The gas cost.
- */
 export class NotImplementedError extends Error {
     /**
      * Create a new not implemented error.
@@ -33,7 +7,7 @@ export class NotImplementedError extends Error {
     constructor(methodName: string);
 }
 /** @interface */
-export default class IWalletAccount {
+export default interface IWalletAccount {
     /**
      * The derivation path's index of this account.
      *

@@ -1,23 +1,5 @@
-/** @typedef {import('../wallet-account.js').default} IWalletAccount */
-/**
- * @typedef {Object} BridgeProtocolConfig
- * @property {number} [bridgeMaxFee] - The maximum fee amount for bridge operations.
- */
-/**
- * @typedef {Object} BridgeOptions
- * @property {string} targetChain - The identifier of the destination blockchain (e.g., "arbitrum").
- * @property {string} recipient - The address of the recipient.
- * @property {string} token - The address of the token to bridge.
- * @property {number} amount - The amount of tokenss to bridge to the destination chain (in base unit).
- */
-/**
- * @typedef {Object} BridgeResult
- * @property {string} hash - The hash of the bridge operation.
- * @property {number} fee - The gas cost.
- * @property {number} bridgeFee - The bridge cost in the bridged token.
- */
 /** @abstract */
-export default class AbstractBridgeProtocol {
+export default abstract class AbstractBridgeProtocol {
     /**
      * Creates a new bridge protocol.
      *

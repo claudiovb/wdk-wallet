@@ -1,15 +1,5 @@
-/** @typedef {import('./wallet-account.js').default} IWalletAccount */
-/**
- * @typedef {Object} WalletConfig
- * @property {number} [transferMaxFee] - The maximum fee amount for transfer operations.
- */
-/**
- * @typedef {Object} FeeRates
- * @property {number} normal - The fee rate for transaction sent with normal priority.
- * @property {number} fast - The fee rate for transaction sent with fast priority.
- */
 /** @abstract */
-export default class AbstractWalletManager {
+export default abstract class AbstractWalletManager {
     /**
      * Returns a random [BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) seed phrase.
      *

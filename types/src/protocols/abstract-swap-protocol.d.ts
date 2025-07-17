@@ -1,24 +1,5 @@
-/** @typedef {import('../wallet-account.js').default} IWalletAccount */
-/**
- * @typedef {Object} SwapProtocolConfig
- * @property {number} [swapMaxFee] - The maximum fee amount for swap operations.
- */
-/**
- * @typedef {Object} SwapOptions
- * @property {string} tokenIn - The address of the token to sell.
- * @property {string} tokenOut - The address of the token to buy.
- * @property {number} [tokenInAmount] - The amount of input tokens to sell (in base unit).
- * @property {number} [tokenOutAmount] - The amount of output tokens to buy (in base unit).
- */
-/**
- * @typedef {Object} SwapResult
- * @property {string} hash - The hash of the swap operation.
- * @property {number} fee - The gas cost.
- * @property {number} tokenInAmount - The amount of input tokens sold.
- * @property {number} tokenOutAmount - The amount of output tokens bought.
- */
 /** @abstract */
-export default class AbstractSwapProtocol {
+export default abstract class AbstractSwapProtocol {
     /**
      * Creates a new swap protocol.
      *
