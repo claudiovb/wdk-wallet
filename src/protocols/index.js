@@ -21,6 +21,17 @@
 /** @typedef {import('./abstract-bridge-protocol.js').BridgeOptions} BridgeOptions */
 /** @typedef {import('./abstract-bridge-protocol.js').BridgeResult} BridgeResult */
 
+/** @typedef {import('./abstract-lending-protocol.js').SupplyOptions} SupplyOptions */
+/** @typedef {import('./abstract-lending-protocol.js').SupplyResult} SupplyResult */
+/** @typedef {import('./abstract-lending-protocol.js').WithdrawOptions} WithdrawOptions */
+/** @typedef {import('./abstract-lending-protocol.js').WithdrawResult} WithdrawResult */
+/** @typedef {import('./abstract-lending-protocol.js').BorrowOptions} BorrowOptions */
+/** @typedef {import('./abstract-lending-protocol.js').BorrowResult} BorrowResult */
+/** @typedef {import('./abstract-lending-protocol.js').RepayOptions} RepayOptions */
+/** @typedef {import('./abstract-lending-protocol.js').RepayResult} RepayResult */
+
 export { default as AbstractSwapProtocol } from './abstract-swap-protocol.js'
 
 export { default as AbstractBridgeProtocol } from './abstract-bridge-protocol.js'
+
+export { default as AbstractLendingProtocol } from './abstract-lending-protocol.js'
