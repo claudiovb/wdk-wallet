@@ -4,9 +4,9 @@ export default abstract class AbstractBridgeProtocol {
      * Creates a new bridge protocol.
      *
      * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
-     * @param {BridgeProtocolConfig} config - The bridge protocol configuration.
+     * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
      */
-    constructor(account: IWalletAccount, config: BridgeProtocolConfig);
+    constructor(account: IWalletAccount, config?: BridgeProtocolConfig);
     /**
      * The wallet account to use to interact with the protocol.
      *

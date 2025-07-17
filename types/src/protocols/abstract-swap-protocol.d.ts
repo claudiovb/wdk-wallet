@@ -4,9 +4,9 @@ export default abstract class AbstractSwapProtocol {
      * Creates a new swap protocol.
      *
      * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
-     * @param {SwapProtocolConfig} config - The swap protocol configuration.
+     * @param {SwapProtocolConfig} [config] - The swap protocol configuration.
      */
-    constructor(account: IWalletAccount, config: SwapProtocolConfig);
+    constructor(account: IWalletAccount, config?: SwapProtocolConfig);
     /**
      * The wallet account to use to interact with the protocol.
      *
