@@ -63,6 +63,10 @@ export type SwapOptions = {
      * - The amount of output tokens to buy (in base unit).
      */
     tokenOutAmount?: number;
+    /**
+     * - The address that will receive the output tokens. If not set, the account itself will receive the funds.
+     */
+    to?: string;
 };
 export type SwapResult = {
     /**

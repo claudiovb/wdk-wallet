@@ -34,7 +34,7 @@ import { NotImplementedError } from '../wallet-account.js'
  * @typedef {Object} WithdrawOptions
  * @property {string} token - The address of the token to withdraw.
  * @property {number} amount - The amount of tokens to withdraw (in base unit).
- * @property {string} [to] - The address that should receive the funds. If not set, the account itself will receive the tokens.
+ * @property {string} [to] - The address that should receive the tokens. If not set, the account itself will receive the funds.
  */
 
 /**
