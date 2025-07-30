@@ -96,7 +96,7 @@ export class IWalletAccountReadOnly {
    * Returns a transaction's receipt.
    *
    * @param {string} hash - The transaction's hash.
-   * @returns {Promise<unknown | null>} – The receipt, or null if the transaction has not been included in a block yet.
+   * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
    */
   async getTransactionReceipt (hash) {
     throw new NotImplementedError('getTransactionReceipt(hash)')
@@ -111,14 +111,27 @@ export default class AbstractWalletAccountReadOnly {
   /**
    * Creates a new read-only wallet account.
    *
-   * @param {string} address - The account's address.
+   * @param {string} [address] - The account's address. If not provided, it must be set after construction with the {@link setAddress} method.
    */
   constructor (address) {
     /** @private */
     this._address = address
   }
 
+  /**
+   * Sets the account's address.
+   * 
+   * @param {string} address - The account's address.
+   */
+  setAddress (address) {
+    this._address = address
+  }
+
   async getAddress () {
+    if (!this._address) {
+      throw new Error("Account's address not set.")
+    }
+
     return this._address
   }
 

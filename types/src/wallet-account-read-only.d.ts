@@ -51,11 +51,17 @@ export default abstract class AbstractWalletAccountReadOnly implements IWalletAc
     /**
      * Creates a new read-only wallet account.
      *
-     * @param {string} address - The account's address.
+     * @param {string} [address] - The account's address. If not provided, it must be set after construction with the {@link setAddress} method.
      */
-    constructor(address: string);
+    constructor(address?: string);
     /** @private */
     private _address;
+    /**
+     * Sets the account's address.
+     *
+     * @param {string} address - The account's address.
+     */
+    setAddress(address: string): void;
     getAddress(): Promise<string>;
     abstract getBalance(): Promise<number>;
     abstract getTokenBalance(tokenAddress: string): Promise<number>;
