@@ -73,7 +73,6 @@ export class IWalletAccountReadOnly {
   /**
    * Quotes the costs of a send transaction operation.
    *
-   * @see {@link sendTransaction}
    * @param {Transaction} tx - The transaction.
    * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
    */
@@ -84,7 +83,6 @@ export class IWalletAccountReadOnly {
   /**
    * Quotes the costs of a transfer operation.
    *
-   * @see {@link transfer}
    * @param {TransferOptions} options - The transfer's options.
    * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
    */
@@ -111,51 +109,71 @@ export default class AbstractWalletAccountReadOnly {
   /**
    * Creates a new read-only wallet account.
    *
-   * @param {string} [address] - The account's address. If not provided, it must be set after construction with the {@link setAddress} method.
+   * @param {string} [address] - The account's address.
    */
   constructor (address) {
     /** @private */
     this._address = address
   }
 
-  /**
-   * Sets the account's address.
-   * 
-   * @param {string} address - The account's address.
-   */
-  setAddress (address) {
-    this._address = address
-  }
-
   async getAddress () {
     if (!this._address) {
-      throw new Error("Account's address not set.")
+      throw new Error("The account's address must be set to perform this operation.")
     }
 
     return this._address
   }
 
-  /** @abstract */
+  /**
+   * Returns the account's native token balance.
+   *
+   * @abstract
+   * @returns {Promise<number>} The native token balance.
+   */
   async getBalance () {
     throw new NotImplementedError('getBalance()')
   }
 
-  /** @abstract */
+  /**
+   * Returns the account balance for a specific token.
+   *
+   * @abstract
+   * @param {string} tokenAddress - The smart contract address of the token.
+   * @returns {Promise<number>} The token balance.
+   */
   async getTokenBalance (tokenAddress) {
     throw new NotImplementedError('getTokenBalance(tokenAddress)')
   }
 
-  /** @abstract */
+  /**
+   * Quotes the costs of a send transaction operation.
+   *
+   * @abstract
+   * @param {Transaction} tx - The transaction.
+   * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
+   */
   async quoteSendTransaction (tx) {
     throw new NotImplementedError('quoteSendTransaction(tx)')
   }
 
-  /** @abstract */
+  /**
+   * Quotes the costs of a transfer operation.
+   *
+   * @abstract
+   * @param {TransferOptions} options - The transfer's options.
+   * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
+   */
   async quoteTransfer (options) {
     throw new NotImplementedError('quoteTransfer(options)')
   }
 
-  /** @abstract */
+  /**
+   * Returns a transaction's receipt.
+   *
+   * @abstract
+   * @param {string} hash - The transaction's hash.
+   * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
+   */
   async getTransactionReceipt (hash) {
     throw new NotImplementedError('getTransactionReceipt(hash)')
   }

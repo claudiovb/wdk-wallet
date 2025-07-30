@@ -22,7 +22,6 @@ export interface IWalletAccountReadOnly {
     /**
      * Quotes the costs of a send transaction operation.
      *
-     * @see {@link sendTransaction}
      * @param {Transaction} tx - The transaction.
      * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
      */
@@ -30,7 +29,6 @@ export interface IWalletAccountReadOnly {
     /**
      * Quotes the costs of a transfer operation.
      *
-     * @see {@link transfer}
      * @param {TransferOptions} options - The transfer's options.
      * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
      */
@@ -51,22 +49,50 @@ export default abstract class AbstractWalletAccountReadOnly implements IWalletAc
     /**
      * Creates a new read-only wallet account.
      *
-     * @param {string} [address] - The account's address. If not provided, it must be set after construction with the {@link setAddress} method.
+     * @param {string} [address] - The account's address.
      */
     constructor(address?: string);
     /** @private */
     private _address;
-    /**
-     * Sets the account's address.
-     *
-     * @param {string} address - The account's address.
-     */
-    setAddress(address: string): void;
     getAddress(): Promise<string>;
+    /**
+     * Returns the account's native token balance.
+     *
+     * @abstract
+     * @returns {Promise<number>} The native token balance.
+     */
     abstract getBalance(): Promise<number>;
+    /**
+     * Returns the account balance for a specific token.
+     *
+     * @abstract
+     * @param {string} tokenAddress - The smart contract address of the token.
+     * @returns {Promise<number>} The token balance.
+     */
     abstract getTokenBalance(tokenAddress: string): Promise<number>;
+    /**
+     * Quotes the costs of a send transaction operation.
+     *
+     * @abstract
+     * @param {Transaction} tx - The transaction.
+     * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
+     */
     abstract quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, "hash">>;
+    /**
+     * Quotes the costs of a transfer operation.
+     *
+     * @abstract
+     * @param {TransferOptions} options - The transfer's options.
+     * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
+     */
     abstract quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, "hash">>;
+    /**
+     * Returns a transaction's receipt.
+     *
+     * @abstract
+     * @param {string} hash - The transaction's hash.
+     * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
+     */
     abstract getTransactionReceipt(hash: string): Promise<unknown | null>;
 }
 export type Transaction = {
