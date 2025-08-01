@@ -13,25 +13,25 @@
 // limitations under the License.
 'use strict'
 
-/** @typedef {import('./abstract-swap-protocol.js').SwapProtocolConfig} SwapProtocolConfig */
-/** @typedef {import('./abstract-swap-protocol.js').SwapOptions} SwapOptions */
-/** @typedef {import('./abstract-swap-protocol.js').SwapResult} SwapResult */
+/** @typedef {import('./swap-protocol.js').SwapProtocolConfig} SwapProtocolConfig */
+/** @typedef {import('./swap-protocol.js').SwapOptions} SwapOptions */
+/** @typedef {import('./swap-protocol.js').SwapResult} SwapResult */
 
-/** @typedef {import('./abstract-bridge-protocol.js').BridgeProtocolConfig} BridgeProtocolConfig */
-/** @typedef {import('./abstract-bridge-protocol.js').BridgeOptions} BridgeOptions */
-/** @typedef {import('./abstract-bridge-protocol.js').BridgeResult} BridgeResult */
+/** @typedef {import('./bridge-protocol.js').BridgeProtocolConfig} BridgeProtocolConfig */
+/** @typedef {import('./bridge-protocol.js').BridgeOptions} BridgeOptions */
+/** @typedef {import('./bridge-protocol.js').BridgeResult} BridgeResult */
 
-/** @typedef {import('./abstract-lending-protocol.js').SupplyOptions} SupplyOptions */
-/** @typedef {import('./abstract-lending-protocol.js').SupplyResult} SupplyResult */
-/** @typedef {import('./abstract-lending-protocol.js').WithdrawOptions} WithdrawOptions */
-/** @typedef {import('./abstract-lending-protocol.js').WithdrawResult} WithdrawResult */
-/** @typedef {import('./abstract-lending-protocol.js').BorrowOptions} BorrowOptions */
-/** @typedef {import('./abstract-lending-protocol.js').BorrowResult} BorrowResult */
-/** @typedef {import('./abstract-lending-protocol.js').RepayOptions} RepayOptions */
-/** @typedef {import('./abstract-lending-protocol.js').RepayResult} RepayResult */
+/** @typedef {import('./lending-protocol.js').SupplyOptions} SupplyOptions */
+/** @typedef {import('./lending-protocol.js').SupplyResult} SupplyResult */
+/** @typedef {import('./lending-protocol.js').WithdrawOptions} WithdrawOptions */
+/** @typedef {import('./lending-protocol.js').WithdrawResult} WithdrawResult */
+/** @typedef {import('./lending-protocol.js').BorrowOptions} BorrowOptions */
+/** @typedef {import('./lending-protocol.js').BorrowResult} BorrowResult */
+/** @typedef {import('./lending-protocol.js').RepayOptions} RepayOptions */
+/** @typedef {import('./lending-protocol.js').RepayResult} RepayResult */
 
-export { default as AbstractSwapProtocol } from './abstract-swap-protocol.js'
+export { default as AbstractSwapProtocol } from './swap-protocol.js'
 
-export { default as AbstractBridgeProtocol } from './abstract-bridge-protocol.js'
+export { default as AbstractBridgeProtocol } from './bridge-protocol.js'
 
-export { default as AbstractLendingProtocol } from './abstract-lending-protocol.js'
+export { default as AbstractLendingProtocol } from './lending-protocol.js'

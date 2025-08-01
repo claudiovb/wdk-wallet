@@ -15,7 +15,7 @@
 
 import { NotImplementedError } from '../wallet-account.js'
 
-/** @typedef {import('../wallet-account.js').default} IWalletAccount */
+/** @typedef {import('../wallet-account.js').IWalletAccount} IWalletAccount */
 
 /**
  * @typedef {Object} BridgeProtocolConfig

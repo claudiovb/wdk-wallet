@@ -39,7 +39,7 @@ export default abstract class AbstractSwapProtocol {
      */
     abstract quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, "hash">>;
 }
-export type IWalletAccount = import("../wallet-account.js").default;
+export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
 export type SwapProtocolConfig = {
     /**
      * - The maximum fee amount for swap operations.

@@ -13,15 +13,20 @@
 // limitations under the License.
 'use strict'
 
-/** @typedef {import('./src/abstract-wallet-manager.js').FeeRates} FeeRates */
-/** @typedef {import('./src/abstract-wallet-manager.js').WalletConfig} WalletConfig */
+/** @typedef {import('./src/wallet-manager.js').FeeRates} FeeRates */
+/** @typedef {import('./src/wallet-manager.js').WalletConfig} WalletConfig */
+
+/** @typedef {import('./src/wallet-account-read-only.js').Transaction} Transaction */
+/** @typedef {import('./src/wallet-account-read-only.js').TransactionResult} TransactionResult */
+/** @typedef {import('./src/wallet-account-read-only.js').TransferOptions} TransferOptions */
+/** @typedef {import('./src/wallet-account-read-only.js').TransferResult} TransferResult */
 
 /** @typedef {import('./src/wallet-account.js').KeyPair} KeyPair */
-/** @typedef {import('./src/wallet-account.js').Transaction} Transaction */
-/** @typedef {import('./src/wallet-account.js').TransactionResult} TransactionResult */
-/** @typedef {import('./src/wallet-account.js').TransferOptions} TransferOptions */
-/** @typedef {import('./src/wallet-account.js').TransferResult} TransferResult */
 
-export { default } from './src/abstract-wallet-manager.js'
+export { default } from './src/wallet-manager.js'
 
-export { default as IWalletAccount, NotImplementedError } from './src/wallet-account.js'
+export { default as AbstractWalletAccountReadOnly, IWalletAccountReadOnly } from './src/wallet-account-read-only.js'
+
+export { IWalletAccount } from './src/wallet-account.js'
+
+export { NotImplementedError } from './src/errors.js'

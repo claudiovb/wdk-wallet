@@ -13,52 +13,24 @@
 // limitations under the License.
 'use strict'
 
+import { IWalletAccountReadOnly } from './wallet-account-read-only.js'
+
+import { NotImplementedError } from './errors.js'
+
+/** @typedef {import('./wallet-account-read-only.js').Transaction} Transaction */
+/** @typedef {import('./wallet-account-read-only.js').TransactionResult} TransactionResult */
+
+/** @typedef {import('./wallet-account-read-only.js').TransferOptions} TransferOptions */
+/** @typedef {import('./wallet-account-read-only.js').TransferResult} TransferResult */
+
 /**
  * @typedef {Object} KeyPair
  * @property {Uint8Array} publicKey - The public key.
  * @property {Uint8Array} privateKey - The private key.
  */
 
-/**
- * @typedef {Object} Transaction
- * @property {string} to - The transaction's recipient.
- * @property {number} value - The amount of native tokens to send to the recipient (in base unit).
- */
-
-/**
- * @typedef {Object} TransactionResult
- * @property {string} hash - The transaction's hash.
- * @property {number} fee - The gas cost.
- */
-
-/**
- * @typedef {Object} TransferOptions
- * @property {string} token - The address of the token to transfer.
- * @property {string} recipient - The address of the recipient.
- * @property {number} amount - The amount of tokens to transfer to the recipient (in base units).
- */
-
-/**
- * @typedef {Object} TransferResult
- * @property {string} hash - The hash of the transfer operation.
- * @property {number} fee - The gas cost.
- */
-
-export class NotImplementedError extends Error {
-  /**
-   * Create a new not implemented error.
-   *
-   * @param {string} methodName - The method's name.
-   */
-  constructor (methodName) {
-    super(`Method '${methodName}' must be implemented.`)
-
-    this.name = 'NotImplementedError'
-  }
-}
-
 /** @interface */
-export default class IWalletAccount {
+export class IWalletAccount extends IWalletAccountReadOnly {
   /**
    * The derivation path's index of this account.
    *
@@ -87,15 +59,6 @@ export default class IWalletAccount {
   }
 
   /**
-   * Returns the account's address.
-   *
-   * @returns {Promise<string>} The account's address.
-   */
-  async getAddress () {
-    throw new NotImplementedError('getAddress()')
-  }
-
-  /**
    * Signs a message.
    *
    * @param {string} message - The message to sign.
@@ -117,25 +80,6 @@ export default class IWalletAccount {
   }
 
   /**
-   * Returns the account's native token balance.
-   *
-   * @returns {Promise<number>} The native token balance.
-   */
-  async getBalance () {
-    throw new NotImplementedError('getBalance()')
-  }
-
-  /**
-   * Returns the account balance for a specific token.
-   *
-   * @param {string} tokenAddress - The smart contract address of the token.
-   * @returns {Promise<number>} The token balance.
-   */
-  async getTokenBalance (tokenAddress) {
-    throw new NotImplementedError('getTokenBalance(tokenAddress)')
-  }
-
-  /**
    * Sends a transaction.
    *
    * @param {Transaction} tx - The transaction.
@@ -146,17 +90,6 @@ export default class IWalletAccount {
   }
 
   /**
-   * Quotes the costs of a send transaction operation.
-   *
-   * @see {@link sendTransaction}
-   * @param {Transaction} tx - The transaction.
-   * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
-   */
-  async quoteSendTransaction (tx) {
-    throw new NotImplementedError('quoteSendTransaction(tx)')
-  }
-
-  /**
    * Transfers a token to another address.
    *
    * @param {TransferOptions} options - The transfer's options.
@@ -164,27 +97,6 @@ export default class IWalletAccount {
    */
   async transfer (options) {
     throw new NotImplementedError('transfer(options)')
-  }
-
-  /**
-   * Quotes the costs of a transfer operation.
-   *
-   * @see {@link transfer}
-   * @param {TransferOptions} options - The transfer's options.
-   * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
-   */
-  async quoteTransfer (options) {
-    throw new NotImplementedError('quoteTransfer(options)')
-  }
-
-  /**
-   * Returns a transaction's receipt.
-   *
-   * @param {string} hash - The transaction's hash.
-   * @returns {Promise<unknown | null>} – The receipt, or null if the transaction has not been included in a block yet.
-   */
-  async getTransactionReceipt (hash) {
-    throw new NotImplementedError('getTransactionReceipt(hash)')
   }
 
   /**

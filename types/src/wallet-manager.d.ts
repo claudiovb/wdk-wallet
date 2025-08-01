@@ -65,7 +65,7 @@ export default abstract class AbstractWalletManager {
      */
     abstract dispose(): void;
 }
-export type IWalletAccount = import("./wallet-account.js").default;
+export type IWalletAccount = import("./wallet-account.js").IWalletAccount;
 export type WalletConfig = {
     /**
      * - The maximum fee amount for transfer operations.

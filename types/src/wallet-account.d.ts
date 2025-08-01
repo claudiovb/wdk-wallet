@@ -1,13 +1,5 @@
-export class NotImplementedError extends Error {
-    /**
-     * Create a new not implemented error.
-     *
-     * @param {string} methodName - The method's name.
-     */
-    constructor(methodName: string);
-}
 /** @interface */
-export default interface IWalletAccount {
+export interface IWalletAccount extends IWalletAccountReadOnly {
     /**
      * The derivation path's index of this account.
      *
@@ -27,12 +19,6 @@ export default interface IWalletAccount {
      */
     get keyPair(): KeyPair;
     /**
-     * Returns the account's address.
-     *
-     * @returns {Promise<string>} The account's address.
-     */
-    getAddress(): Promise<string>;
-    /**
      * Signs a message.
      *
      * @param {string} message - The message to sign.
@@ -48,33 +34,12 @@ export default interface IWalletAccount {
      */
     verify(message: string, signature: string): Promise<boolean>;
     /**
-     * Returns the account's native token balance.
-     *
-     * @returns {Promise<number>} The native token balance.
-     */
-    getBalance(): Promise<number>;
-    /**
-     * Returns the account balance for a specific token.
-     *
-     * @param {string} tokenAddress - The smart contract address of the token.
-     * @returns {Promise<number>} The token balance.
-     */
-    getTokenBalance(tokenAddress: string): Promise<number>;
-    /**
      * Sends a transaction.
      *
      * @param {Transaction} tx - The transaction.
      * @returns {Promise<TransactionResult>} The transaction's result.
      */
     sendTransaction(tx: Transaction): Promise<TransactionResult>;
-    /**
-     * Quotes the costs of a send transaction operation.
-     *
-     * @see {@link sendTransaction}
-     * @param {Transaction} tx - The transaction.
-     * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
-     */
-    quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, "hash">>;
     /**
      * Transfers a token to another address.
      *
@@ -83,25 +48,14 @@ export default interface IWalletAccount {
      */
     transfer(options: TransferOptions): Promise<TransferResult>;
     /**
-     * Quotes the costs of a transfer operation.
-     *
-     * @see {@link transfer}
-     * @param {TransferOptions} options - The transfer's options.
-     * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
-     */
-    quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, "hash">>;
-    /**
-     * Returns a transaction's receipt.
-     *
-     * @param {string} hash - The transaction's hash.
-     * @returns {Promise<unknown | null>} – The receipt, or null if the transaction has not been included in a block yet.
-     */
-    getTransactionReceipt(hash: string): Promise<unknown | null>;
-    /**
      * Disposes the wallet account, erasing the private key from the memory.
      */
     dispose(): void;
 }
+export type Transaction = import("./wallet-account-read-only.js").Transaction;
+export type TransactionResult = import("./wallet-account-read-only.js").TransactionResult;
+export type TransferOptions = import("./wallet-account-read-only.js").TransferOptions;
+export type TransferResult = import("./wallet-account-read-only.js").TransferResult;
 export type KeyPair = {
     /**
      * - The public key.
@@ -112,47 +66,4 @@ export type KeyPair = {
      */
     privateKey: Uint8Array;
 };
-export type Transaction = {
-    /**
-     * - The transaction's recipient.
-     */
-    to: string;
-    /**
-     * - The amount of native tokens to send to the recipient (in base unit).
-     */
-    value: number;
-};
-export type TransactionResult = {
-    /**
-     * - The transaction's hash.
-     */
-    hash: string;
-    /**
-     * - The gas cost.
-     */
-    fee: number;
-};
-export type TransferOptions = {
-    /**
-     * - The address of the token to transfer.
-     */
-    token: string;
-    /**
-     * - The address of the recipient.
-     */
-    recipient: string;
-    /**
-     * - The amount of tokens to transfer to the recipient (in base units).
-     */
-    amount: number;
-};
-export type TransferResult = {
-    /**
-     * - The hash of the transfer operation.
-     */
-    hash: string;
-    /**
-     * - The gas cost.
-     */
-    fee: number;
-};
+import { IWalletAccountReadOnly } from './wallet-account-read-only.js';

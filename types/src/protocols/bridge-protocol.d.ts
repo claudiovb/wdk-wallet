@@ -39,7 +39,7 @@ export default abstract class AbstractBridgeProtocol {
      */
     abstract quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, "hash">>;
 }
-export type IWalletAccount = import("../wallet-account.js").default;
+export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
 export type BridgeProtocolConfig = {
     /**
      * - The maximum fee amount for bridge operations.
