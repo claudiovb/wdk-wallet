@@ -48,6 +48,12 @@ export interface IWalletAccount extends IWalletAccountReadOnly {
      */
     transfer(options: TransferOptions): Promise<TransferResult>;
     /**
+     * Returns a read-only copy of the account.
+     *
+     * @returns {Promise<IWalletAccountReadOnly>} The read-only account.
+     */
+    toReadOnlyAccount(): Promise<IWalletAccountReadOnly>;
+    /**
      * Disposes the wallet account, erasing the private key from the memory.
      */
     dispose(): void;

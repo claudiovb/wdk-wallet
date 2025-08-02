@@ -1,8 +1,8 @@
 import { describe, expect, test } from '@jest/globals'
 
-import { AbstractWalletAccountReadOnly } from '../index.js'
+import { WalletAccountReadOnly } from '../index.js'
 
-class DummyWalletAccountReadOnly extends AbstractWalletAccountReadOnly {
+class DummyWalletAccountReadOnly extends WalletAccountReadOnly {
   constructor (address) {
     super(address)
   }
@@ -30,7 +30,7 @@ class DummyWalletAccountReadOnly extends AbstractWalletAccountReadOnly {
 
 const ADDRESS = '0xa460AEbce0d3A4BecAd8ccf9D6D4861296c503Bd'
 
-describe('AbstractWalletAccountReadOnly', () => {
+describe('WalletAccountReadOnly', () => {
   describe('getAddress', () => {
     test('should return the correct address', async () => {
       const account = new DummyWalletAccountReadOnly(ADDRESS)

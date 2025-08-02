@@ -1,5 +1,5 @@
 /** @abstract */
-export default abstract class AbstractWalletManager {
+export default abstract class WalletManager {
     /**
      * Returns a random [BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) seed phrase.
      *

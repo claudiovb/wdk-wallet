@@ -14,6 +14,7 @@
 'use strict'
 
 /** @typedef {import('./src/wallet-manager.js').FeeRates} FeeRates */
+
 /** @typedef {import('./src/wallet-manager.js').WalletConfig} WalletConfig */
 
 /** @typedef {import('./src/wallet-account-read-only.js').Transaction} Transaction */
@@ -25,7 +26,7 @@
 
 export { default } from './src/wallet-manager.js'
 
-export { default as AbstractWalletAccountReadOnly, IWalletAccountReadOnly } from './src/wallet-account-read-only.js'
+export { default as WalletAccountReadOnly, IWalletAccountReadOnly } from './src/wallet-account-read-only.js'
 
 export { IWalletAccount } from './src/wallet-account.js'
 

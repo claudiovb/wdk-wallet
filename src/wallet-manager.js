@@ -31,7 +31,7 @@ import { NotImplementedError } from './errors.js'
  */
 
 /** @abstract */
-export default class AbstractWalletManager {
+export default class WalletManager {
   /**
    * Creates a new wallet manager.
    *
@@ -40,7 +40,7 @@ export default class AbstractWalletManager {
    */
   constructor (seed, config = { }) {
     if (typeof seed === 'string') {
-      if (!AbstractWalletManager.isValidSeedPhrase(seed)) {
+      if (!WalletManager.isValidSeedPhrase(seed)) {
         throw new Error('The seed phrase is invalid.')
       }
 

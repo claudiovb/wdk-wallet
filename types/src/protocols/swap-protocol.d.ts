@@ -1,8 +1,17 @@
 /** @abstract */
-export default abstract class AbstractSwapProtocol {
+export default abstract class SwapProtocol {
+    /**
+     * Creates a new read-only swap protocol.
+     *
+     * @overload
+     * @param {IWalletAccountReadOnly} account - The wallet account to use to interact with the protocol.
+     * @param {SwapProtocolConfig} [config] - The swap protocol configuration.
+     */
+    constructor(account: IWalletAccountReadOnly, config?: SwapProtocolConfig);
     /**
      * Creates a new swap protocol.
      *
+     * @overload
      * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
      * @param {SwapProtocolConfig} [config] - The swap protocol configuration.
      */
@@ -32,13 +41,13 @@ export default abstract class AbstractSwapProtocol {
     /**
      * Quotes the costs of a swap operation.
      *
-     * @see {@link swap}
      * @abstract
      * @param {SwapOptions} options - The swap's options.
      * @returns {Promise<Omit<SwapResult, 'hash'>>} The swap's quotes.
      */
     abstract quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, "hash">>;
 }
+export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
 export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
 export type SwapProtocolConfig = {
     /**

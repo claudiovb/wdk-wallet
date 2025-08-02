@@ -1,8 +1,16 @@
 /** @abstract */
-export default abstract class AbstractLendingProtocol {
+export default abstract class LendingProtocol {
+    /**
+     * Creates a new read-only lending protocol.
+     *
+     * @overload
+     * @param {IWalletAccountReadOnly} account - The wallet account to use to interact with the protocol.
+     */
+    constructor(account: IWalletAccountReadOnly);
     /**
      * Creates a new lending protocol.
      *
+     * @overload
      * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
      */
     constructor(account: IWalletAccount);
@@ -24,7 +32,6 @@ export default abstract class AbstractLendingProtocol {
     /**
      * Quotes the costs of a supply operation.
      *
-     * @see {@link supply}
      * @abstract
      * @param {SupplyOptions} options - The supply's options.
      * @returns {Promise<Omit<SupplyResult, 'hash'>>} The supply's costs.
@@ -41,7 +48,6 @@ export default abstract class AbstractLendingProtocol {
     /**
      * Quotes the costs of a withdraw operation.
      *
-     * @see {@link withdraw}
      * @abstract
      * @param {WithdrawOptions} options - The withdraw's options.
      * @returns {Promise<Omit<WithdrawResult, 'hash'>>} The withdraw's costs.
@@ -58,7 +64,6 @@ export default abstract class AbstractLendingProtocol {
     /**
      * Quotes the costs of a borrow operation.
      *
-     * @see {@link borrow}
      * @abstract
      * @param {BorrowOptions} options - The borrow's options.
      * @returns {Promise<Omit<BorrowResult, 'hash'>>} The borrow's costs.
@@ -75,13 +80,13 @@ export default abstract class AbstractLendingProtocol {
     /**
      * Quotes the costs of a repay operation.
      *
-     * @see {@link repay}
      * @abstract
      * @param {RepayOptions} options - The repay's options.
      * @returns {Promise<Omit<RepayResult, 'hash'>>} The repay's costs.
      */
     abstract quoteRepay(options: RepayOptions): Promise<Omit<RepayResult, "hash">>;
 }
+export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
 export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
 export type SupplyOptions = {
     /**

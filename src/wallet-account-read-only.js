@@ -105,7 +105,7 @@ export class IWalletAccountReadOnly {
  * @abstract
  * @implements {IWalletAccountReadOnly}
  */
-export default class AbstractWalletAccountReadOnly {
+export default class WalletAccountReadOnly {
   /**
    * Creates a new read-only wallet account.
    *

@@ -13,7 +13,9 @@
 // limitations under the License.
 'use strict'
 
-import { NotImplementedError } from '../wallet-account.js'
+import { NotImplementedError } from '../errors.js'
+
+/** @typedef {import('../wallet-account-read-only.js').IWalletAccountReadOnly} IWalletAccountReadOnly */
 
 /** @typedef {import('../wallet-account.js').IWalletAccount} IWalletAccount */
 
@@ -38,10 +40,19 @@ import { NotImplementedError } from '../wallet-account.js'
  */
 
 /** @abstract */
-export default class AbstractBridgeProtocol {
+export default class BridgeProtocol {
+  /**
+   * Creates a new read-only bridge protocol.
+   *
+   * @overload
+   * @param {IWalletAccountReadOnly} account - The wallet account to use to interact with the protocol.
+   * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
+   */
+
   /**  
    * Creates a new bridge protocol.
    * 
+   * @overload
    * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
    * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
    */
@@ -50,7 +61,7 @@ export default class AbstractBridgeProtocol {
      * The wallet account to use to interact with the protocol.
      * 
      * @protected
-     * @type {IWalletAccount}
+     * @type {IWalletAccountReadOnly | IWalletAccount}
      */
     this._account = account
 
@@ -77,7 +88,6 @@ export default class AbstractBridgeProtocol {
   /**
    * Quotes the costs of a bridge operation.
    *
-   * @see {@link bridge}
    * @abstract
    * @param {BridgeOptions} options - The bridge's options.
    * @returns {Promise<Omit<BridgeResult, 'hash'>>} The bridge's quotes.

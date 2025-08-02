@@ -13,7 +13,9 @@
 // limitations under the License.
 'use strict'
 
-import { NotImplementedError } from '../wallet-account.js'
+import { NotImplementedError } from '../errors.js'
+
+/** @typedef {import('../wallet-account-read-only.js').IWalletAccountReadOnly} IWalletAccountReadOnly */
 
 /** @typedef {import('../wallet-account.js').IWalletAccount} IWalletAccount */
 
@@ -70,10 +72,18 @@ import { NotImplementedError } from '../wallet-account.js'
  */
 
 /** @abstract */
-export default class AbstractLendingProtocol {
+export default class LendingProtocol {
+  /**
+   * Creates a new read-only lending protocol.
+   *
+   * @overload
+   * @param {IWalletAccountReadOnly} account - The wallet account to use to interact with the protocol.
+   */
+
   /**  
    * Creates a new lending protocol.
    * 
+   * @overload
    * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
    */
   constructor(account) {
@@ -81,7 +91,7 @@ export default class AbstractLendingProtocol {
      * The wallet account to use to interact with the protocol.
      * 
      * @protected
-     * @type {IWalletAccount}
+     * @type {IWalletAccountReadOnly | IWalletAccount}
      */
     this._account = account
   }
@@ -100,7 +110,6 @@ export default class AbstractLendingProtocol {
   /**
    * Quotes the costs of a supply operation.
    *
-   * @see {@link supply}
    * @abstract
    * @param {SupplyOptions} options - The supply's options.
    * @returns {Promise<Omit<SupplyResult, 'hash'>>} The supply's costs.
@@ -123,7 +132,6 @@ export default class AbstractLendingProtocol {
   /**
    * Quotes the costs of a withdraw operation.
    *
-   * @see {@link withdraw}
    * @abstract
    * @param {WithdrawOptions} options - The withdraw's options.
    * @returns {Promise<Omit<WithdrawResult, 'hash'>>} The withdraw's costs.
@@ -146,7 +154,6 @@ export default class AbstractLendingProtocol {
   /**
    * Quotes the costs of a borrow operation.
    *
-   * @see {@link borrow}
    * @abstract
    * @param {BorrowOptions} options - The borrow's options.
    * @returns {Promise<Omit<BorrowResult, 'hash'>>} The borrow's costs.
@@ -169,7 +176,6 @@ export default class AbstractLendingProtocol {
   /**
    * Quotes the costs of a repay operation.
    *
-   * @see {@link repay}
    * @abstract
    * @param {RepayOptions} options - The repay's options.
    * @returns {Promise<Omit<RepayResult, 'hash'>>} The repay's costs.

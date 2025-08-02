@@ -2,9 +2,9 @@ import * as bip39 from 'bip39'
 
 import { describe, expect, test } from '@jest/globals'
 
-import AbstractWalletManager from '../index.js'
+import WalletManager from '../index.js'
 
-class DummyWalletManager extends AbstractWalletManager {
+class DummyWalletManager extends WalletManager {
   async getAccount (index = 0) {
     return null
   }
@@ -31,7 +31,7 @@ const INVALID_SEED_PHRASE = 'invalid seed phrase'
 
 const SEED = bip39.mnemonicToSeedSync(SEED_PHRASE)
 
-describe('AbstractWalletManager', () => {
+describe('WalletManager', () => {
   describe('constructor', () => {
     test('should successfully initialize a wallet manager for the given seed phrase', () => {
       const wallet = new DummyWalletManager(SEED_PHRASE)
@@ -54,7 +54,7 @@ describe('AbstractWalletManager', () => {
 
   describe('static getRandomSeedPhrase', () => {
     test('should generate a valid 12-word seed phrase', () => {
-      const seedPhrase = AbstractWalletManager.getRandomSeedPhrase()
+      const seedPhrase = WalletManager.getRandomSeedPhrase()
 
       const words = seedPhrase.trim()
         .split(/\s+/)
@@ -70,17 +70,17 @@ describe('AbstractWalletManager', () => {
 
   describe('static isValidSeedPhrase', () => {
     test('should return true for a valid seed phrase', () => {
-      expect(AbstractWalletManager.isValidSeedPhrase(SEED_PHRASE))
+      expect(WalletManager.isValidSeedPhrase(SEED_PHRASE))
         .toBe(true)
     })
 
     test('should return false for an invalid seed phrase', () => {
-      expect(AbstractWalletManager.isValidSeedPhrase(INVALID_SEED_PHRASE))
+      expect(WalletManager.isValidSeedPhrase(INVALID_SEED_PHRASE))
         .toBe(false)
     })
 
     test('should return false for an empty string', () => {
-      expect(AbstractWalletManager.isValidSeedPhrase(''))
+      expect(WalletManager.isValidSeedPhrase(''))
         .toBe(false)
     })
   })

@@ -45,7 +45,7 @@ export interface IWalletAccountReadOnly {
  * @abstract
  * @implements {IWalletAccountReadOnly}
  */
-export default abstract class AbstractWalletAccountReadOnly implements IWalletAccountReadOnly {
+export default abstract class WalletAccountReadOnly implements IWalletAccountReadOnly {
     /**
      * Creates a new read-only wallet account.
      *

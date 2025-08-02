@@ -30,8 +30,8 @@
 /** @typedef {import('./lending-protocol.js').RepayOptions} RepayOptions */
 /** @typedef {import('./lending-protocol.js').RepayResult} RepayResult */
 
-export { default as AbstractSwapProtocol } from './swap-protocol.js'
+export { default as SwapProtocol } from './swap-protocol.js'
 
-export { default as AbstractBridgeProtocol } from './bridge-protocol.js'
+export { default as BridgeProtocol } from './bridge-protocol.js'
 
-export { default as AbstractLendingProtocol } from './lending-protocol.js'
+export { default as LendingProtocol } from './lending-protocol.js'

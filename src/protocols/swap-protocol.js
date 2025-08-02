@@ -13,7 +13,9 @@
 // limitations under the License.
 'use strict'
 
-import { NotImplementedError } from '../wallet-account.js'
+import { NotImplementedError } from '../errors.js'
+
+/** @typedef {import('../wallet-account-read-only.js').IWalletAccountReadOnly} IWalletAccountReadOnly */
 
 /** @typedef {import('../wallet-account.js').IWalletAccount} IWalletAccount */
 
@@ -40,10 +42,19 @@ import { NotImplementedError } from '../wallet-account.js'
  */
 
 /** @abstract */
-export default class AbstractSwapProtocol {
+export default class SwapProtocol {
+  /**
+   * Creates a new read-only swap protocol.
+   *
+   * @overload
+   * @param {IWalletAccountReadOnly} account - The wallet account to use to interact with the protocol.
+   * @param {SwapProtocolConfig} [config] - The swap protocol configuration.
+   */
+
   /**  
    * Creates a new swap protocol.
    * 
+   * @overload
    * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
    * @param {SwapProtocolConfig} [config] - The swap protocol configuration.
    */
@@ -52,7 +63,7 @@ export default class AbstractSwapProtocol {
      * The wallet account to use to interact with the protocol.
      * 
      * @protected
-     * @type {IWalletAccount}
+     * @type {IWalletAccountReadOnly | IWalletAccount}
      */
     this._account = account
 
@@ -79,7 +90,6 @@ export default class AbstractSwapProtocol {
   /**
    * Quotes the costs of a swap operation.
    *
-   * @see {@link swap}
    * @abstract
    * @param {SwapOptions} options - The swap's options.
    * @returns {Promise<Omit<SwapResult, 'hash'>>} The swap's quotes.

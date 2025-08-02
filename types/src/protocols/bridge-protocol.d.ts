@@ -1,8 +1,17 @@
 /** @abstract */
-export default abstract class AbstractBridgeProtocol {
+export default abstract class BridgeProtocol {
+    /**
+     * Creates a new read-only bridge protocol.
+     *
+     * @overload
+     * @param {IWalletAccountReadOnly} account - The wallet account to use to interact with the protocol.
+     * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
+     */
+    constructor(account: IWalletAccountReadOnly, config?: BridgeProtocolConfig);
     /**
      * Creates a new bridge protocol.
      *
+     * @overload
      * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
      * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
      */
@@ -32,13 +41,13 @@ export default abstract class AbstractBridgeProtocol {
     /**
      * Quotes the costs of a bridge operation.
      *
-     * @see {@link bridge}
      * @abstract
      * @param {BridgeOptions} options - The bridge's options.
      * @returns {Promise<Omit<BridgeResult, 'hash'>>} The bridge's quotes.
      */
     abstract quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, "hash">>;
 }
+export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
 export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
 export type BridgeProtocolConfig = {
     /**
