@@ -13,7 +13,7 @@
     "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage"
   },
   "dependencies": {
-    "bare-wdk-runtime": "^2.0.0",
+    "bare-wdk-runtime": "2.0.0",
     "bip39": "^3.1.0"
   },
   "devDependencies": {
@@ -26,12 +26,10 @@
   "exports": {
     ".": {
       "bare": "./bare.js",
-      "import": "./index.js",
-      "types": "./types/index.d.ts"
+      "types": "./types/index.d.ts",
+      "default": "./index.js"
     },
-    "./package": {
-      "default": "./package.json"
-    },
+     "./package": "./package.json"
     "./protocols": {
       "import": "./src/protocols/index.js",
       "types": "./types/src/protocols/index.d.ts"
