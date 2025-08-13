@@ -29,7 +29,7 @@
       "types": "./types/index.d.ts",
       "default": "./index.js"
     },
-     "./package": "./package.json"
+    "./package": "./package.json"
     "./protocols": {
       "import": "./src/protocols/index.js",
       "types": "./types/src/protocols/index.d.ts"
