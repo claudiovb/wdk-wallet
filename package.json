@@ -12,6 +12,20 @@
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest",
     "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage"
   },
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "bare": "./bare.js",
+      "default": "./index.js"
+    },
+     "./package": {
+      "default": "./package.json"
+    },
+    "./protocols": {
+      "import": "./src/protocols/index.js",
+      "types": "./types/src/protocols/index.d.ts"
+    }
+  },
   "dependencies": {
     "bare-wdk-runtime": "2.0.0",
     "bip39": "^3.1.0"
@@ -23,16 +37,4 @@
     "standard": "^17.1.2",
     "typescript": "^5.8.3"
   },
-  "exports": {
-    ".": {
-      "bare": "./bare.js",
-      "types": "./types/index.d.ts",
-      "default": "./index.js"
-    },
-    "./package": "./package.json",
-    "./protocols": {
-      "import": "./src/protocols/index.js",
-      "types": "./types/src/protocols/index.d.ts"
-    }
-  }
 }
