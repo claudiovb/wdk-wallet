@@ -70,7 +70,7 @@ export type SwapProtocolConfig = {
     /**
      * - The maximum fee amount for swap operations.
      */
-    swapMaxFee?: number;
+    swapMaxFee?: number | bigint;
 };
 export type SwapOptions = {
     /**
@@ -84,11 +84,11 @@ export type SwapOptions = {
     /**
      * - The amount of input tokens to sell (in base unit).
      */
-    tokenInAmount?: number;
+    tokenInAmount?: number | bigint;
     /**
      * - The amount of output tokens to buy (in base unit).
      */
-    tokenOutAmount?: number;
+    tokenOutAmount?: number | bigint;
     /**
      * - The address that will receive the output tokens. If not set, the account itself will receive the funds.
      */
@@ -102,13 +102,13 @@ export type SwapResult = {
     /**
      * - The gas cost.
      */
-    fee: number;
+    fee: bigint;
     /**
      * - The amount of input tokens sold.
      */
-    tokenInAmount: number;
+    tokenInAmount: bigint;
     /**
      * - The amount of output tokens bought.
      */
-    tokenOutAmount: number;
+    tokenOutAmount: bigint;
 };

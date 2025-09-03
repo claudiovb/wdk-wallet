@@ -101,10 +101,10 @@ export class IWalletAccount extends IWalletAccountReadOnly {
 
   /**
    * Returns a read-only copy of the account.
-   * 
+   *
    * @returns {Promise<IWalletAccountReadOnly>} The read-only account.
    */
-  async toReadOnlyAccount() {
+  async toReadOnlyAccount () {
     throw new NotImplementedError('toReadOnlyAccount()')
   }
 

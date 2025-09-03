@@ -18,26 +18,26 @@ import { NotImplementedError } from './errors.js'
 /**
  * @typedef {Object} Transaction
  * @property {string} to - The transaction's recipient.
- * @property {number} value - The amount of native tokens to send to the recipient (in base unit).
+ * @property {number | bigint} value - The amount of native tokens to send to the recipient (in base unit).
  */
 
 /**
  * @typedef {Object} TransactionResult
  * @property {string} hash - The transaction's hash.
- * @property {number} fee - The gas cost.
+ * @property {bigint} fee - The gas cost.
  */
 
 /**
  * @typedef {Object} TransferOptions
  * @property {string} token - The address of the token to transfer.
  * @property {string} recipient - The address of the recipient.
- * @property {number} amount - The amount of tokens to transfer to the recipient (in base units).
+ * @property {number | bigint} amount - The amount of tokens to transfer to the recipient (in base units).
  */
 
 /**
  * @typedef {Object} TransferResult
  * @property {string} hash - The hash of the transfer operation.
- * @property {number} fee - The gas cost.
+ * @property {bigint} fee - The gas cost.
  */
 
 /** @interface */
@@ -54,7 +54,7 @@ export class IWalletAccountReadOnly {
   /**
    * Returns the account's native token balance.
    *
-   * @returns {Promise<number>} The native token balance.
+   * @returns {Promise<bigint>} The native token balance.
    */
   async getBalance () {
     throw new NotImplementedError('getBalance()')
@@ -64,7 +64,7 @@ export class IWalletAccountReadOnly {
    * Returns the account balance for a specific token.
    *
    * @param {string} tokenAddress - The smart contract address of the token.
-   * @returns {Promise<number>} The token balance.
+   * @returns {Promise<bigint>} The token balance.
    */
   async getTokenBalance (tokenAddress) {
     throw new NotImplementedError('getTokenBalance(tokenAddress)')
@@ -101,7 +101,7 @@ export class IWalletAccountReadOnly {
   }
 }
 
-/** 
+/**
  * @abstract
  * @implements {IWalletAccountReadOnly}
  */
@@ -118,7 +118,7 @@ export default class WalletAccountReadOnly {
 
   /**
    * The account's address.
-   * 
+   *
    * @protected
    * @type {string | undefined}
    */
@@ -143,7 +143,7 @@ export default class WalletAccountReadOnly {
    * Returns the account's native token balance.
    *
    * @abstract
-   * @returns {Promise<number>} The native token balance.
+   * @returns {Promise<bigint>} The native token balance.
    */
   async getBalance () {
     throw new NotImplementedError('getBalance()')
@@ -154,7 +154,7 @@ export default class WalletAccountReadOnly {
    *
    * @abstract
    * @param {string} tokenAddress - The smart contract address of the token.
-   * @returns {Promise<number>} The token balance.
+   * @returns {Promise<bigint>} The token balance.
    */
   async getTokenBalance (tokenAddress) {
     throw new NotImplementedError('getTokenBalance(tokenAddress)')

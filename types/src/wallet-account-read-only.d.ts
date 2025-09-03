@@ -9,16 +9,16 @@ export interface IWalletAccountReadOnly {
     /**
      * Returns the account's native token balance.
      *
-     * @returns {Promise<number>} The native token balance.
+     * @returns {Promise<bigint>} The native token balance.
      */
-    getBalance(): Promise<number>;
+    getBalance(): Promise<bigint>;
     /**
      * Returns the account balance for a specific token.
      *
      * @param {string} tokenAddress - The smart contract address of the token.
-     * @returns {Promise<number>} The token balance.
+     * @returns {Promise<bigint>} The token balance.
      */
-    getTokenBalance(tokenAddress: string): Promise<number>;
+    getTokenBalance(tokenAddress: string): Promise<bigint>;
     /**
      * Quotes the costs of a send transaction operation.
      *
@@ -71,17 +71,17 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * Returns the account's native token balance.
      *
      * @abstract
-     * @returns {Promise<number>} The native token balance.
+     * @returns {Promise<bigint>} The native token balance.
      */
-    abstract getBalance(): Promise<number>;
+    abstract getBalance(): Promise<bigint>;
     /**
      * Returns the account balance for a specific token.
      *
      * @abstract
      * @param {string} tokenAddress - The smart contract address of the token.
-     * @returns {Promise<number>} The token balance.
+     * @returns {Promise<bigint>} The token balance.
      */
-    abstract getTokenBalance(tokenAddress: string): Promise<number>;
+    abstract getTokenBalance(tokenAddress: string): Promise<bigint>;
     /**
      * Quotes the costs of a send transaction operation.
      *
@@ -115,7 +115,7 @@ export type Transaction = {
     /**
      * - The amount of native tokens to send to the recipient (in base unit).
      */
-    value: number;
+    value: number | bigint;
 };
 export type TransactionResult = {
     /**
@@ -125,7 +125,7 @@ export type TransactionResult = {
     /**
      * - The gas cost.
      */
-    fee: number;
+    fee: bigint;
 };
 export type TransferOptions = {
     /**
@@ -139,7 +139,7 @@ export type TransferOptions = {
     /**
      * - The amount of tokens to transfer to the recipient (in base units).
      */
-    amount: number;
+    amount: number | bigint;
 };
 export type TransferResult = {
     /**
@@ -149,5 +149,5 @@ export type TransferResult = {
     /**
      * - The gas cost.
      */
-    fee: number;
+    fee: bigint;
 };

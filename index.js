@@ -14,7 +14,6 @@
 'use strict'
 
 /** @typedef {import('./src/wallet-manager.js').FeeRates} FeeRates */
-
 /** @typedef {import('./src/wallet-manager.js').WalletConfig} WalletConfig */
 
 /** @typedef {import('./src/wallet-account-read-only.js').Transaction} Transaction */

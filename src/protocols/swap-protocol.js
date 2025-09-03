@@ -21,24 +21,24 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * @typedef {Object} SwapProtocolConfig
- * @property {number} [swapMaxFee] - The maximum fee amount for swap operations.
+ * @property {number | bigint} [swapMaxFee] - The maximum fee amount for swap operations.
  */
 
 /**
  * @typedef {Object} SwapOptions
  * @property {string} tokenIn - The address of the token to sell.
  * @property {string} tokenOut - The address of the token to buy.
- * @property {number} [tokenInAmount] - The amount of input tokens to sell (in base unit).
- * @property {number} [tokenOutAmount] - The amount of output tokens to buy (in base unit).
+ * @property {number | bigint} [tokenInAmount] - The amount of input tokens to sell (in base unit).
+ * @property {number | bigint} [tokenOutAmount] - The amount of output tokens to buy (in base unit).
  * @property {string} [to] - The address that will receive the output tokens. If not set, the account itself will receive the funds.
  */
 
 /**
  * @typedef {Object} SwapResult
  * @property {string} hash - The hash of the swap operation.
- * @property {number} fee - The gas cost.
- * @property {number} tokenInAmount - The amount of input tokens sold.
- * @property {number} tokenOutAmount - The amount of output tokens bought.
+ * @property {bigint} fee - The gas cost.
+ * @property {bigint} tokenInAmount - The amount of input tokens sold.
+ * @property {bigint} tokenOutAmount - The amount of output tokens bought.
  */
 
 /** @interface */
@@ -64,7 +64,7 @@ export class ISwapProtocol {
   }
 }
 
-/** 
+/**
  * @abstract
  * @implements {ISwapProtocol}
  */
@@ -77,9 +77,9 @@ export default class SwapProtocol {
    * @param {SwapProtocolConfig} [config] - The swap protocol configuration.
    */
 
-  /**  
+  /**
    * Creates a new swap protocol.
-   * 
+   *
    * @overload
    * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
    * @param {SwapProtocolConfig} [config] - The swap protocol configuration.
@@ -87,15 +87,15 @@ export default class SwapProtocol {
   constructor (account, config = {}) {
     /**
      * The wallet account to use to interact with the protocol.
-     * 
+     *
      * @protected
      * @type {IWalletAccountReadOnly | IWalletAccount}
      */
     this._account = account
 
-    /** 
+    /**
      * The swap protocol configuration.
-     * 
+     *
      * @protected
      * @type {SwapProtocolConfig}
      */
