@@ -26,7 +26,7 @@ import { NotImplementedError } from './errors.js'
 /**
  * @typedef {Object} KeyPair
  * @property {Uint8Array} publicKey - The public key.
- * @property {Uint8Array} privateKey - The private key.
+ * @property {Uint8Array | null} privateKey - The private key (null if the account has been disposed).
  */
 
 /** @interface */
