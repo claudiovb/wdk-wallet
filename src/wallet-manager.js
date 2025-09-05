@@ -21,13 +21,13 @@ import { NotImplementedError } from './errors.js'
 
 /**
  * @typedef {Object} WalletConfig
- * @property {number} [transferMaxFee] - The maximum fee amount for transfer operations.
+ * @property {number | bigint} [transferMaxFee] - The maximum fee amount for transfer operations.
  */
 
 /**
  * @typedef {Object} FeeRates
- * @property {number} normal - The fee rate for transaction sent with normal priority.
- * @property {number} fast - The fee rate for transaction sent with fast priority.
+ * @property {bigint} normal - The fee rate for transaction sent with normal priority.
+ * @property {bigint} fast - The fee rate for transaction sent with fast priority.
  */
 
 /** @abstract */
@@ -57,6 +57,16 @@ export default class WalletManager {
      * @type {WalletConfig}
      */
     this._config = config
+
+    /**
+     * A map between derivation paths and wallet accounts. The {@link dispose} method will automatically dispose
+     * all the accounts in this map, so developers are encouraged to map all accounts accessed through the
+     * {@link getAccount} and {@link getAccountByPath} methods.
+     *
+     * @protected
+     * @type {{ [path: string]: IWalletAccount }}
+     */
+    this._accounts = {}
   }
 
   /**
@@ -121,10 +131,14 @@ export default class WalletManager {
 
   /**
    * Disposes all the wallet accounts, erasing their private keys from the memory.
-   *
-   * @abstract
    */
   dispose () {
-    throw new NotImplementedError('dispose()')
+    for (const account of Object.values(this._accounts)) {
+      if (account.keyPair.privateKey) {
+        account.dispose()
+      }
+    }
+
+    this._accounts = {}
   }
 }

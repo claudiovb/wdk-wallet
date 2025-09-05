@@ -3,10 +3,6 @@ import { describe, expect, test } from '@jest/globals'
 import { WalletAccountReadOnly } from '../index.js'
 
 class DummyWalletAccountReadOnly extends WalletAccountReadOnly {
-  constructor (address) {
-    super(address)
-  }
-
   async getBalance () {
     return 0
   }
@@ -37,7 +33,7 @@ describe('WalletAccountReadOnly', () => {
       const address = await account.getAddress()
       expect(address).toBe(ADDRESS)
     })
-    
+
     test('should throw if the address is not set', async () => {
       const account = new DummyWalletAccountReadOnly()
 

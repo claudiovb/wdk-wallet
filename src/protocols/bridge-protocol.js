@@ -21,7 +21,7 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * @typedef {Object} BridgeProtocolConfig
- * @property {number} [bridgeMaxFee] - The maximum fee amount for bridge operations.
+ * @property {number | bigint} [bridgeMaxFee] - The maximum fee amount for bridge operations.
  */
 
 /**
@@ -29,14 +29,14 @@ import { NotImplementedError } from '../errors.js'
  * @property {string} targetChain - The identifier of the destination blockchain (e.g., "arbitrum").
  * @property {string} recipient - The address of the recipient.
  * @property {string} token - The address of the token to bridge.
- * @property {number} amount - The amount of tokenss to bridge to the destination chain (in base unit).
+ * @property {number | bigint} amount - The amount of tokenss to bridge to the destination chain (in base unit).
  */
 
 /**
  * @typedef {Object} BridgeResult
  * @property {string} hash - The hash of the bridge operation.
- * @property {number} fee - The gas cost.
- * @property {number} bridgeFee - The bridge cost in the bridged token.
+ * @property {bigint} fee - The gas cost.
+ * @property {bigint} bridgeFee - The amount of native tokens paid to the bridge protocol.
  */
 
 /** @interface */
@@ -62,7 +62,7 @@ export class IBridgeProtocol {
   }
 }
 
-/** 
+/**
  * @abstract
  * @implements {IBridgeProtocol}
  */
@@ -75,9 +75,9 @@ export default class BridgeProtocol {
    * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
    */
 
-  /**  
+  /**
    * Creates a new bridge protocol.
-   * 
+   *
    * @overload
    * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
    * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
@@ -85,15 +85,15 @@ export default class BridgeProtocol {
   constructor (account, config = {}) {
     /**
      * The wallet account to use to interact with the protocol.
-     * 
+     *
      * @protected
      * @type {IWalletAccountReadOnly | IWalletAccount}
      */
     this._account = account
 
-    /** 
+    /**
      * The bridge protocol configuration.
-     * 
+     *
      * @protected
      * @type {BridgeProtocolConfig}
      */

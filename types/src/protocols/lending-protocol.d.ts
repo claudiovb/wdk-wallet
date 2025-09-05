@@ -155,7 +155,7 @@ export type SupplyOptions = {
     /**
      * - The amount of tokens to supply (in base unit).
      */
-    amount: number;
+    amount: number | bigint;
     /**
      * - The address on behalf of which the supply operation should be performed. If not set, the supply operation will be performed on behalf of the account itself.
      */
@@ -169,7 +169,7 @@ export type SupplyResult = {
     /**
      * - The gas cost.
      */
-    fee: number;
+    fee: bigint;
 };
 export type WithdrawOptions = {
     /**
@@ -179,7 +179,7 @@ export type WithdrawOptions = {
     /**
      * - The amount of tokens to withdraw (in base unit).
      */
-    amount: number;
+    amount: number | bigint;
     /**
      * - The address that should receive the tokens. If not set, the account itself will receive the funds.
      */
@@ -193,7 +193,7 @@ export type WithdrawResult = {
     /**
      * - The gas cost.
      */
-    fee: number;
+    fee: bigint;
 };
 export type BorrowOptions = {
     /**
@@ -203,7 +203,7 @@ export type BorrowOptions = {
     /**
      * - The amount of tokens to borrow (in base unit).
      */
-    amount: number;
+    amount: number | bigint;
     /**
      * - The address on behalf of which the borrow operation should be performed. If not set, the borrow operation will be performed on behalf of the account itself.
      */
@@ -217,7 +217,7 @@ export type BorrowResult = {
     /**
      * - The gas cost.
      */
-    fee: number;
+    fee: bigint;
 };
 export type RepayOptions = {
     /**
@@ -227,7 +227,7 @@ export type RepayOptions = {
     /**
      * - The amount of tokens to repay (in base unit).
      */
-    amount: number;
+    amount: number | bigint;
     /**
      * - The address on behalf of which the repay operation should be performed. If not set, the repay operation will be performed on behalf of the account itself.
      */
@@ -241,5 +241,5 @@ export type RepayResult = {
     /**
      * - The gas cost.
      */
-    fee: number;
+    fee: bigint;
 };

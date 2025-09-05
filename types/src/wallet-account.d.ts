@@ -68,8 +68,8 @@ export type KeyPair = {
      */
     publicKey: Uint8Array;
     /**
-     * - The private key.
+     * - The private key (null if the account has been disposed).
      */
-    privateKey: Uint8Array;
+    privateKey: Uint8Array | null;
 };
 import { IWalletAccountReadOnly } from './wallet-account-read-only.js';

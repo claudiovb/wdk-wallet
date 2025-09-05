@@ -26,7 +26,7 @@ import { NotImplementedError } from './errors.js'
 /**
  * @typedef {Object} KeyPair
  * @property {Uint8Array} publicKey - The public key.
- * @property {Uint8Array} privateKey - The private key.
+ * @property {Uint8Array | null} privateKey - The private key (null if the account has been disposed).
  */
 
 /** @interface */
@@ -101,10 +101,10 @@ export class IWalletAccount extends IWalletAccountReadOnly {
 
   /**
    * Returns a read-only copy of the account.
-   * 
+   *
    * @returns {Promise<IWalletAccountReadOnly>} The read-only account.
    */
-  async toReadOnlyAccount() {
+  async toReadOnlyAccount () {
     throw new NotImplementedError('toReadOnlyAccount()')
   }
 

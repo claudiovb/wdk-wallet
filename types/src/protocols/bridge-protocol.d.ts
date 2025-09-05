@@ -70,7 +70,7 @@ export type BridgeProtocolConfig = {
     /**
      * - The maximum fee amount for bridge operations.
      */
-    bridgeMaxFee?: number;
+    bridgeMaxFee?: number | bigint;
 };
 export type BridgeOptions = {
     /**
@@ -88,7 +88,7 @@ export type BridgeOptions = {
     /**
      * - The amount of tokenss to bridge to the destination chain (in base unit).
      */
-    amount: number;
+    amount: number | bigint;
 };
 export type BridgeResult = {
     /**
@@ -98,9 +98,9 @@ export type BridgeResult = {
     /**
      * - The gas cost.
      */
-    fee: number;
+    fee: bigint;
     /**
-     * - The bridge cost in the bridged token.
+     * - The amount of native tokens paid to the bridge protocol.
      */
-    bridgeFee: number;
+    bridgeFee: bigint;
 };

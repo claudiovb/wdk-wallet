@@ -30,6 +30,15 @@ export default abstract class WalletManager {
      */
     protected _config: WalletConfig;
     /**
+     * A map between derivation paths and wallet accounts. The {@link dispose} method will automatically dispose
+     * all the accounts in this map, so developers are encouraged to map all accounts accessed through the
+     * {@link getAccount} and {@link getAccountByPath} methods.
+     *
+     * @protected
+     * @type {{ [path: string]: IWalletAccount }}
+     */
+    protected _accounts: { [path: string]: IWalletAccount };
+    /**
      * The seed phrase of the wallet.
      *
      * @type {Uint8Array}
@@ -60,25 +69,23 @@ export default abstract class WalletManager {
     abstract getFeeRates(): Promise<FeeRates>;
     /**
      * Disposes all the wallet accounts, erasing their private keys from the memory.
-     *
-     * @abstract
      */
-    abstract dispose(): void;
+    dispose(): void;
 }
 export type IWalletAccount = import("./wallet-account.js").IWalletAccount;
 export type WalletConfig = {
     /**
      * - The maximum fee amount for transfer operations.
      */
-    transferMaxFee?: number;
+    transferMaxFee?: number | bigint;
 };
 export type FeeRates = {
     /**
      * - The fee rate for transaction sent with normal priority.
      */
-    normal: number;
+    normal: bigint;
     /**
      * - The fee rate for transaction sent with fast priority.
      */
-    fast: number;
+    fast: bigint;
 };
