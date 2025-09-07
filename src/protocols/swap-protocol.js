@@ -25,12 +25,26 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
- * @typedef {Object} SwapOptions
+ * @typedef {SwapCommonOptions & (SwapBuyOptions | SwapSellOptions)} SwapOptions
+ */
+
+/**
+ * @typedef {Object} SwapCommonOptions
  * @property {string} tokenIn - The address of the token to sell.
  * @property {string} tokenOut - The address of the token to buy.
- * @property {number | bigint} [tokenInAmount] - The amount of input tokens to sell (in base unit).
- * @property {number | bigint} [tokenOutAmount] - The amount of output tokens to buy (in base unit).
  * @property {string} [to] - The address that will receive the output tokens. If not set, the account itself will receive the funds.
+ */
+
+/**
+ * @typedef {Object} SwapBuyOptions
+ * @property {never} [tokenInAmount] - The amount of input tokens to sell (in base unit).
+ * @property {number | bigint} tokenOutAmount - The amount of output tokens to buy (in base unit).
+ */
+
+/**
+ * @typedef {Object} SwapSellOptions
+ * @property {number | bigint} tokenInAmount - The amount of input tokens to sell (in base unit).
+ * @property {never} [tokenOutAmount] - The amount of output tokens to buy (in base unit).
  */
 
 /**

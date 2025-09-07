@@ -37,9 +37,9 @@ export default abstract class SwapProtocol implements ISwapProtocol {
      * The wallet account to use to interact with the protocol.
      *
      * @protected
-     * @type {IWalletAccount}
+     * @type {IWalletAccountReadOnly | IWalletAccount}
      */
-    protected _account: IWalletAccount;
+    protected _account: IWalletAccountReadOnly | IWalletAccount;
     /**
      * The swap protocol configuration.
      *
@@ -72,7 +72,8 @@ export type SwapProtocolConfig = {
      */
     swapMaxFee?: number | bigint;
 };
-export type SwapOptions = {
+export type SwapOptions = SwapCommonOptions & (SwapBuyOptions | SwapSellOptions);
+type SwapCommonOptions = {
     /**
      * - The address of the token to sell.
      */
@@ -82,17 +83,29 @@ export type SwapOptions = {
      */
     tokenOut: string;
     /**
-     * - The amount of input tokens to sell (in base unit).
-     */
-    tokenInAmount?: number | bigint;
-    /**
-     * - The amount of output tokens to buy (in base unit).
-     */
-    tokenOutAmount?: number | bigint;
-    /**
      * - The address that will receive the output tokens. If not set, the account itself will receive the funds.
      */
     to?: string;
+};
+type SwapBuyOptions = {
+    /**
+     * - The amount of input tokens to sell (in base unit).
+     */
+    tokenInAmount?: never;
+    /**
+     * - The amount of output tokens to buy (in base unit).
+     */
+    tokenOutAmount: number | bigint;
+};
+type SwapSellOptions = {
+    /**
+     * - The amount of input tokens to sell (in base unit).
+     */
+    tokenInAmount: number | bigint;
+    /**
+     * - The amount of output tokens to buy (in base unit).
+     */
+    tokenOutAmount?: never;
 };
 export type SwapResult = {
     /**
