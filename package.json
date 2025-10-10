@@ -1,6 +1,6 @@
 {
-  "name": "@wdk/wallet",
-  "version": "1.0.0-beta.1",
+  "name": "@tetherto/wdk-wallet",
+  "version": "1.0.0-beta.2",
   "description": "A simple package to manage BIP-32 wallets.",
   "keywords": ["wdk", "wallet", "bip-32"],
   "author": "Tether",
@@ -42,6 +42,10 @@
     "./package": {
       "default": "./package.json"
     }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "standard": {
     "ignore": [
