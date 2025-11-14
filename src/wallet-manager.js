@@ -19,9 +19,11 @@ import { NotImplementedError } from './errors.js'
 
 /** @typedef {import('./wallet-account.js').IWalletAccount} IWalletAccount */
 
+
 /**
- * @typedef {Object} WalletConfig
- * @property {number | bigint} [transferMaxFee] - The maximum fee amount for transfer operations.
+ * @typedef {Object} SignerConfig
+ * @property {string} signerName - The signer name.
+ * @property {ISigner} signer - The signer.
  */
 
 /**
@@ -35,38 +37,16 @@ export default class WalletManager {
   /**
    * Creates a new wallet manager.
    *
-   * @param {string | Uint8Array} seed - The wallet's [BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) seed phrase.
+   * @param {ISigner} signer - The default signer for the wallet.
    * @param {WalletConfig} [config] - The wallet configuration.
    */
-  constructor (seed, config = { }) {
-    if (typeof seed === 'string') {
-      if (!WalletManager.isValidSeedPhrase(seed)) {
-        throw new Error('The seed phrase is invalid.')
-      }
+  constructor (signer) {
+    // TODO: create ISigner in JSDocs
+    // TODO: add validation for signer
+    this._signers = new Map()
+    this._signers.set('default', signer)
+    this._accounts = new Map()
 
-      seed = bip39.mnemonicToSeedSync(seed)
-    }
-
-    /** @private */
-    this._seed = seed
-
-    /**
-     * The wallet configuration.
-     *
-     * @protected
-     * @type {WalletConfig}
-     */
-    this._config = config
-
-    /**
-     * A map between derivation paths and wallet accounts. The {@link dispose} method will automatically dispose
-     * all the accounts in this map, so developers are encouraged to map all accounts accessed through the
-     * {@link getAccount} and {@link getAccountByPath} methods.
-     *
-     * @protected
-     * @type {{ [path: string]: IWalletAccount }}
-     */
-    this._accounts = {}
   }
 
   /**
@@ -89,14 +69,32 @@ export default class WalletManager {
   }
 
   /**
-   * The seed phrase of the wallet.
+   * Creates a new signer.
    *
-   * @type {Uint8Array}
+   * @param {string} signerName - The signer name.
+   * @param {ISigner} signer - The signer.
    */
-  get seed () {
-    return this._seed
+  createSigner (signerName, signer) {
+    throw new NotImplementedError('createSigner(signerName, signer)')
   }
 
+  /**
+   * Returns a signer.
+   *
+   * @param {string} signerName - The signer name.
+   * @returns {ISigner} The signer.
+   */
+  getSigner (signerName) {
+    return this._signers.get(signerName)
+  }
+
+  /**
+   * Set new default signer.
+   * @param {ISigner} signer - The signer.
+   */
+  setDefaultSigner (signer) {
+    throw new NotImplementedError('setDefaultSigner(signer)')
+  }
   /**
    * Returns the wallet account at a specific index (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
    *
@@ -104,7 +102,7 @@ export default class WalletManager {
    * @param {number} [index] - The index of the account to get (default: 0).
    * @returns {Promise<IWalletAccount>} The account.
    */
-  async getAccount (index = 0) {
+  async getAccount (index = 0, signerConfig = { }) {
     throw new NotImplementedError('getAccount(index)')
   }
 
@@ -115,7 +113,7 @@ export default class WalletManager {
    * @param {string} path - The derivation path (e.g. "0'/0/0").
    * @returns {Promise<IWalletAccount>} The account.
    */
-  async getAccountByPath (path) {
+  async getAccountByPath (path, signerConfig = { }) {
     throw new NotImplementedError('getAccountByPath(path)')
   }
 
@@ -133,12 +131,17 @@ export default class WalletManager {
    * Disposes all the wallet accounts, erasing their private keys from the memory.
    */
   dispose () {
+    for (const signer of Object.values(this._signers)) {
+      if (signer.isActive) {
+        signer.dispose()
+      }
+    }
     for (const account of Object.values(this._accounts)) {
-      if (account.keyPair.privateKey) {
+      if (account.isActive) {
         account.dispose()
       }
     }
-
+    this._signers = {}
     this._accounts = {}
   }
 }

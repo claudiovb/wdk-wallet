@@ -29,26 +29,13 @@ const SEED_PHRASE = 'cook voyage document eight skate token alien guide drink un
 
 const INVALID_SEED_PHRASE = 'invalid seed phrase'
 
-const SEED = bip39.mnemonicToSeedSync(SEED_PHRASE)
-
 describe('WalletManager', () => {
   describe('constructor', () => {
-    test('should successfully initialize a wallet manager for the given seed phrase', () => {
-      const wallet = new DummyWalletManager(SEED_PHRASE)
+    test('should set the provided signer as the default signer', () => {
+      const signer = { name: 'dummy-signer' } //TODO: refactor for mock implementation of ISigner
+      const wallet = new DummyWalletManager(signer)
 
-      expect(wallet.seed).toEqual(SEED)
-    })
-
-    test('should successfully initialize a wallet manager for the given seed', () => {
-      const wallet = new DummyWalletManager(SEED)
-
-      expect(wallet.seed).toEqual(SEED)
-    })
-
-    test('should throw if the seed phrase is invalid', () => {
-      // eslint-disable-next-line no-new
-      expect(() => { new DummyWalletManager(INVALID_SEED_PHRASE) })
-        .toThrow('The seed phrase is invalid.')
+      expect(wallet.getSigner('default')).toBe(signer)
     })
   })
 
@@ -82,6 +69,15 @@ describe('WalletManager', () => {
     test('should return false for an empty string', () => {
       expect(WalletManager.isValidSeedPhrase(''))
         .toBe(false)
+    })
+  })
+
+  describe('getSigner', () => {
+    test('should return the default signer when only default signer exists', () => {
+      const signer = { name: 'default-signer' }
+      const wallet = new DummyWalletManager(signer)
+
+      expect(wallet.getSigner('default')).toBe(signer)
     })
   })
 })
