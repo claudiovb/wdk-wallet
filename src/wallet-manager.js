@@ -19,7 +19,6 @@ import { NotImplementedError } from './errors.js'
 
 /** @typedef {import('./wallet-account.js').IWalletAccount} IWalletAccount */
 
-
 /**
  * @typedef {Object} SignerConfig
  * @property {string} signerName - The signer name.
@@ -46,7 +45,6 @@ export default class WalletManager {
     this._signers = new Map()
     this._signers.set('default', signer)
     this._accounts = new Map()
-
   }
 
   /**
@@ -84,6 +82,7 @@ export default class WalletManager {
    * @param {string} signerName - The signer name.
    * @returns {ISigner} The signer.
    */
+  // Maybe we should leave this method abstract and implement it in the concrete class?
   getSigner (signerName) {
     return this._signers.get(signerName)
   }
@@ -95,11 +94,13 @@ export default class WalletManager {
   setDefaultSigner (signer) {
     throw new NotImplementedError('setDefaultSigner(signer)')
   }
+
   /**
    * Returns the wallet account at a specific index (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
    *
    * @abstract
    * @param {number} [index] - The index of the account to get (default: 0).
+   * @param {SignerConfig} [signerConfig] - The signer configuration.
    * @returns {Promise<IWalletAccount>} The account.
    */
   async getAccount (index = 0, signerConfig = { }) {
@@ -111,6 +112,7 @@ export default class WalletManager {
    *
    * @abstract
    * @param {string} path - The derivation path (e.g. "0'/0/0").
+   * @param {SignerConfig} [signerConfig] - The signer configuration.
    * @returns {Promise<IWalletAccount>} The account.
    */
   async getAccountByPath (path, signerConfig = { }) {
