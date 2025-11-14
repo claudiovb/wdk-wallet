@@ -19,11 +19,7 @@ import { NotImplementedError } from './errors.js'
 
 /** @typedef {import('./wallet-account.js').IWalletAccount} IWalletAccount */
 
-/**
- * @typedef {Object} SignerConfig
- * @property {string} signerName - The signer name.
- * @property {ISigner} signer - The signer.
- */
+/** Signer resolution uses positional params: signerName (default: "default") or explicit signer. */
 
 /**
  * @typedef {Object} FeeRates
@@ -100,10 +96,11 @@ export default class WalletManager {
    *
    * @abstract
    * @param {number} [index] - The index of the account to get (default: 0).
-   * @param {SignerConfig} [signerConfig] - The signer configuration.
+   * @param {string} [signerName='default'] - The name of the signer to use.
+   * @param {ISigner} [signer] - Optional explicit signer instance to use.
    * @returns {Promise<IWalletAccount>} The account.
    */
-  async getAccount (index = 0, signerConfig = { }) {
+  async getAccount (index = 0, signerName = 'default', signer) {
     throw new NotImplementedError('getAccount(index)')
   }
 
@@ -112,10 +109,11 @@ export default class WalletManager {
    *
    * @abstract
    * @param {string} path - The derivation path (e.g. "0'/0/0").
-   * @param {SignerConfig} [signerConfig] - The signer configuration.
+   * @param {string} [signerName='default'] - The name of the signer to use.
+   * @param {ISigner} [signer] - Optional explicit signer instance to use.
    * @returns {Promise<IWalletAccount>} The account.
    */
-  async getAccountByPath (path, signerConfig = { }) {
+  async getAccountByPath (path, signerName = 'default', signer) {
     throw new NotImplementedError('getAccountByPath(path)')
   }
 
