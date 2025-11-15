@@ -97,10 +97,9 @@ export default class WalletManager {
    * @abstract
    * @param {number} [index] - The index of the account to get (default: 0).
    * @param {string} [signerName='default'] - The name of the signer to use.
-   * @param {ISigner} [signer] - Optional explicit signer instance to use.
    * @returns {Promise<IWalletAccount>} The account.
    */
-  async getAccount (index = 0, signerName = 'default', signer) {
+  async getAccount (index = 0, signerName = 'default') {
     throw new NotImplementedError('getAccount(index)')
   }
 
@@ -110,10 +109,9 @@ export default class WalletManager {
    * @abstract
    * @param {string} path - The derivation path (e.g. "0'/0/0").
    * @param {string} [signerName='default'] - The name of the signer to use.
-   * @param {ISigner} [signer] - Optional explicit signer instance to use.
    * @returns {Promise<IWalletAccount>} The account.
    */
-  async getAccountByPath (path, signerName = 'default', signer) {
+  async getAccountByPath (path, signerName = 'default') {
     throw new NotImplementedError('getAccountByPath(path)')
   }
 
