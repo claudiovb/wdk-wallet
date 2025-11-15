@@ -84,14 +84,6 @@ export default class WalletManager {
   }
 
   /**
-   * Set new default signer.
-   * @param {ISigner} signer - The signer.
-   */
-  setDefaultSigner (signer) {
-    throw new NotImplementedError('setDefaultSigner(signer)')
-  }
-
-  /**
    * Returns the wallet account at a specific index (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
    *
    * @abstract
