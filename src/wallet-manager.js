@@ -35,12 +35,19 @@ export default class WalletManager {
    * @param {ISigner} signer - The default signer for the wallet.
    * @param {WalletConfig} [config] - The wallet configuration.
    */
-  constructor (signer) {
+  constructor (signer, config = { }) {
     // TODO: create ISigner in JSDocs
     // TODO: add validation for signer
     this._signers = new Map()
     this._signers.set('default', signer)
     this._accounts = new Map()
+    /**
+     * The wallet configuration.
+     *
+     * @protected
+     * @type {WalletConfig}
+     */
+    this._config = config
   }
 
   /**
