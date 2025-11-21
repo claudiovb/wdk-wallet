@@ -146,6 +146,12 @@ export default class FiatProtocol {
    * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
    */
   constructor (account) {
+    /**
+     * The wallet account to use to interact with the protocol.
+     *
+     * @protected
+     * @type {IWalletAccountReadOnly | IWalletAccount}
+     */
     this._account = account
   }
 
