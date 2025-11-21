@@ -30,8 +30,16 @@
 /** @typedef {import('./lending-protocol.js').RepayOptions} RepayOptions */
 /** @typedef {import('./lending-protocol.js').RepayResult} RepayResult */
 
+/** @typedef {import('./fiat-protocol.js').WdkFiatTransactionStatus} WdkFiatTransactionStatus */
+/** @typedef {import('./fiat-protocol.js').WdkFiatTransactionDetail} WdkFiatTransactionDetail */
+/** @typedef {import('./fiat-protocol.js').WdkFiatSupportedAsset} WdkFiatSupportedAsset */
+/** @typedef {import('./fiat-protocol.js').WdkFiatSupportedCurrency} WdkFiatSupportedCurrency */
+/** @typedef {import('./fiat-protocol.js').WdkFiatSupportedCountry} WdkFiatSupportedCountry */
+
 export { default as SwapProtocol, ISwapProtocol } from './swap-protocol.js'
 
 export { default as BridgeProtocol, IBridgeProtocol } from './bridge-protocol.js'
 
 export { default as LendingProtocol, ILendingProtocol } from './lending-protocol.js'
+
+export { default as FiatProtocol, IFiatProtocol } from './fiat-protocol.js'
