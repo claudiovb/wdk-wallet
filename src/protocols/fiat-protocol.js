@@ -63,33 +63,43 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
+ * @typedef {Object} BuyOptions
+ * @property {string} cryptoAsset - The provider-specific code of the crypto asset to purchase.
+ * @property {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
+ * @property {number} amount - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
+ * @property {string} [recipient] - The wallet address to receive the purchased crypto asset. Defaults to the account's address.
+ */
+
+/**
+ * @typedef {Object} SellOptions
+ * @property {string} cryptoAsset - The provider-specific code of the crypto asset to sell.
+ * @property {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
+ * @property {number} amount - The amount of crypto asset to sell, in its main unit (e.g., 0.5 for 0.5 ETH).
+ * @property {string} [refundAddress] - The wallet address to receive refunds in case of failure. Defaults to the account's address.
+ */
+
+/**
  * @interface
  */
 export class IFiatProtocol {
   /**
    * Generates a widget URL for a user to purchase a crypto asset with fiat currency.
-   * @param {string} cryptoAsset - The provider-specific code of the crypto asset to purchase.
-   * @param {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
-   * @param {number} amount - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
-   * @param {string} [recipient] - The wallet address to receive the purchased crypto asset.
+   * @param {BuyOptions} options - The options for the buy operation.
    * @param {Record<string, any>} [config] - Provider-specific configuration for the buy operation.
    * @returns {Promise<string>} The URL for the user to complete the purchase.
    */
-  async buy (cryptoAsset, fiatCurrency, amount, recipient, config) {
-    throw new NotImplementedError('buy(cryptoAsset, fiatCurrency, amount, recipient, config)')
+  async buy (options, config) {
+    throw new NotImplementedError('buy(options, config)')
   }
 
   /**
    * Generates a widget URL for a user to sell a crypto asset for fiat currency.
-   * @param {string} cryptoAsset - The provider-specific code of the crypto asset to sell.
-   * @param {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
-   * @param {number} amount - The amount of crypto asset to sell, in its main unit (e.g., 0.5 for 0.5 ETH).
-   * @param {string} [refundAddress] - The wallet address to receive refunds in case of failure.
+   * @param {SellOptions} options - The options for the sell operation.
    * @param {Record<string, any>} [config] - Provider-specific configuration for the sell operation.
    * @returns {Promise<string>} The URL for the user to complete the sale.
    */
-  async sell (cryptoAsset, fiatCurrency, amount, refundAddress, config) {
-    throw new NotImplementedError('sell(cryptoAsset, fiatCurrency, amount, refundAddress, config)')
+  async sell (options, config) {
+    throw new NotImplementedError('sell(options, config)')
   }
 
   /**
@@ -157,28 +167,22 @@ export default class FiatProtocol {
 
   /**
    * Generates a URL for a user to purchase a crypto asset with fiat currency.
-   * @param {string} cryptoAsset - The provider-specific code of the crypto asset to purchase.
-   * @param {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
-   * @param {number} amount - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
-   * @param {string} [recipient] - The wallet address to receive the purchased crypto asset.
+   * @param {BuyOptions} options - The options for the buy operation.
    * @param {Record<string, any>} [config] - Provider-specific configuration for the buy operation.
    * @returns {Promise<string>} The URL for the user to complete the purchase.
    */
-  async buy (cryptoAsset, fiatCurrency, amount, recipient, config) {
-    throw new NotImplementedError('buy(cryptoAsset, fiatCurrency, amount, recipient, config)')
+  async buy (options, config) {
+    throw new NotImplementedError('buy(options, config)')
   }
 
   /**
    * Generates a URL for a user to sell a crypto asset for fiat currency.
-   * @param {string} cryptoAsset - The provider-specific code of the crypto asset to sell.
-   * @param {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
-   * @param {number} amount - The amount of crypto asset to sell, in its main unit (e.g., 0.5 for 0.5 ETH).
-   * @param {string} [refundAddress] - The wallet address to receive refunds in case of failure.
+   * @param {SellOptions} options - The options for the sell operation.
    * @param {Record<string, any>} [config] - Provider-specific configuration for the sell operation.
    * @returns {Promise<string>} The URL for the user to complete the sale.
    */
-  async sell (cryptoAsset, fiatCurrency, amount, refundAddress, config) {
-    throw new NotImplementedError('sell(cryptoAsset, fiatCurrency, amount, refundAddress, config)')
+  async sell (options, config) {
+    throw new NotImplementedError('sell(options, config)')
   }
 
   /**
