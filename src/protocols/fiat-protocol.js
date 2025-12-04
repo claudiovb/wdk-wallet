@@ -102,12 +102,11 @@ export class IFiatProtocol {
 
   /**
    * Retrieves the details of a specific transaction from the provider.
-   * @param {'buy' | 'sell'} direction - The direction of the transaction.
    * @param {string} txId - The unique identifier of the transaction.
    * @returns {Promise<FiatTransactionDetail>} The transaction details.
    */
-  async getTransactionDetail (direction, txId) {
-    throw new NotImplementedError('getTransactionDetail(direction, txId)')
+  async getTransactionDetail (txId) {
+    throw new NotImplementedError('getTransactionDetail(txId)')
   }
 
   /**
@@ -144,21 +143,21 @@ export default class FiatProtocol {
    * Creates a new fiat protocol with read-only account.
    *
    * @overload
-   * @param {IWalletAccountReadOnly} account - The wallet account to use to interact with the protocol.
+   * @param {IWalletAccountReadOnly} [account] - The wallet account to use to interact with the protocol.
    */
 
   /**
    * Creates a new fiat protocol with read-only account.
    *
    * @overload
-   * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
+   * @param {IWalletAccount} [account] - The wallet account to use to interact with the protocol.
    */
-  constructor (account) {
+  constructor(account = undefined) {
     /**
      * The wallet account to use to interact with the protocol.
      *
      * @protected
-     * @type {IWalletAccountReadOnly | IWalletAccount}
+     * @type {IWalletAccountReadOnly | IWalletAccount | undefined}
      */
     this._account = account
   }
@@ -185,12 +184,11 @@ export default class FiatProtocol {
 
   /**
    * Retrieves the details of a specific transaction from the provider.
-   * @param {'buy' | 'sell'} direction - The direction of the transaction.
    * @param {string} txId - The unique identifier of the transaction.
    * @returns {Promise<FiatTransactionDetail>} The transaction details.
    */
-  async getTransactionDetail (direction, txId) {
-    throw new NotImplementedError('getTransactionDetail(direction, txId)')
+  async getTransactionDetail (txId) {
+    throw new NotImplementedError('getTransactionDetail(txId)')
   }
 
   /**
