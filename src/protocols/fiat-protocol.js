@@ -35,8 +35,8 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * A protocol-agnostic, standardized object representing a supported crypto asset.
- * @typedef {Object} FiatSupportedAsset
- * @property {string} code -Provider-specific asset code for the crypto asset.
+ * @typedef {Object} SupportedCryptoAsset
+ * @property {string} code - Provider-specific asset code for the crypto asset.
  * @property {string} networkCode - The network code for the asset, if applicable (e.g., 'ethereum', 'tron').
  * @property {string} [name] - The asset's full name (e.g., 'Bitcoin').
  * @property {Record<string, any>} [metadata] - Provider-specific raw data for this asset.
@@ -44,7 +44,7 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * A protocol-agnostic, standardized object representing a supported fiat currency.
- * @typedef {Object} FiatSupportedCurrency
+ * @typedef {Object} SupportedFiatCurrency
  * @property {string} code - The currency's ISO 4217 code (e.g., 'USD').
  * @property {string} [name] - The currency's full name (e.g., 'United States Dollar').
  * @property {Record<string, any>} [metadata] - Provider-specific raw data for this currency.
@@ -52,7 +52,7 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * A protocol-agnostic, standardized object representing a supported country.
- * @typedef {Object} FiatSupportedCountry
+ * @typedef {Object} SupportedCountry
  * @property {string} code - The country's ISO 3166-1 alpha-2 or alpha-3 code.
  * @property {boolean} isBuyAllowed - Whether buying is supported in this country.
  * @property {boolean} isSellAllowed - Whether selling is supported in this country.
@@ -61,19 +61,49 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
- * @typedef {Object} BuyOptions
+ * @typedef {BuyCommonOptions & (BuyExactCryptoAmountOptions | BuyWithFiatAmountOptions)} BuyOptions
+ */
+
+/**
+ * @typedef {Object} BuyCommonOptions
  * @property {string} cryptoAsset - The provider-specific code of the crypto asset to purchase.
  * @property {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
- * @property {number} amount - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
  * @property {string} [recipient] - The wallet address to receive the purchased crypto asset. Defaults to the account's address.
  */
 
 /**
- * @typedef {Object} SellOptions
+ * @typedef {Object} BuyExactCryptoAmountOptions
+ * @property {number} cryptoAmount - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
+ * @property {never} [fiatAmount] - The amount of fiat currency to spend, in its main unit (e.g., 1.50 for 1.50 USD).
+ */
+
+/**
+ * @typedef {Object} BuyWithFiatAmountOptions
+ * @property {number} fiatAmount - The amount of fiat currency to spend, in its main unit (e.g., 1.50 for 1.50 USD).
+ * @property {never} [cryptoAmount] - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
+ */
+
+/**
+ * @typedef {SellCommonOptions & (SellExactCryptoAmountOptions | SellForFiatAmountOptions)} SellOptions
+ */
+
+/**
+ * @typedef {Object} SellCommonOptions
  * @property {string} cryptoAsset - The provider-specific code of the crypto asset to sell.
  * @property {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
- * @property {number} amount - The amount of crypto asset to sell, in its main unit (e.g., 0.5 for 0.5 ETH).
  * @property {string} [refundAddress] - The wallet address to receive refunds in case of failure. Defaults to the account's address.
+ */
+
+/**
+ * @typedef {Object} SellExactCryptoAmountOptions
+ * @property {number} cryptoAmount - The amount of crypto asset to sell, in its main unit (e.g., 1.50 for 1.50 ETH).
+ * @property {never} [fiatAmount] - The amount of fiat currency to receive, in its main unit (e.g., 1.50 for 1.50 USD).
+ */
+
+/**
+ * @typedef {Object} SellForFiatAmountOptions
+ * @property {number} fiatAmount - The amount of fiat currency to receive, in its main unit (e.g., 1.50 for 1.50 USD).
+ * @property {never} [cryptoAmount] - The amount of crypto asset to sell, in its main unit (e.g., 1.50 for 1.50 ETH).
  */
 
 /**
@@ -83,21 +113,19 @@ export class IFiatProtocol {
   /**
    * Generates a widget URL for a user to purchase a crypto asset with fiat currency.
    * @param {BuyOptions} options - The options for the buy operation.
-   * @param {Record<string, any>} [config] - Provider-specific configuration for the buy operation.
    * @returns {Promise<string>} The URL for the user to complete the purchase.
    */
-  async buy (options, config) {
-    throw new NotImplementedError('buy(options, config)')
+  async buy (options) {
+    throw new NotImplementedError('buy(options)')
   }
 
   /**
    * Generates a widget URL for a user to sell a crypto asset for fiat currency.
    * @param {SellOptions} options - The options for the sell operation.
-   * @param {Record<string, any>} [config] - Provider-specific configuration for the sell operation.
    * @returns {Promise<string>} The URL for the user to complete the sale.
    */
-  async sell (options, config) {
-    throw new NotImplementedError('sell(options, config)')
+  async sell (options) {
+    throw new NotImplementedError('sell(options)')
   }
 
   /**
@@ -111,7 +139,7 @@ export class IFiatProtocol {
 
   /**
    * Retrieves a list of supported crypto assets from the provider.
-   * @returns {Promise<FiatSupportedAsset[]>} An array of supported crypto assets.
+   * @returns {Promise<SupportedCryptoAsset[]>} An array of supported crypto assets.
    */
   async getSupportedCryptoAssets () {
     throw new NotImplementedError('getSupportedCryptoAssets()')
@@ -119,7 +147,7 @@ export class IFiatProtocol {
 
   /**
    * Retrieves a list of supported fiat currencies from the provider.
-   * @returns {Promise<FiatSupportedCurrency[]>} An array of supported fiat currencies.
+   * @returns {Promise<SupportedFiatCurrency[]>} An array of supported fiat currencies.
    */
   async getSupportedFiatCurrencies () {
     throw new NotImplementedError('getSupportedFiatCurrencies()')
@@ -127,7 +155,7 @@ export class IFiatProtocol {
 
   /**
    * Retrieves a list of supported countries from the provider.
-   * @returns {Promise<FiatSupportedCountry[]>} An array of supported countries.
+   * @returns {Promise<SupportedCountry[]>} An array of supported countries.
    */
   async getSupportedCountries () {
     throw new NotImplementedError('getSupportedCountries()')
@@ -165,21 +193,19 @@ export default class FiatProtocol {
   /**
    * Generates a URL for a user to purchase a crypto asset with fiat currency.
    * @param {BuyOptions} options - The options for the buy operation.
-   * @param {Record<string, any>} [config] - Provider-specific configuration for the buy operation.
    * @returns {Promise<string>} The URL for the user to complete the purchase.
    */
-  async buy (options, config) {
-    throw new NotImplementedError('buy(options, config)')
+  async buy (options) {
+    throw new NotImplementedError('buy(options)')
   }
 
   /**
    * Generates a URL for a user to sell a crypto asset for fiat currency.
    * @param {SellOptions} options - The options for the sell operation.
-   * @param {Record<string, any>} [config] - Provider-specific configuration for the sell operation.
    * @returns {Promise<string>} The URL for the user to complete the sale.
    */
-  async sell (options, config) {
-    throw new NotImplementedError('sell(options, config)')
+  async sell (options) {
+    throw new NotImplementedError('sell(options)')
   }
 
   /**
@@ -193,7 +219,7 @@ export default class FiatProtocol {
 
   /**
    * Retrieves a list of supported crypto assets from the provider.
-   * @returns {Promise<FiatSupportedAsset[]>} An array of supported crypto assets.
+   * @returns {Promise<SupportedCryptoAsset[]>} An array of supported crypto assets.
    */
   async getSupportedCryptoAssets () {
     throw new NotImplementedError('getSupportedCryptoAssets()')
@@ -201,7 +227,7 @@ export default class FiatProtocol {
 
   /**
    * Retrieves a list of supported fiat currencies from the provider.
-   * @returns {Promise<FiatSupportedCurrency[]>} An array of supported fiat currencies.
+   * @returns {Promise<SupportedFiatCurrency[]>} An array of supported fiat currencies.
    */
   async getSupportedFiatCurrencies () {
     throw new NotImplementedError('getSupportedFiatCurrencies()')
@@ -209,7 +235,7 @@ export default class FiatProtocol {
 
   /**
    * Retrieves a list of supported countries or regions from the provider.
-   * @returns {Promise<FiatSupportedCountry[]>} An array of supported countries.
+   * @returns {Promise<SupportedCountry[]>} An array of supported countries.
    */
   async getSupportedCountries () {
     throw new NotImplementedError('getSupportedCountries()')
