@@ -26,42 +26,38 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * A protocol-agnostic, standardized object representing the details of an on/off-ramp transaction.
- * @template [M=Record<string, unknown>]
  * @typedef {Object} FiatTransactionDetail
  * @property {FiatTransactionStatus} status - The current status of the transaction.
  * @property {string} cryptoAsset - The provider-specific code of the crypto asset (e.g., 'btc').
  * @property {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
- * @property {M} [metadata] - Provider-specific raw data for this transaction.
+ * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this transaction.
  */
 
 /**
  * A protocol-agnostic, standardized object representing a supported crypto asset.
- * @template [M=Record<string, unknown>]
  * @typedef {Object} SupportedCryptoAsset
  * @property {string} code - Provider-specific asset code for the crypto asset.
  * @property {string} networkCode - The network code for the asset, if applicable (e.g., 'ethereum', 'tron').
  * @property {string} [name] - The asset's full name (e.g., 'Bitcoin').
- * @property {M} [metadata] - Provider-specific raw data for this asset.
+ * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this asset.
  */
 
 /**
  * A protocol-agnostic, standardized object representing a supported fiat currency.
- * @template [M=Record<string, unknown>]
  * @typedef {Object} SupportedFiatCurrency
  * @property {string} code - The currency's ISO 4217 code (e.g., 'USD').
  * @property {string} [name] - The currency's full name (e.g., 'United States Dollar').
- * @property {M} [metadata] - Provider-specific raw data for this currency.
+ * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this currency.
  */
 
 /**
  * A protocol-agnostic, standardized object representing a supported country.
- * @template [M=Record<string, unknown>]
  * @typedef {Object} SupportedCountry
  * @property {string} code - The country's ISO 3166-1 alpha-2 or alpha-3 code.
  * @property {boolean} isBuyAllowed - Whether buying is supported in this country.
  * @property {boolean} isSellAllowed - Whether selling is supported in this country.
  * @property {string} [name] - The country's common name.
- * @property {M} [metadata] - Provider-specific raw data for this region.
+ * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this region.
  */
 
 /**

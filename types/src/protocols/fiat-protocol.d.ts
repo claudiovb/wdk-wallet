@@ -111,7 +111,7 @@ export type FiatTransactionStatus = "in_progress" | "failed" | "completed";
 /**
  * A protocol-agnostic, standardized object representing the details of an on/off-ramp transaction.
  */
-export type FiatTransactionDetail<M = Record<string, unknown>> = {
+export type FiatTransactionDetail = {
     /**
      * - The current status of the transaction.
      */
@@ -127,12 +127,12 @@ export type FiatTransactionDetail<M = Record<string, unknown>> = {
     /**
      * - Provider-specific raw data for this transaction.
      */
-    metadata?: M;
+    metadata?: Record<string, unknown>;
 };
 /**
  * A protocol-agnostic, standardized object representing a supported crypto asset.
  */
-export type SupportedCryptoAsset<M = Record<string, unknown>> = {
+export type SupportedCryptoAsset = {
     /**
      * - Provider-specific asset code for the crypto asset.
      */
@@ -148,12 +148,12 @@ export type SupportedCryptoAsset<M = Record<string, unknown>> = {
     /**
      * - Provider-specific raw data for this asset.
      */
-    metadata?: M;
+    metadata?: Record<string, unknown>;
 };
 /**
  * A protocol-agnostic, standardized object representing a supported fiat currency.
  */
-export type SupportedFiatCurrency<M = Record<string, unknown>> = {
+export type SupportedFiatCurrency = {
     /**
      * - The currency's ISO 4217 code (e.g., 'USD').
      */
@@ -165,12 +165,12 @@ export type SupportedFiatCurrency<M = Record<string, unknown>> = {
     /**
      * - Provider-specific raw data for this currency.
      */
-    metadata?: M;
+    metadata?: Record<string, unknown>;
 };
 /**
  * A protocol-agnostic, standardized object representing a supported country.
  */
-export type SupportedCountry<M = Record<string, unknown>> = {
+export type SupportedCountry = {
     /**
      * - The country's ISO 3166-1 alpha-2 or alpha-3 code.
      */
@@ -190,7 +190,7 @@ export type SupportedCountry<M = Record<string, unknown>> = {
     /**
      * - Provider-specific raw data for this region.
      */
-    metadata?: M;
+    metadata?: Record<string, unknown>;
 };
 export type BuyOptions = BuyCommonOptions & (BuyExactCryptoAmountOptions | BuyWithFiatAmountOptions);
 export type BuyCommonOptions = {

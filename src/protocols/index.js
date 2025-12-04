@@ -34,8 +34,8 @@
 /** @typedef {import('./fiat-protocol.js').SellOptions} SellOptions */
 /** @typedef {import('./fiat-protocol.js').FiatTransactionStatus} FiatTransactionStatus */
 /** @typedef {import('./fiat-protocol.js').FiatTransactionDetail} FiatTransactionDetail */
-/** @typedef {import('./fiat-protocol.js').SupportedCryptoAsset} SupportedAsset */
-/** @typedef {import('./fiat-protocol.js').SupportedFiatCurrency} SupportedCurrency */
+/** @typedef {import('./fiat-protocol.js').SupportedCryptoAsset} SupportedCryptoAsset */
+/** @typedef {import('./fiat-protocol.js').SupportedFiatCurrency} SupportedFiatCurrency */
 /** @typedef {import('./fiat-protocol.js').SupportedCountry} SupportedCountry */
 
 export { default as SwapProtocol, ISwapProtocol } from './swap-protocol.js'
