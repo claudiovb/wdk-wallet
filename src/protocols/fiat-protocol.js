@@ -38,7 +38,6 @@ import { NotImplementedError } from '../errors.js'
  * @typedef {Object} FiatSupportedAsset
  * @property {string} code -Provider-specific asset code for the crypto asset.
  * @property {string} networkCode - The network code for the asset, if applicable (e.g., 'ethereum', 'tron').
- * @property {number} precision - The number of decimal places for the asset.
  * @property {string} [name] - The asset's full name (e.g., 'Bitcoin').
  * @property {Record<string, any>} [metadata] - Provider-specific raw data for this asset.
  */
@@ -47,7 +46,6 @@ import { NotImplementedError } from '../errors.js'
  * A protocol-agnostic, standardized object representing a supported fiat currency.
  * @typedef {Object} FiatSupportedCurrency
  * @property {string} code - The currency's ISO 4217 code (e.g., 'USD').
- * @property {number} precision - The number of decimal places for the currency.
  * @property {string} [name] - The currency's full name (e.g., 'United States Dollar').
  * @property {Record<string, any>} [metadata] - Provider-specific raw data for this currency.
  */
