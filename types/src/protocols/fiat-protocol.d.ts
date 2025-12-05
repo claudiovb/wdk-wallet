@@ -3,11 +3,23 @@
  */
 export interface IFiatProtocol {
     /**
+     * Gets a quote for a crypto asset purchase.
+     * @param {Omit<BuyOptions, 'recipient'>} options - The options for the buy operation.
+     * @returns {Promise<FiatQuote>} A quote for the transaction.
+     */
+    quoteBuy(options: Omit<BuyOptions, "recipient">): Promise<FiatQuote>;
+    /**
      * Generates a widget URL for a user to purchase a crypto asset with fiat currency.
      * @param {BuyOptions} options - The options for the buy operation.
      * @returns {Promise<string>} The URL for the user to complete the purchase.
      */
     buy(options: BuyOptions): Promise<string>;
+    /**
+     * Gets a quote for a crypto asset sale.
+     * @param {Omit<SellOptions, 'refundAddress'>} options - The options for the sell operation.
+     * @returns {Promise<FiatQuote>} A quote for the transaction.
+     */
+    quoteSell(options: Omit<SellOptions, "refundAddress">): Promise<FiatQuote>;
     /**
      * Generates a widget URL for a user to sell a crypto asset for fiat currency.
      * @param {SellOptions} options - The options for the sell operation.
@@ -63,12 +75,26 @@ export default abstract class FiatProtocol implements IFiatProtocol {
      */
     protected _account: IWalletAccountReadOnly | IWalletAccount | undefined;
     /**
+     * Gets a quote for a crypto asset purchase.
+     * @abstract
+     * @param {Omit<BuyOptions, 'recipient'>} options - The options for the buy operation.
+     * @returns {Promise<FiatQuote>} A quote for the transaction.
+     */
+    abstract quoteBuy(options: Omit<BuyOptions, "recipient">): Promise<FiatQuote>;
+    /**
      * Generates a URL for a user to purchase a crypto asset with fiat currency.
      * @abstract
      * @param {BuyOptions} options - The options for the buy operation.
      * @returns {Promise<string>} The URL for the user to complete the purchase.
      */
     abstract buy(options: BuyOptions): Promise<string>;
+    /**
+     * Gets a quote for a crypto asset sale.
+     * @abstract
+     * @param {Omit<SellOptions, 'refundAddress'>} options - The options for the sell operation.
+     * @returns {Promise<FiatQuote>} A quote for the transaction.
+     */
+    abstract quoteSell(options: Omit<SellOptions, "refundAddress">): Promise<FiatQuote>;
     /**
      * Generates a URL for a user to sell a crypto asset for fiat currency.
      * @abstract
@@ -142,6 +168,10 @@ export type SupportedCryptoAsset = {
      */
     networkCode: string;
     /**
+     * - The on-chain number of decimal places for the asset's base unit (e.g., 18 for ETH).
+     */
+    decimals: number;
+    /**
      * - The asset's full name (e.g., 'Bitcoin').
      */
     name?: string;
@@ -158,6 +188,10 @@ export type SupportedFiatCurrency = {
      * - The currency's ISO 4217 code (e.g., 'USD').
      */
     code: string;
+    /**
+     * - The number of decimal places for the currency's smallest unit (e.g., 2 for USD, 0 for JPY).
+     */
+    decimals: number;
     /**
      * - The currency's full name (e.g., 'United States Dollar').
      */
@@ -209,21 +243,21 @@ export type BuyCommonOptions = {
 };
 export type BuyExactCryptoAmountOptions = {
     /**
-     * - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
+     * - The amount of crypto asset to buy, in its base unit (e.g., wei for ETH).
      */
-    cryptoAmount: number;
+    cryptoAmount: number | bigint;
     /**
-     * - The amount of fiat currency to spend, in its main unit (e.g., 1.50 for 1.50 USD).
+     * - The amount of fiat currency to spend, in its smallest unit (e.g., cents for USD).
      */
     fiatAmount?: never;
 };
 export type BuyWithFiatAmountOptions = {
     /**
-     * - The amount of fiat currency to spend, in its main unit (e.g., 1.50 for 1.50 USD).
+     * - The amount of fiat currency to spend, in its smallest unit (e.g., cents for USD).
      */
-    fiatAmount: number;
+    fiatAmount: number | bigint;
     /**
-     * - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
+     * - The amount of crypto asset to buy, in its base unit (e.g., wei for ETH).
      */
     cryptoAmount?: never;
 };
@@ -244,21 +278,46 @@ export type SellCommonOptions = {
 };
 export type SellExactCryptoAmountOptions = {
     /**
-     * - The amount of crypto asset to sell, in its main unit (e.g., 1.50 for 1.50 ETH).
+     * - The amount of crypto asset to sell, in its base unit (e.g., wei for ETH).
      */
-    cryptoAmount: number;
+    cryptoAmount: number | bigint;
     /**
-     * - The amount of fiat currency to receive, in its main unit (e.g., 1.50 for 1.50 USD).
+     * - The amount of fiat currency to receive, in its smallest unit (e.g., cents for USD).
      */
     fiatAmount?: never;
 };
 export type SellForFiatAmountOptions = {
     /**
-     * - The amount of fiat currency to receive, in its main unit (e.g., 1.50 for 1.50 USD).
+     * - The amount of fiat currency to receive, in its smallest unit (e.g., cents for USD).
      */
-    fiatAmount: number;
+    fiatAmount: number | bigint;
     /**
-     * - The amount of crypto asset to sell, in its main unit (e.g., 1.50 for 1.50 ETH).
+     * - The amount of crypto asset to sell, in its base unit (e.g., wei for ETH).
      */
     cryptoAmount?: never;
+};
+/**
+ * A protocol-agnostic, standardized object representing a quote for an on/off-ramp transaction.
+ */
+export type FiatQuote = {
+    /**
+     * - The amount of the crypto asset, in its base unit (e.g., wei).
+     */
+    cryptoAmount: bigint;
+    /**
+     * - The amount of the fiat currency, in its smallest unit (e.g., cents).
+     */
+    fiatAmount: bigint;
+    /**
+     * - The fee charged for the transaction, denominated in the smallest unit of the fiat currency.
+     */
+    fee: bigint;
+    /**
+     * - The effective exchange rate between crypto asset and fiat currency, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD).
+     */
+    rate: string;
+    /**
+     * - Provider-specific raw data for the quote.
+     */
+    metadata?: Record<string, unknown>;
 };

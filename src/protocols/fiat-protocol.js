@@ -38,6 +38,7 @@ import { NotImplementedError } from '../errors.js'
  * @typedef {Object} SupportedCryptoAsset
  * @property {string} code - Provider-specific asset code for the crypto asset.
  * @property {string} networkCode - The network code for the asset, if applicable (e.g., 'ethereum', 'tron').
+ * @property {number} decimals - The on-chain number of decimal places for the asset's base unit (e.g., 18 for ETH).
  * @property {string} [name] - The asset's full name (e.g., 'Bitcoin').
  * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this asset.
  */
@@ -46,6 +47,7 @@ import { NotImplementedError } from '../errors.js'
  * A protocol-agnostic, standardized object representing a supported fiat currency.
  * @typedef {Object} SupportedFiatCurrency
  * @property {string} code - The currency's ISO 4217 code (e.g., 'USD').
+ * @property {number} decimals - The number of decimal places for the currency's smallest unit (e.g., 2 for USD, 0 for JPY).
  * @property {string} [name] - The currency's full name (e.g., 'United States Dollar').
  * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this currency.
  */
@@ -73,14 +75,14 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * @typedef {Object} BuyExactCryptoAmountOptions
- * @property {number} cryptoAmount - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
- * @property {never} [fiatAmount] - The amount of fiat currency to spend, in its main unit (e.g., 1.50 for 1.50 USD).
+ * @property {number | bigint} cryptoAmount - The amount of crypto asset to buy, in its base unit (e.g., wei for ETH).
+ * @property {never} [fiatAmount] - The amount of fiat currency to spend, in its smallest unit (e.g., cents for USD).
  */
 
 /**
  * @typedef {Object} BuyWithFiatAmountOptions
- * @property {number} fiatAmount - The amount of fiat currency to spend, in its main unit (e.g., 1.50 for 1.50 USD).
- * @property {never} [cryptoAmount] - The amount of crypto asset to buy, in its main unit (e.g., 1.50 for 1.50 ETH).
+ * @property {number | bigint} fiatAmount - The amount of fiat currency to spend, in its smallest unit (e.g., cents for USD).
+ * @property {never} [cryptoAmount] - The amount of crypto asset to buy, in its base unit (e.g., wei for ETH).
  */
 
 /**
@@ -96,14 +98,24 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * @typedef {Object} SellExactCryptoAmountOptions
- * @property {number} cryptoAmount - The amount of crypto asset to sell, in its main unit (e.g., 1.50 for 1.50 ETH).
- * @property {never} [fiatAmount] - The amount of fiat currency to receive, in its main unit (e.g., 1.50 for 1.50 USD).
+ * @property {number | bigint} cryptoAmount - The amount of crypto asset to sell, in its base unit (e.g., wei for ETH).
+ * @property {never} [fiatAmount] - The amount of fiat currency to receive, in its smallest unit (e.g., cents for USD).
  */
 
 /**
  * @typedef {Object} SellForFiatAmountOptions
- * @property {number} fiatAmount - The amount of fiat currency to receive, in its main unit (e.g., 1.50 for 1.50 USD).
- * @property {never} [cryptoAmount] - The amount of crypto asset to sell, in its main unit (e.g., 1.50 for 1.50 ETH).
+ * @property {number | bigint} fiatAmount - The amount of fiat currency to receive, in its smallest unit (e.g., cents for USD).
+ * @property {never} [cryptoAmount] - The amount of crypto asset to sell, in its base unit (e.g., wei for ETH).
+ */
+
+/**
+ * A protocol-agnostic, standardized object representing a quote for an on/off-ramp transaction.
+ * @typedef {Object} FiatQuote
+ * @property {bigint} cryptoAmount - The amount of the crypto asset, in its base unit (e.g., wei).
+ * @property {bigint} fiatAmount - The amount of the fiat currency, in its smallest unit (e.g., cents).
+ * @property {bigint} fee - The fee charged for the transaction, denominated in the smallest unit of the fiat currency.
+ * @property {string} rate - The effective exchange rate between crypto asset and fiat currency, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD).
+ * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for the quote.
  */
 
 /**
@@ -111,12 +123,30 @@ import { NotImplementedError } from '../errors.js'
  */
 export class IFiatProtocol {
   /**
+   * Gets a quote for a crypto asset purchase.
+   * @param {Omit<BuyOptions, 'recipient'>} options - The options for the buy operation.
+   * @returns {Promise<FiatQuote>} A quote for the transaction.
+   */
+  async quoteBuy (options) {
+    throw new NotImplementedError('quoteBuy(options)')
+  }
+
+  /**
    * Generates a widget URL for a user to purchase a crypto asset with fiat currency.
    * @param {BuyOptions} options - The options for the buy operation.
    * @returns {Promise<string>} The URL for the user to complete the purchase.
    */
   async buy (options) {
     throw new NotImplementedError('buy(options)')
+  }
+
+  /**
+   * Gets a quote for a crypto asset sale.
+   * @param {Omit<SellOptions, 'refundAddress'>} options - The options for the sell operation.
+   * @returns {Promise<FiatQuote>} A quote for the transaction.
+   */
+  async quoteSell (options) {
+    throw new NotImplementedError('quoteSell(options)')
   }
 
   /**
@@ -191,12 +221,30 @@ export default class FiatProtocol {
   }
 
   /**
+   * Gets a quote for a crypto asset purchase.
+   * @param {Omit<BuyOptions, 'recipient'>} options - The options for the buy operation.
+   * @returns {Promise<FiatQuote>} A quote for the transaction.
+   */
+  async quoteBuy (options) {
+    throw new NotImplementedError('quoteBuy(options)')
+  }
+
+  /**
    * Generates a URL for a user to purchase a crypto asset with fiat currency.
    * @param {BuyOptions} options - The options for the buy operation.
    * @returns {Promise<string>} The URL for the user to complete the purchase.
    */
   async buy (options) {
     throw new NotImplementedError('buy(options)')
+  }
+
+  /**
+   * Gets a quote for a crypto asset sale.
+   * @param {Omit<SellOptions, 'refundAddress'>} options - The options for the sell operation.
+   * @returns {Promise<FiatQuote>} A quote for the transaction.
+   */
+  async quoteSell (options) {
+    throw new NotImplementedError('quoteSell(options)')
   }
 
   /**

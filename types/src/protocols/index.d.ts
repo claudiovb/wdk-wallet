@@ -14,6 +14,7 @@ export type RepayOptions = import("./lending-protocol.js").RepayOptions;
 export type RepayResult = import("./lending-protocol.js").RepayResult;
 export type BuyOptions = import("./fiat-protocol.js").BuyOptions;
 export type SellOptions = import("./fiat-protocol.js").SellOptions;
+export type FiatQuote = import("./fiat-protocol.js").FiatQuote;
 export type FiatTransactionStatus = import("./fiat-protocol.js").FiatTransactionStatus;
 export type FiatTransactionDetail = import("./fiat-protocol.js").FiatTransactionDetail;
 export type SupportedCryptoAsset = import("./fiat-protocol.js").SupportedCryptoAsset;

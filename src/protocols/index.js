@@ -32,6 +32,7 @@
 
 /** @typedef {import('./fiat-protocol.js').BuyOptions} BuyOptions */
 /** @typedef {import('./fiat-protocol.js').SellOptions} SellOptions */
+/** @typedef {import('./fiat-protocol.js').FiatQuote} FiatQuote */
 /** @typedef {import('./fiat-protocol.js').FiatTransactionStatus} FiatTransactionStatus */
 /** @typedef {import('./fiat-protocol.js').FiatTransactionDetail} FiatTransactionDetail */
 /** @typedef {import('./fiat-protocol.js').SupportedCryptoAsset} SupportedCryptoAsset */
