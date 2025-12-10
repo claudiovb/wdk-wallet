@@ -114,7 +114,7 @@ import { NotImplementedError } from '../errors.js'
  * @property {bigint} cryptoAmount - The amount of the crypto asset, in its base unit (e.g., wei).
  * @property {bigint} fiatAmount - The amount of the fiat currency, in its smallest unit (e.g., cents).
  * @property {bigint} fee - The fee charged for the transaction, denominated in the smallest unit of the fiat currency.
- * @property {string} rate - The effective exchange rate between crypto asset and fiat currency, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD).
+ * @property {string} rate - The effective exchange rate, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD). Note: This rate applies to the standard units (e.g., ETH and USD).
  * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for the quote.
  */
 

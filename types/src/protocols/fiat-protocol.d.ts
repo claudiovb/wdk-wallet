@@ -313,7 +313,7 @@ export type FiatQuote = {
      */
     fee: bigint;
     /**
-     * - The effective exchange rate between crypto asset and fiat currency, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD).
+     * - The effective exchange rate, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD). Note: This rate applies to the standard units (e.g., ETH and USD).
      */
     rate: string;
     /**
