@@ -210,7 +210,7 @@ export default class FiatProtocol {
    * @overload
    * @param {IWalletAccount} [account] - The wallet account to use to interact with the protocol.
    */
-  constructor(account = undefined) {
+  constructor (account = undefined) {
     /**
      * The wallet account to use to interact with the protocol.
      *
