@@ -83,7 +83,7 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * @typedef {Object} BuyResult
- * @property {string} buyUrl - The URL for the user to complete the purchase
+ * @property {string} buyUrl - The URL for the user to complete the purchase.
  */
 
 /**
@@ -111,7 +111,7 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * @typedef {Object} SellResult
- * @property {string} sellUrl - The URL for the user to complete the purchase
+ * @property {string} sellUrl - The URL for the user to complete the sale.
  */
 
 /**
@@ -139,7 +139,7 @@ export class IFiatProtocol {
   /**
    * Generates a widget URL for a user to purchase a crypto asset with fiat currency.
    * @param {BuyOptions} options - The options for the buy operation.
-   * @returns {Promise<BuyResult & FiatQuote>} The operation's result.
+   * @returns {Promise<BuyResult>} The operation's result.
    */
   async buy (options) {
     throw new NotImplementedError('buy(options)')
@@ -157,7 +157,7 @@ export class IFiatProtocol {
   /**
    * Generates a widget URL for a user to sell a crypto asset for fiat currency.
    * @param {SellOptions} options - The options for the sell operation.
-   * @returns {Promise<SellResult & FiatQuote>} The operation's result.
+   * @returns {Promise<SellResult>} The operation's result.
    */
   async sell (options) {
     throw new NotImplementedError('sell(options)')
@@ -237,7 +237,7 @@ export default class FiatProtocol {
   /**
    * Generates a URL for a user to purchase a crypto asset with fiat currency.
    * @param {BuyOptions} options - The options for the buy operation.
-   * @returns {Promise<BuyResult & FiatQuote>} The URL for the user to complete the purchase.
+   * @returns {Promise<BuyResult>} The URL for the user to complete the purchase.
    */
   async buy (options) {
     throw new NotImplementedError('buy(options)')
@@ -255,7 +255,7 @@ export default class FiatProtocol {
   /**
    * Generates a URL for a user to sell a crypto asset for fiat currency.
    * @param {SellOptions} options - The options for the sell operation.
-   * @returns {Promise<SellResult & FiatQuote>} The URL for the user to complete the sale.
+   * @returns {Promise<SellResult>} The URL for the user to complete the sale.
    */
   async sell (options) {
     throw new NotImplementedError('sell(options)')

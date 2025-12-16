@@ -11,9 +11,9 @@ export interface IFiatProtocol {
     /**
      * Generates a widget URL for a user to purchase a crypto asset with fiat currency.
      * @param {BuyOptions} options - The options for the buy operation.
-     * @returns {Promise<BuyResult & FiatQuote>} The operation's result.
+     * @returns {Promise<BuyResult>} The operation's result.
      */
-    buy(options: BuyOptions): Promise<BuyResult & FiatQuote>;
+    buy(options: BuyOptions): Promise<BuyResult>;
     /**
      * Gets a quote for a crypto asset sale.
      * @param {Omit<SellOptions, 'refundAddress'>} options - The options for the sell operation.
@@ -23,9 +23,9 @@ export interface IFiatProtocol {
     /**
      * Generates a widget URL for a user to sell a crypto asset for fiat currency.
      * @param {SellOptions} options - The options for the sell operation.
-     * @returns {Promise<SellResult & FiatQuote>} The operation's result.
+     * @returns {Promise<SellResult>} The operation's result.
      */
-    sell(options: SellOptions): Promise<SellResult & FiatQuote>;
+    sell(options: SellOptions): Promise<SellResult>;
     /**
      * Retrieves the details of a specific transaction from the provider.
      * @param {string} txId - The unique identifier of the transaction.
@@ -85,9 +85,9 @@ export default abstract class FiatProtocol implements IFiatProtocol {
      * Generates a URL for a user to purchase a crypto asset with fiat currency.
      * @abstract
      * @param {BuyOptions} options - The options for the buy operation.
-     * @returns {Promise<BuyResult & FiatQuote>} The URL for the user to complete the purchase.
+     * @returns {Promise<BuyResult>} The URL for the user to complete the purchase.
      */
-    abstract buy(options: BuyOptions): Promise<BuyResult & FiatQuote>;
+    abstract buy(options: BuyOptions): Promise<BuyResult>;
     /**
      * Gets a quote for a crypto asset sale.
      * @abstract
@@ -99,9 +99,9 @@ export default abstract class FiatProtocol implements IFiatProtocol {
      * Generates a URL for a user to sell a crypto asset for fiat currency.
      * @abstract
      * @param {SellOptions} options - The options for the sell operation.
-     * @returns {Promise<SellResult & FiatQuote>} The URL for the user to complete the sale.
+     * @returns {Promise<SellResult>} The URL for the user to complete the sale.
      */
-    abstract sell(options: SellOptions): Promise<SellResult & FiatQuote>;
+    abstract sell(options: SellOptions): Promise<SellResult>;
     /**
      * Retrieves the details of a specific transaction from the provider.
      * @abstract
@@ -247,7 +247,7 @@ export type BuyWithFiatAmountOptions = {
 };
 export type BuyResult = {
     /**
-     * - The URL for the user to complete the purchase
+     * - The URL for the user to complete the purchase.
      */
     buyUrl: string;
 };
@@ -288,7 +288,7 @@ export type SellForFiatAmountOptions = {
 };
 export type SellResult = {
     /**
-     * - The URL for the user to complete the purchase
+     * - The URL for the user to complete the sale.
      */
     sellUrl: string;
 };
