@@ -34,13 +34,19 @@
 /** @typedef {import('./fiat-protocol.js').BuyCommonOptions} BuyCommonOptions */
 /** @typedef {import('./fiat-protocol.js').BuyExactCryptoAmountOptions} BuyExactCryptoAmountOptions */
 /** @typedef {import('./fiat-protocol.js').BuyWithFiatAmountOptions} BuyWithFiatAmountOptions */
+/** @typedef {import('./fiat-protocol.js').BuyResult} BuyResult */
+
 /** @typedef {import('./fiat-protocol.js').SellOptions} SellOptions */
 /** @typedef {import('./fiat-protocol.js').SellCommonOptions} SellCommonOptions */
 /** @typedef {import('./fiat-protocol.js').SellExactCryptoAmountOptions} SellExactCryptoAmountOptions */
 /** @typedef {import('./fiat-protocol.js').SellForFiatAmountOptions} SellForFiatAmountOptions */
+/** @typedef {import('./fiat-protocol.js').SellResult} SellResult */
+
 /** @typedef {import('./fiat-protocol.js').FiatQuote} FiatQuote */
+
 /** @typedef {import('./fiat-protocol.js').FiatTransactionStatus} FiatTransactionStatus */
 /** @typedef {import('./fiat-protocol.js').FiatTransactionDetail} FiatTransactionDetail */
+
 /** @typedef {import('./fiat-protocol.js').SupportedCryptoAsset} SupportedCryptoAsset */
 /** @typedef {import('./fiat-protocol.js').SupportedFiatCurrency} SupportedFiatCurrency */
 /** @typedef {import('./fiat-protocol.js').SupportedCountry} SupportedCountry */

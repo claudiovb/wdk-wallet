@@ -30,7 +30,6 @@ import { NotImplementedError } from '../errors.js'
  * @property {FiatTransactionStatus} status - The current status of the transaction.
  * @property {string} cryptoAsset - The provider-specific code of the crypto asset (e.g., 'btc').
  * @property {string} fiatCurrency - The currency's ISO 4217 code (e.g., 'USD').
- * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this transaction.
  */
 
 /**
@@ -40,7 +39,6 @@ import { NotImplementedError } from '../errors.js'
  * @property {string} networkCode - The network code for the asset, if applicable (e.g., 'ethereum', 'tron').
  * @property {number} decimals - The on-chain number of decimal places for the asset's base unit (e.g., 18 for ETH).
  * @property {string} [name] - The asset's full name (e.g., 'Bitcoin').
- * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this asset.
  */
 
 /**
@@ -49,7 +47,6 @@ import { NotImplementedError } from '../errors.js'
  * @property {string} code - The currency's ISO 4217 code (e.g., 'USD').
  * @property {number} decimals - The number of decimal places for the currency's smallest unit (e.g., 2 for USD, 0 for JPY).
  * @property {string} [name] - The currency's full name (e.g., 'United States Dollar').
- * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this currency.
  */
 
 /**
@@ -59,7 +56,6 @@ import { NotImplementedError } from '../errors.js'
  * @property {boolean} isBuyAllowed - Whether buying is supported in this country.
  * @property {boolean} isSellAllowed - Whether selling is supported in this country.
  * @property {string} [name] - The country's common name.
- * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for this region.
  */
 
 /**
@@ -86,6 +82,11 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
+ * @typedef {Object} BuyResult
+ * @property {string} buyUrl - The URL for the user to complete the purchase
+ */
+
+/**
  * @typedef {SellCommonOptions & (SellExactCryptoAmountOptions | SellForFiatAmountOptions)} SellOptions
  */
 
@@ -109,13 +110,17 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
+ * @typedef {Object} SellResult
+ * @property {string} sellUrl - The URL for the user to complete the purchase
+ */
+
+/**
  * A protocol-agnostic, standardized object representing a quote for an on/off-ramp transaction.
  * @typedef {Object} FiatQuote
  * @property {bigint} cryptoAmount - The amount of the crypto asset, in its base unit (e.g., wei).
  * @property {bigint} fiatAmount - The amount of the fiat currency, in its smallest unit (e.g., cents).
  * @property {bigint} fee - The fee charged for the transaction, denominated in the smallest unit of the fiat currency.
  * @property {string} rate - The effective exchange rate, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD). Note: This rate applies to the standard units (e.g., ETH and USD).
- * @property {Record<string, unknown>} [metadata] - Provider-specific raw data for the quote.
  */
 
 /**
@@ -134,7 +139,7 @@ export class IFiatProtocol {
   /**
    * Generates a widget URL for a user to purchase a crypto asset with fiat currency.
    * @param {BuyOptions} options - The options for the buy operation.
-   * @returns {Promise<string>} The URL for the user to complete the purchase.
+   * @returns {Promise<BuyResult & FiatQuote>} The operation's result.
    */
   async buy (options) {
     throw new NotImplementedError('buy(options)')
@@ -152,7 +157,7 @@ export class IFiatProtocol {
   /**
    * Generates a widget URL for a user to sell a crypto asset for fiat currency.
    * @param {SellOptions} options - The options for the sell operation.
-   * @returns {Promise<string>} The URL for the user to complete the sale.
+   * @returns {Promise<SellResult & FiatQuote>} The operation's result.
    */
   async sell (options) {
     throw new NotImplementedError('sell(options)')
@@ -232,7 +237,7 @@ export default class FiatProtocol {
   /**
    * Generates a URL for a user to purchase a crypto asset with fiat currency.
    * @param {BuyOptions} options - The options for the buy operation.
-   * @returns {Promise<string>} The URL for the user to complete the purchase.
+   * @returns {Promise<BuyResult & FiatQuote>} The URL for the user to complete the purchase.
    */
   async buy (options) {
     throw new NotImplementedError('buy(options)')
@@ -250,7 +255,7 @@ export default class FiatProtocol {
   /**
    * Generates a URL for a user to sell a crypto asset for fiat currency.
    * @param {SellOptions} options - The options for the sell operation.
-   * @returns {Promise<string>} The URL for the user to complete the sale.
+   * @returns {Promise<SellResult & FiatQuote>} The URL for the user to complete the sale.
    */
   async sell (options) {
     throw new NotImplementedError('sell(options)')

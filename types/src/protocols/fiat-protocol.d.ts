@@ -11,9 +11,9 @@ export interface IFiatProtocol {
     /**
      * Generates a widget URL for a user to purchase a crypto asset with fiat currency.
      * @param {BuyOptions} options - The options for the buy operation.
-     * @returns {Promise<string>} The URL for the user to complete the purchase.
+     * @returns {Promise<BuyResult & FiatQuote>} The operation's result.
      */
-    buy(options: BuyOptions): Promise<string>;
+    buy(options: BuyOptions): Promise<BuyResult & FiatQuote>;
     /**
      * Gets a quote for a crypto asset sale.
      * @param {Omit<SellOptions, 'refundAddress'>} options - The options for the sell operation.
@@ -23,9 +23,9 @@ export interface IFiatProtocol {
     /**
      * Generates a widget URL for a user to sell a crypto asset for fiat currency.
      * @param {SellOptions} options - The options for the sell operation.
-     * @returns {Promise<string>} The URL for the user to complete the sale.
+     * @returns {Promise<SellResult & FiatQuote>} The operation's result.
      */
-    sell(options: SellOptions): Promise<string>;
+    sell(options: SellOptions): Promise<SellResult & FiatQuote>;
     /**
      * Retrieves the details of a specific transaction from the provider.
      * @param {string} txId - The unique identifier of the transaction.
@@ -85,9 +85,9 @@ export default abstract class FiatProtocol implements IFiatProtocol {
      * Generates a URL for a user to purchase a crypto asset with fiat currency.
      * @abstract
      * @param {BuyOptions} options - The options for the buy operation.
-     * @returns {Promise<string>} The URL for the user to complete the purchase.
+     * @returns {Promise<BuyResult & FiatQuote>} The URL for the user to complete the purchase.
      */
-    abstract buy(options: BuyOptions): Promise<string>;
+    abstract buy(options: BuyOptions): Promise<BuyResult & FiatQuote>;
     /**
      * Gets a quote for a crypto asset sale.
      * @abstract
@@ -99,9 +99,9 @@ export default abstract class FiatProtocol implements IFiatProtocol {
      * Generates a URL for a user to sell a crypto asset for fiat currency.
      * @abstract
      * @param {SellOptions} options - The options for the sell operation.
-     * @returns {Promise<string>} The URL for the user to complete the sale.
+     * @returns {Promise<SellResult & FiatQuote>} The URL for the user to complete the sale.
      */
-    abstract sell(options: SellOptions): Promise<string>;
+    abstract sell(options: SellOptions): Promise<SellResult & FiatQuote>;
     /**
      * Retrieves the details of a specific transaction from the provider.
      * @abstract
@@ -150,10 +150,6 @@ export type FiatTransactionDetail = {
      * - The currency's ISO 4217 code (e.g., 'USD').
      */
     fiatCurrency: string;
-    /**
-     * - Provider-specific raw data for this transaction.
-     */
-    metadata?: Record<string, unknown>;
 };
 /**
  * A protocol-agnostic, standardized object representing a supported crypto asset.
@@ -175,10 +171,6 @@ export type SupportedCryptoAsset = {
      * - The asset's full name (e.g., 'Bitcoin').
      */
     name?: string;
-    /**
-     * - Provider-specific raw data for this asset.
-     */
-    metadata?: Record<string, unknown>;
 };
 /**
  * A protocol-agnostic, standardized object representing a supported fiat currency.
@@ -196,10 +188,6 @@ export type SupportedFiatCurrency = {
      * - The currency's full name (e.g., 'United States Dollar').
      */
     name?: string;
-    /**
-     * - Provider-specific raw data for this currency.
-     */
-    metadata?: Record<string, unknown>;
 };
 /**
  * A protocol-agnostic, standardized object representing a supported country.
@@ -221,10 +209,6 @@ export type SupportedCountry = {
      * - The country's common name.
      */
     name?: string;
-    /**
-     * - Provider-specific raw data for this region.
-     */
-    metadata?: Record<string, unknown>;
 };
 export type BuyOptions = BuyCommonOptions & (BuyExactCryptoAmountOptions | BuyWithFiatAmountOptions);
 export type BuyCommonOptions = {
@@ -261,6 +245,12 @@ export type BuyWithFiatAmountOptions = {
      */
     cryptoAmount?: never;
 };
+export type BuyResult = {
+    /**
+     * - The URL for the user to complete the purchase
+     */
+    buyUrl: string;
+};
 export type SellOptions = SellCommonOptions & (SellExactCryptoAmountOptions | SellForFiatAmountOptions);
 export type SellCommonOptions = {
     /**
@@ -296,6 +286,12 @@ export type SellForFiatAmountOptions = {
      */
     cryptoAmount?: never;
 };
+export type SellResult = {
+    /**
+     * - The URL for the user to complete the purchase
+     */
+    sellUrl: string;
+};
 /**
  * A protocol-agnostic, standardized object representing a quote for an on/off-ramp transaction.
  */
@@ -316,8 +312,4 @@ export type FiatQuote = {
      * - The effective exchange rate, expressed as a string to avoid precision loss (e.g., a rate of "3000.50" for ETH/USD means 1 ETH = 3000.50 USD). Note: This rate applies to the standard units (e.g., ETH and USD).
      */
     rate: string;
-    /**
-     * - Provider-specific raw data for the quote.
-     */
-    metadata?: Record<string, unknown>;
 };
