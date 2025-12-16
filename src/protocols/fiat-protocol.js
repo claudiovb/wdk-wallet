@@ -203,19 +203,24 @@ export class IFiatProtocol {
  */
 export default class FiatProtocol {
   /**
-   * Creates a new fiat protocol with read-only account.
+   * Creates a new interface to the protocol without binding it to a wallet account.
    *
    * @overload
-   * @param {IWalletAccountReadOnly} [account] - The wallet account to use to interact with the protocol.
+   * @param {undefined} [account] - The wallet account to use to interact with the protocol.
    */
-
   /**
-   * Creates a new fiat protocol with read-only account.
+   * Creates a new read-only interface to the protocol.
    *
    * @overload
-   * @param {IWalletAccount} [account] - The wallet account to use to interact with the protocol.
+   * @param {IWalletAccountReadOnly} account - The wallet account to use to interact with the protocol.
    */
-  constructor (account = undefined) {
+  /**
+   * Creates a new interface to the protocol.
+   *
+   * @overload
+   * @param {IWalletAccount} account - The wallet account to use to interact with the protocol.
+   */
+  constructor (account) {
     /**
      * The wallet account to use to interact with the protocol.
      *
