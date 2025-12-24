@@ -1,5 +1,13 @@
+/** @typedef {import('./wallet-account.js').IWalletAccount} IWalletAccount */
+/** @typedef {import('./isigner.js').ISigner} ISigner */
+/** Signer resolution uses positional params: signerName (default: "default") or explicit signer. */
+/**
+ * @typedef {Object} FeeRates
+ * @property {bigint} normal - The fee rate for transaction sent with normal priority.
+ * @property {bigint} fast - The fee rate for transaction sent with fast priority.
+ */
 /** @abstract */
-export default abstract class WalletManager {
+export default class WalletManager {
     /**
      * Returns a random [BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) seed phrase.
      *
@@ -16,12 +24,12 @@ export default abstract class WalletManager {
     /**
      * Creates a new wallet manager.
      *
-     * @param {string | Uint8Array} seed - The wallet's [BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) seed phrase.
+     * @param {ISigner} signer - The default signer for the wallet.
      * @param {WalletConfig} [config] - The wallet configuration.
      */
-    constructor(seed: string | Uint8Array, config?: WalletConfig);
-    /** @private */
-    private _seed;
+    constructor(signer: ISigner, config?: WalletConfig);
+    _signers: Map<any, any>;
+    _accounts: Map<any, any>;
     /**
      * The wallet configuration.
      *
@@ -30,55 +38,51 @@ export default abstract class WalletManager {
      */
     protected _config: WalletConfig;
     /**
-     * A map between derivation paths and wallet accounts. The {@link dispose} method will automatically dispose
-     * all the accounts in this map, so developers are encouraged to map all accounts accessed through the
-     * {@link getAccount} and {@link getAccountByPath} methods.
+     * Creates a new signer.
      *
-     * @protected
-     * @type {{ [path: string]: IWalletAccount }}
+     * @param {string} signerName - The signer name.
+     * @param {ISigner} signer - The signer.
      */
-    protected _accounts: { [path: string]: IWalletAccount };
+    createSigner(signerName: string, signer: ISigner): void;
     /**
-     * The seed phrase of the wallet.
+     * Returns a signer.
      *
-     * @type {Uint8Array}
+     * @param {string} signerName - The signer name.
+     * @returns {ISigner} The signer.
      */
-    get seed(): Uint8Array;
+    getSigner(signerName: string): ISigner;
     /**
      * Returns the wallet account at a specific index (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
      *
      * @abstract
      * @param {number} [index] - The index of the account to get (default: 0).
+     * @param {string} [signerName='default'] - The name of the signer to use.
      * @returns {Promise<IWalletAccount>} The account.
      */
-    abstract getAccount(index?: number): Promise<IWalletAccount>;
+    getAccount(index?: number, signerName?: string): Promise<IWalletAccount>;
     /**
      * Returns the wallet account at a specific [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) derivation path.
      *
      * @abstract
      * @param {string} path - The derivation path (e.g. "0'/0/0").
+     * @param {string} [signerName='default'] - The name of the signer to use.
      * @returns {Promise<IWalletAccount>} The account.
      */
-    abstract getAccountByPath(path: string): Promise<IWalletAccount>;
+    getAccountByPath(path: string, signerName?: string): Promise<IWalletAccount>;
     /**
      * Returns the current fee rates.
      *
      * @abstract
      * @returns {Promise<FeeRates>} The fee rates (in base unit).
      */
-    abstract getFeeRates(): Promise<FeeRates>;
+    getFeeRates(): Promise<FeeRates>;
     /**
      * Disposes all the wallet accounts, erasing their private keys from the memory.
      */
     dispose(): void;
 }
 export type IWalletAccount = import("./wallet-account.js").IWalletAccount;
-export type WalletConfig = {
-    /**
-     * - The maximum fee amount for transfer operations.
-     */
-    transferMaxFee?: number | bigint;
-};
+export type ISigner = import("./isigner.js").ISigner;
 export type FeeRates = {
     /**
      * - The fee rate for transaction sent with normal priority.

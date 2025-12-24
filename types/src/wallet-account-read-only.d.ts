@@ -1,5 +1,26 @@
+/**
+ * @typedef {Object} Transaction
+ * @property {string} to - The transaction's recipient.
+ * @property {number | bigint} value - The amount of native tokens to send to the recipient (in base unit).
+ */
+/**
+ * @typedef {Object} TransactionResult
+ * @property {string} hash - The transaction's hash.
+ * @property {bigint} fee - The gas cost.
+ */
+/**
+ * @typedef {Object} TransferOptions
+ * @property {string} token - The address of the token to transfer.
+ * @property {string} recipient - The address of the recipient.
+ * @property {number | bigint} amount - The amount of tokens to transfer to the recipient (in base units).
+ */
+/**
+ * @typedef {Object} TransferResult
+ * @property {string} hash - The hash of the transfer operation.
+ * @property {bigint} fee - The gas cost.
+ */
 /** @interface */
-export interface IWalletAccountReadOnly {
+export class IWalletAccountReadOnly {
     /**
      * Returns the account's address.
      *
@@ -45,7 +66,7 @@ export interface IWalletAccountReadOnly {
  * @abstract
  * @implements {IWalletAccountReadOnly}
  */
-export default abstract class WalletAccountReadOnly implements IWalletAccountReadOnly {
+export default class WalletAccountReadOnly implements IWalletAccountReadOnly {
     /**
      * Creates a new read-only wallet account.
      *
@@ -73,7 +94,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @abstract
      * @returns {Promise<bigint>} The native token balance.
      */
-    abstract getBalance(): Promise<bigint>;
+    getBalance(): Promise<bigint>;
     /**
      * Returns the account balance for a specific token.
      *
@@ -81,7 +102,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {string} tokenAddress - The smart contract address of the token.
      * @returns {Promise<bigint>} The token balance.
      */
-    abstract getTokenBalance(tokenAddress: string): Promise<bigint>;
+    getTokenBalance(tokenAddress: string): Promise<bigint>;
     /**
      * Quotes the costs of a send transaction operation.
      *
@@ -89,7 +110,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {Transaction} tx - The transaction.
      * @returns {Promise<Omit<TransactionResult, 'hash'>>} The transaction's quotes.
      */
-    abstract quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, "hash">>;
+    quoteSendTransaction(tx: Transaction): Promise<Omit<TransactionResult, "hash">>;
     /**
      * Quotes the costs of a transfer operation.
      *
@@ -97,7 +118,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {TransferOptions} options - The transfer's options.
      * @returns {Promise<Omit<TransferResult, 'hash'>>} The transfer's quotes.
      */
-    abstract quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, "hash">>;
+    quoteTransfer(options: TransferOptions): Promise<Omit<TransferResult, "hash">>;
     /**
      * Returns a transaction's receipt.
      *
@@ -105,7 +126,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {string} hash - The transaction's hash.
      * @returns {Promise<unknown | null>} The receipt, or null if the transaction has not been included in a block yet.
      */
-    abstract getTransactionReceipt(hash: string): Promise<unknown | null>;
+    getTransactionReceipt(hash: string): Promise<unknown | null>;
 }
 export type Transaction = {
     /**

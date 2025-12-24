@@ -1,5 +1,24 @@
+/** @typedef {import('../wallet-account-read-only.js').IWalletAccountReadOnly} IWalletAccountReadOnly */
+/** @typedef {import('../wallet-account.js').IWalletAccount} IWalletAccount */
+/**
+ * @typedef {Object} BridgeProtocolConfig
+ * @property {number | bigint} [bridgeMaxFee] - The maximum fee amount for bridge operations.
+ */
+/**
+ * @typedef {Object} BridgeOptions
+ * @property {string} targetChain - The identifier of the destination blockchain (e.g., "arbitrum").
+ * @property {string} recipient - The address of the recipient.
+ * @property {string} token - The address of the token to bridge.
+ * @property {number | bigint} amount - The amount of tokenss to bridge to the destination chain (in base unit).
+ */
+/**
+ * @typedef {Object} BridgeResult
+ * @property {string} hash - The hash of the bridge operation.
+ * @property {bigint} fee - The gas cost.
+ * @property {bigint} bridgeFee - The amount of native tokens paid to the bridge protocol.
+ */
 /** @interface */
-export interface IBridgeProtocol {
+export class IBridgeProtocol {
     /**
      * Bridges a token to a different blockchain.
      *
@@ -15,8 +34,11 @@ export interface IBridgeProtocol {
      */
     quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, "hash">>;
 }
-/** @abstract */
-export default abstract class BridgeProtocol implements IBridgeProtocol {
+/**
+ * @abstract
+ * @implements {IBridgeProtocol}
+ */
+export default class BridgeProtocol implements IBridgeProtocol {
     /**
      * Creates a new read-only bridge protocol.
      *
@@ -37,9 +59,9 @@ export default abstract class BridgeProtocol implements IBridgeProtocol {
      * The wallet account to use to interact with the protocol.
      *
      * @protected
-     * @type {IWalletAccount}
+     * @type {IWalletAccountReadOnly | IWalletAccount}
      */
-    protected _account: IWalletAccount;
+    protected _account: IWalletAccountReadOnly | IWalletAccount;
     /**
      * The bridge protocol configuration.
      *
@@ -54,7 +76,7 @@ export default abstract class BridgeProtocol implements IBridgeProtocol {
      * @param {BridgeOptions} options - The bridge's options.
      * @returns {Promise<BridgeResult>} The bridge's result.
      */
-    abstract bridge(options: BridgeOptions): Promise<BridgeResult>;
+    bridge(options: BridgeOptions): Promise<BridgeResult>;
     /**
      * Quotes the costs of a bridge operation.
      *
@@ -62,7 +84,7 @@ export default abstract class BridgeProtocol implements IBridgeProtocol {
      * @param {BridgeOptions} options - The bridge's options.
      * @returns {Promise<Omit<BridgeResult, 'hash'>>} The bridge's quotes.
      */
-    abstract quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, "hash">>;
+    quoteBridge(options: BridgeOptions): Promise<Omit<BridgeResult, "hash">>;
 }
 export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
 export type IWalletAccount = import("../wallet-account.js").IWalletAccount;

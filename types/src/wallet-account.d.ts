@@ -1,5 +1,14 @@
+/** @typedef {import('./wallet-account-read-only.js').Transaction} Transaction */
+/** @typedef {import('./wallet-account-read-only.js').TransactionResult} TransactionResult */
+/** @typedef {import('./wallet-account-read-only.js').TransferOptions} TransferOptions */
+/** @typedef {import('./wallet-account-read-only.js').TransferResult} TransferResult */
+/**
+ * @typedef {Object} KeyPair
+ * @property {Uint8Array} publicKey - The public key.
+ * @property {Uint8Array | null} privateKey - The private key (null if the account has been disposed).
+ */
 /** @interface */
-export interface IWalletAccount extends IWalletAccountReadOnly {
+export class IWalletAccount extends IWalletAccountReadOnly {
     /**
      * The derivation path's index of this account.
      *

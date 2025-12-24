@@ -32,7 +32,7 @@ const INVALID_SEED_PHRASE = 'invalid seed phrase'
 describe('WalletManager', () => {
   describe('constructor', () => {
     test('should set the provided signer as the default signer', () => {
-      const signer = { name: 'dummy-signer' } //TODO: refactor for mock implementation of ISigner
+      const signer = { name: 'dummy-signer' }
       const wallet = new DummyWalletManager(signer)
 
       expect(wallet.getSigner('default')).toBe(signer)

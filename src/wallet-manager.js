@@ -18,6 +18,7 @@ import * as bip39 from 'bip39'
 import { NotImplementedError } from './errors.js'
 
 /** @typedef {import('./wallet-account.js').IWalletAccount} IWalletAccount */
+/** @typedef {import('./isigner.js').ISigner} ISigner */
 
 /** Signer resolution uses positional params: signerName (default: "default") or explicit signer. */
 
@@ -36,8 +37,6 @@ export default class WalletManager {
    * @param {WalletConfig} [config] - The wallet configuration.
    */
   constructor (signer, config = { }) {
-    // TODO: create ISigner in JSDocs
-    // TODO: add validation for signer
     this._signers = new Map()
     this._signers.set('default', signer)
     this._accounts = new Map()
