@@ -23,6 +23,11 @@ import { NotImplementedError } from './errors.js'
 /** Signer resolution uses positional params: signerName (default: "default") or explicit signer. */
 
 /**
+ * @typedef {Object} WalletConfig
+ * @property {number | bigint} [transferMaxFee] - The maximum fee amount for transfer operations.
+ */
+
+/**
  * @typedef {Object} FeeRates
  * @property {bigint} normal - The fee rate for transaction sent with normal priority.
  * @property {bigint} fast - The fee rate for transaction sent with fast priority.

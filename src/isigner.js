@@ -2,6 +2,7 @@
 
 import { NotImplementedError } from './errors.js'
 
+/** @typedef {import('./wallet-manager.js').WalletConfig} WalletConfig */
 /**
  * A minimal, cross-chain signer interface.
  *
@@ -32,7 +33,7 @@ export class ISigner {
    *  - Implementation-specific segmenting, as applicable
    *
    * @param {string} relPath - The relative derivation path.
-   * @param {Record<string, any>} [cfg] - Optional chain-specific configuration.
+   * @param {WalletConfig} [cfg] - Optional chain-specific configuration.
    * @returns {ISigner} The derived signer.
    */
   derive (relPath, cfg) {
