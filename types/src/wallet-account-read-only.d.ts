@@ -12,6 +12,7 @@ export interface IWalletAccountReadOnly {
      * @param {string} message - The original message.
      * @param {string} signature - The signature to verify.
      * @returns {Promise<boolean>} True if the signature is valid.
+     * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
      */
     verify(message: string, signature: string): Promise<boolean>;
     /**
@@ -82,6 +83,7 @@ export default abstract class WalletAccountReadOnly implements IWalletAccountRea
      * @param {string} message - The original message.
      * @param {string} signature - The signature to verify.
      * @returns {Promise<boolean>} True if the signature is valid.
+     * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
      */
     abstract verify(message: string, signature: string): Promise<boolean>;
     /**

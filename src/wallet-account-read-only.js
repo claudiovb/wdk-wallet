@@ -57,6 +57,7 @@ export class IWalletAccountReadOnly {
    * @param {string} message - The original message.
    * @param {string} signature - The signature to verify.
    * @returns {Promise<boolean>} True if the signature is valid.
+   * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
    */
   async verify (message, signature) {
     throw new NotImplementedError('verify(message, signature)')
@@ -156,6 +157,7 @@ export default class WalletAccountReadOnly {
    * @abstract
    * @param {string} message - The original message.
    * @param {string} signature - The signature to verify.
+   * @throws {Error} If the read-only wallet account class is not able to provide an implementation for the method.
    * @returns {Promise<boolean>} True if the signature is valid.
    */
   async verify (message, signature) {
