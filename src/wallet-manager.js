@@ -20,8 +20,6 @@ import { NotImplementedError } from './errors.js'
 /** @typedef {import('./wallet-account.js').IWalletAccount} IWalletAccount */
 /** @typedef {import('./isigner.js').ISigner} ISigner */
 
-/** Signer resolution uses positional params: signerName (default: "default") or explicit signer. */
-
 /**
  * @typedef {Object} WalletConfig
  * @property {number | bigint} [transferMaxFee] - The maximum fee amount for transfer operations.
@@ -42,9 +40,24 @@ export default class WalletManager {
    * @param {WalletConfig} [config] - The wallet configuration.
    */
   constructor (signer, config = { }) {
-    this._signers = new Map()
-    this._signers.set('default', signer)
-    this._accounts = new Map()
+    /**
+     * A map between signer names and signers.
+     *
+     * @protected
+     * @type {{ [name: string]: ISigner }}
+     */
+    this._signers = { default: signer }
+
+    /**
+     * A map between derivation paths and wallet accounts. The {@link dispose} method will automatically dispose
+     * all the accounts in this map, so developers are encouraged to map all accounts accessed through the
+     * {@link getAccount} and {@link getAccountByPath} methods.
+     *
+     * @protected
+     * @type {{ [path: string]: IWalletAccount }}
+     */
+    this._accounts = {}
+
     /**
      * The wallet configuration.
      *
@@ -78,6 +91,7 @@ export default class WalletManager {
   /**
    * Creates a new signer.
    *
+   * @abstract
    * @param {string} signerName - The signer name.
    * @param {ISigner} signer - The signer.
    */
@@ -91,9 +105,8 @@ export default class WalletManager {
    * @param {string} signerName - The signer name.
    * @returns {ISigner} The signer.
    */
-  // Maybe we should leave this method abstract and implement it in the concrete class?
   getSigner (signerName) {
-    return this._signers.get(signerName)
+    return this._signers[signerName]
   }
 
   /**
@@ -134,17 +147,19 @@ export default class WalletManager {
    * Disposes all the wallet accounts, erasing their private keys from the memory.
    */
   dispose () {
-    for (const signer of Object.values(this._signers)) {
-      if (signer.isActive) {
-        signer.dispose()
-      }
-    }
     for (const account of Object.values(this._accounts)) {
-      if (account.isActive) {
+      if (account.keyPair.privateKey) {
         account.dispose()
       }
     }
-    this._signers = {}
+
+    for (const signer of Object.values(this._signers)) {
+      if (signer.keyPair?.privateKey) {
+        signer.dispose()
+      }
+    }
+
     this._accounts = {}
+    this._signers = {}
   }
 }

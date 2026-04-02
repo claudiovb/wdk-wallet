@@ -17,7 +17,6 @@ import { NotImplementedError } from './errors.js'
  * interface chain-agnostic.
  *
  * Common optional fields/methods implementers may provide:
- *  - isActive: boolean
  *  - index: number | undefined
  *  - path: string | undefined
  *  - address: string | undefined
