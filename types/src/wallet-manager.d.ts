@@ -2,6 +2,10 @@
 /** @typedef {import('./isigner.js').ISigner} ISigner */
 /** Signer resolution uses positional params: signerName (default: "default") or explicit signer. */
 /**
+ * @typedef {Object} WalletConfig
+ * @property {number | bigint} [transferMaxFee] - The maximum fee amount for transfer operations.
+ */
+/**
  * @typedef {Object} FeeRates
  * @property {bigint} normal - The fee rate for transaction sent with normal priority.
  * @property {bigint} fast - The fee rate for transaction sent with fast priority.
@@ -84,6 +88,12 @@ export default class WalletManager {
 }
 export type IWalletAccount = import("./wallet-account.js").IWalletAccount;
 export type ISigner = import("./isigner.js").ISigner;
+export type WalletConfig = {
+    /**
+     * - The maximum fee amount for transfer operations.
+     */
+    transferMaxFee?: number | bigint;
+};
 export type FeeRates = {
     /**
      * - The fee rate for transaction sent with normal priority.
