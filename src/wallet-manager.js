@@ -185,15 +185,11 @@ export default class WalletManager {
    */
   dispose () {
     for (const account of Object.values(this._accounts)) {
-      if (account.keyPair.privateKey) {
-        account.dispose()
-      }
+      account.dispose()
     }
 
     for (const signer of Object.values(this._signers)) {
-      if (signer.keyPair?.privateKey) {
-        signer.dispose()
-      }
+      signer.dispose()
     }
 
     this._accounts = {}
