@@ -1,14 +1,5 @@
-/** @typedef {import('./wallet-account-read-only.js').Transaction} Transaction */
-/** @typedef {import('./wallet-account-read-only.js').TransactionResult} TransactionResult */
-/** @typedef {import('./wallet-account-read-only.js').TransferOptions} TransferOptions */
-/** @typedef {import('./wallet-account-read-only.js').TransferResult} TransferResult */
-/**
- * @typedef {Object} KeyPair
- * @property {Uint8Array} publicKey - The public key.
- * @property {Uint8Array | null} privateKey - The private key (null if the account has been disposed).
- */
 /** @interface */
-export class IWalletAccount extends IWalletAccountReadOnly {
+export interface IWalletAccount extends IWalletAccountReadOnly {
     /**
      * The derivation path's index of this account.
      *
@@ -35,12 +26,20 @@ export class IWalletAccount extends IWalletAccountReadOnly {
      */
     sign(message: string): Promise<string>;
     /**
-     * Signs a transaction
+     * Signs a transaction.
      *
      * @param {Transaction} tx - The transaction to sign.
      * @returns {Promise<unknown>} The signed transaction.
      */
     signTransaction(tx: Transaction): Promise<unknown>;
+    /**
+     * Verifies a message's signature.
+     *
+     * @param {string} message - The original message.
+     * @param {string} signature - The signature to verify.
+     * @returns {Promise<boolean>} True if the signature is valid.
+     */
+    verify(message: string, signature: string): Promise<boolean>;
     /**
      * Sends a transaction.
      *

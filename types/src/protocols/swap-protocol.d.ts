@@ -1,37 +1,5 @@
-/** @typedef {import('../wallet-account-read-only.js').IWalletAccountReadOnly} IWalletAccountReadOnly */
-/** @typedef {import('../wallet-account.js').IWalletAccount} IWalletAccount */
-/**
- * @typedef {Object} SwapProtocolConfig
- * @property {number | bigint} [swapMaxFee] - The maximum fee amount for swap operations.
- */
-/**
- * @typedef {SwapCommonOptions & (SwapBuyOptions | SwapSellOptions)} SwapOptions
- */
-/**
- * @typedef {Object} SwapCommonOptions
- * @property {string} tokenIn - The address of the token to sell.
- * @property {string} tokenOut - The address of the token to buy.
- * @property {string} [to] - The address that will receive the output tokens. If not set, the account itself will receive the funds.
- */
-/**
- * @typedef {Object} SwapBuyOptions
- * @property {never} [tokenInAmount] - The amount of input tokens to sell (in base unit).
- * @property {number | bigint} tokenOutAmount - The amount of output tokens to buy (in base unit).
- */
-/**
- * @typedef {Object} SwapSellOptions
- * @property {number | bigint} tokenInAmount - The amount of input tokens to sell (in base unit).
- * @property {never} [tokenOutAmount] - The amount of output tokens to buy (in base unit).
- */
-/**
- * @typedef {Object} SwapResult
- * @property {string} hash - The hash of the swap operation.
- * @property {bigint} fee - The gas cost.
- * @property {bigint} tokenInAmount - The amount of input tokens sold.
- * @property {bigint} tokenOutAmount - The amount of output tokens bought.
- */
 /** @interface */
-export class ISwapProtocol {
+export interface ISwapProtocol {
     /**
      * Swaps a pair of tokens.
      *
@@ -47,11 +15,8 @@ export class ISwapProtocol {
      */
     quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, "hash">>;
 }
-/**
- * @abstract
- * @implements {ISwapProtocol}
- */
-export default class SwapProtocol implements ISwapProtocol {
+/** @abstract */
+export default abstract class SwapProtocol implements ISwapProtocol {
     /**
      * Creates a new read-only swap protocol.
      *
@@ -89,7 +54,7 @@ export default class SwapProtocol implements ISwapProtocol {
      * @param {SwapOptions} options - The swap's options.
      * @returns {Promise<SwapResult>} The swap's result.
      */
-    swap(options: SwapOptions): Promise<SwapResult>;
+    abstract swap(options: SwapOptions): Promise<SwapResult>;
     /**
      * Quotes the costs of a swap operation.
      *
@@ -97,7 +62,7 @@ export default class SwapProtocol implements ISwapProtocol {
      * @param {SwapOptions} options - The swap's options.
      * @returns {Promise<Omit<SwapResult, 'hash'>>} The swap's quotes.
      */
-    quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, "hash">>;
+    abstract quoteSwap(options: SwapOptions): Promise<Omit<SwapResult, "hash">>;
 }
 export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
 export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
@@ -108,7 +73,7 @@ export type SwapProtocolConfig = {
     swapMaxFee?: number | bigint;
 };
 export type SwapOptions = SwapCommonOptions & (SwapBuyOptions | SwapSellOptions);
-export type SwapCommonOptions = {
+type SwapCommonOptions = {
     /**
      * - The address of the token to sell.
      */
@@ -122,7 +87,7 @@ export type SwapCommonOptions = {
      */
     to?: string;
 };
-export type SwapBuyOptions = {
+type SwapBuyOptions = {
     /**
      * - The amount of input tokens to sell (in base unit).
      */
@@ -132,7 +97,7 @@ export type SwapBuyOptions = {
      */
     tokenOutAmount: number | bigint;
 };
-export type SwapSellOptions = {
+type SwapSellOptions = {
     /**
      * - The amount of input tokens to sell (in base unit).
      */
