@@ -137,10 +137,10 @@ export default class WalletManager {
   }
 
   /**
-   * Returns a signer.
+   * Returns a signer by name, if it exists.
    *
    * @param {string} signerName - The signer name.
-   * @returns {ISigner} The signer.
+   * @returns {ISigner | undefined} The signer, or `undefined` when no signer is registered under that name.
    */
   getSigner (signerName) {
     return this._signers[signerName]
@@ -155,7 +155,7 @@ export default class WalletManager {
    * @returns {Promise<IWalletAccount>} The account.
    */
   async getAccount (index = 0, signerName = 'default') {
-    throw new NotImplementedError('getAccount(index)')
+    throw new NotImplementedError('getAccount(index, signerName?)')
   }
 
   /**
@@ -167,7 +167,7 @@ export default class WalletManager {
    * @returns {Promise<IWalletAccount>} The account.
    */
   async getAccountByPath (path, signerName = 'default') {
-    throw new NotImplementedError('getAccountByPath(path)')
+    throw new NotImplementedError('getAccountByPath(path, signerName?)')
   }
 
   /**
@@ -181,7 +181,7 @@ export default class WalletManager {
   }
 
   /**
-   * Disposes all the wallet accounts, erasing their private keys from the memory.
+   * Disposes all wallet accounts and signers, clearing secret material from memory.
    */
   dispose () {
     for (const account of Object.values(this._accounts)) {

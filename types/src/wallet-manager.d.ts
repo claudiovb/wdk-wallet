@@ -10,7 +10,7 @@
  * @property {bigint} fast - The fee rate for transaction sent with fast priority.
  */
 /** @abstract */
-export default class WalletManager {
+export default abstract class WalletManager {
     /**
      * Returns a random [BIP-39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) seed phrase.
      *
@@ -37,7 +37,7 @@ export default class WalletManager {
      */
     constructor(seedOrSigner: string | Uint8Array | ISigner, config?: WalletConfig);
     /** @private */
-    private _seed;
+    private _seed: Uint8Array | null;
     /**
      * A map between signer names and signers.
      *
@@ -78,14 +78,14 @@ export default class WalletManager {
      * @param {string} signerName - The signer name.
      * @param {ISigner} signer - The signer.
      */
-    createSigner(signerName: string, signer: ISigner): void;
+    abstract createSigner(signerName: string, signer: ISigner): void;
     /**
-     * Returns a signer.
+     * Returns a signer by name, if it exists.
      *
      * @param {string} signerName - The signer name.
-     * @returns {ISigner} The signer.
+     * @returns {ISigner | undefined} The signer, or `undefined` when no signer is registered under that name.
      */
-    getSigner(signerName: string): ISigner;
+    getSigner(signerName: string): ISigner | undefined;
     /**
      * Returns the wallet account at a specific index (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
      *
@@ -94,7 +94,7 @@ export default class WalletManager {
      * @param {string} [signerName='default'] - The name of the signer to use.
      * @returns {Promise<IWalletAccount>} The account.
      */
-    getAccount(index?: number, signerName?: string): Promise<IWalletAccount>;
+    abstract getAccount(index?: number, signerName?: string): Promise<IWalletAccount>;
     /**
      * Returns the wallet account at a specific [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) derivation path.
      *
@@ -103,16 +103,16 @@ export default class WalletManager {
      * @param {string} [signerName='default'] - The name of the signer to use.
      * @returns {Promise<IWalletAccount>} The account.
      */
-    getAccountByPath(path: string, signerName?: string): Promise<IWalletAccount>;
+    abstract getAccountByPath(path: string, signerName?: string): Promise<IWalletAccount>;
     /**
      * Returns the current fee rates.
      *
      * @abstract
      * @returns {Promise<FeeRates>} The fee rates (in base unit).
      */
-    getFeeRates(): Promise<FeeRates>;
+    abstract getFeeRates(): Promise<FeeRates>;
     /**
-     * Disposes all the wallet accounts, erasing their private keys from the memory.
+     * Disposes all wallet accounts and signers, clearing secret material from memory.
      */
     dispose(): void;
 }

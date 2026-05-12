@@ -1,4 +1,3 @@
-/** @typedef {import('./wallet-manager.js').WalletConfig} WalletConfig */
 /**
  * A minimal, cross-chain signer interface.
  *
@@ -28,10 +27,10 @@ export class ISigner {
      *  - Implementation-specific segmenting, as applicable
      *
      * @param {string} relPath - The relative derivation path.
-     * @param {WalletConfig} [cfg] - Optional chain-specific configuration.
+     * @param {import("./wallet-manager.js").WalletConfig} [cfg] - Optional chain-specific configuration.
      * @returns {ISigner} The derived signer.
      */
-    derive(relPath: string, cfg?: WalletConfig): ISigner;
+    derive(relPath: string, cfg?: import("./wallet-manager.js").WalletConfig): ISigner;
     /**
      * Returns the signer's address.
      *
@@ -40,7 +39,7 @@ export class ISigner {
     getAddress(): Promise<string>;
     /**
      * Disposes the signer and clears any secret material from memory.
+     * Implementations should be idempotent (safe to call more than once).
      */
     dispose(): void;
 }
-export type WalletConfig = import("./wallet-manager.js").WalletConfig;
