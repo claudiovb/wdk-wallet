@@ -137,13 +137,18 @@ export default class WalletManager {
   }
 
   /**
-   * Returns a signer by name, if it exists.
+   * Returns a signer registered under the given name.
    *
    * @param {string} signerName - The signer name.
-   * @returns {ISigner | undefined} The signer, or `undefined` when no signer is registered under that name.
+   * @returns {ISigner} The signer.
+   * @throws {Error} If no signer is registered under `signerName`.
    */
   getSigner (signerName) {
-    return this._signers[signerName]
+    const signer = this._signers[signerName]
+    if (signer === undefined) {
+      throw new Error(`No signer registered with name "${signerName}".`)
+    }
+    return signer
   }
 
   /**

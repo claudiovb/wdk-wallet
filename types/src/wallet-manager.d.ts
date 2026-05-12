@@ -80,12 +80,13 @@ export default abstract class WalletManager {
      */
     abstract createSigner(signerName: string, signer: ISigner): void;
     /**
-     * Returns a signer by name, if it exists.
+     * Returns a signer registered under the given name.
      *
      * @param {string} signerName - The signer name.
-     * @returns {ISigner | undefined} The signer, or `undefined` when no signer is registered under that name.
+     * @returns {ISigner} The signer.
+     * @throws {Error} If no signer is registered under `signerName`.
      */
-    getSigner(signerName: string): ISigner | undefined;
+    getSigner(signerName: string): ISigner;
     /**
      * Returns the wallet account at a specific index (see [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)).
      *

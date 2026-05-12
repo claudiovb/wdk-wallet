@@ -1,8 +1,19 @@
 import * as bip39 from 'bip39'
 
-import { describe, expect, test } from '@jest/globals'
+import { describe, expect, jest, test } from '@jest/globals'
 
 import WalletManager from '../index.js'
+
+/**
+ * @param {string} [name]
+ * @returns {{ name: string, dispose: ReturnType<typeof jest.fn> }}
+ */
+function createDummySigner (name = 'dummy') {
+  return {
+    name,
+    dispose: jest.fn()
+  }
+}
 
 class DummyWalletManager extends WalletManager {
   async getAccount (index = 0) {
@@ -21,7 +32,7 @@ class DummyWalletManager extends WalletManager {
   }
 
   dispose () {
-
+    super.dispose()
   }
 }
 
@@ -52,10 +63,17 @@ describe('WalletManager', () => {
     })
 
     test('should set the provided signer as the default signer', () => {
-      const signer = { name: 'dummy-signer' }
+      const signer = createDummySigner('dummy-signer')
       const wallet = new DummyWalletManager(signer)
 
       expect(wallet.getSigner('default')).toBe(signer)
+    })
+
+    test('should throw when requesting a signer that does not exist (seed-based manager)', () => {
+      const wallet = new DummyWalletManager(SEED_PHRASE)
+
+      expect(() => wallet.getSigner('default'))
+        .toThrow('No signer registered with name "default".')
     })
   })
 
@@ -109,11 +127,27 @@ describe('WalletManager', () => {
   })
 
   describe('getSigner', () => {
-    test('should return the default signer when only default signer exists', () => {
-      const signer = { name: 'default-signer' }
+    test('should throw when requesting an unknown signer name', () => {
+      const signer = createDummySigner('only-default')
+      const wallet = new DummyWalletManager(signer)
+
+      expect(() => wallet.getSigner('ledger'))
+        .toThrow('No signer registered with name "ledger".')
+    })
+  })
+
+  describe('dispose', () => {
+    test('should delegate to WalletManager.dispose and clear signer maps', () => {
+      const signer = createDummySigner('default-signer')
       const wallet = new DummyWalletManager(signer)
 
       expect(wallet.getSigner('default')).toBe(signer)
+
+      wallet.dispose()
+
+      expect(signer.dispose).toHaveBeenCalledTimes(1)
+      expect(() => wallet.getSigner('default'))
+        .toThrow('No signer registered with name "default".')
     })
   })
 })
