@@ -41,7 +41,7 @@ export class ISigner {
    * Derive a child signer using a relative path (e.g., "0'/0/0").
    *
    * @param {string} relPath - The relative derivation path.
-   * @param {WalletConfig} [cfg] - Optional chain-specific configuration.
+   * @param {unknown} [config] - Optional chain-specific configuration.
    * @returns {ISigner} The derived signer.
    */
   derive (relPath, cfg) {
