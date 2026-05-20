@@ -31,8 +31,8 @@ import { NotImplementedError } from '../errors.js'
 
 /**
  * @typedef {Object} SwidgeProtocolConfig
- * @property {bigint} [swidgeMaxFee] - The maximum total fee for swidge operations.
- * @property {bigint} [swidgeMaxProtocolFee] - The maximum protocol fee for swidge operations.
+ * @property {number | bigint} [swidgeMaxFee] - The maximum total fee for swidge operations.
+ * @property {number | bigint} [swidgeMaxProtocolFee] - The maximum protocol fee for swidge operations.
  */
 
 /**
@@ -82,7 +82,7 @@ import { NotImplementedError } from '../errors.js'
  * Represents a single logical swidge operation from the consumer's perspective.
  * Providers that internally decompose the operation into multiple sequential transactions
  * should encapsulate that decomposition behind a single quote
- * and handle the step-by-step execution within `executeSwidge`.
+ * and handle the step-by-step execution within `swidge`.
  *
  * @typedef {Object} SwidgeQuote
  * @property {bigint} fromTokenAmount - The amount of source tokens to spend.
@@ -94,7 +94,7 @@ import { NotImplementedError } from '../errors.js'
  * @property {number} [estimatedDuration] - Estimated duration in seconds.
  * @property {number} [expiry] - Unix timestamp (seconds) at which the quote expires.
  * @property {number} [priceImpact] - Provider-reported estimated price impact as a decimal (e.g., 0.01 for 1%).
- * @property {object} [providerData] - Opaque provider-specific data required to execute the swidge.
+ * @property {Record<string, unknown>} [providerData] - Opaque provider-specific data required to execute the swidge.
  */
 
 /**
@@ -108,21 +108,21 @@ import { NotImplementedError } from '../errors.js'
  * @property {bigint} fromTokenAmount - The actual amount of source tokens spent.
  * @property {bigint} toTokenAmount - The actual or expected amount of destination tokens.
  * @property {bigint} [toTokenAmountMin] - The minimum guaranteed amount after slippage.
- * @property {object} [providerData] - Opaque provider-specific data for status tracking.
+ * @property {Record<string, unknown>} [providerData] - Opaque provider-specific data for status tracking.
  */
 
 /**
  * @typedef {Object} SwidgeStatusOptions
  * @property {string | number} [fromChain] - The source chain identifier.
  * @property {string | number} [toChain] - The destination chain identifier.
- * @property {object} [providerData] - Opaque provider-specific data to assist status lookup.
+ * @property {Record<string, unknown>} [providerData] - Opaque provider-specific data to assist status lookup.
  */
 
 /**
  * @typedef {Object} SwidgeStatusResult
  * @property {SwidgeStatus} status - The current status of the swidge.
  * @property {SwidgeTransaction[]} [transactions] - Transactions associated with the swidge.
- * @property {object} [providerData] - Opaque provider-specific data.
+ * @property {Record<string, unknown>} [providerData] - Opaque provider-specific data.
  */
 
 /**
@@ -131,7 +131,7 @@ import { NotImplementedError } from '../errors.js'
  * @property {string} name - The human-readable chain name.
  * @property {string} [type] - The chain or virtual machine type (e.g., 'evm', 'svm', 'utxo').
  * @property {string} [nativeToken] - The symbol of the chain's native token.
- * @property {object} [providerData] - Opaque provider-specific metadata.
+ * @property {Record<string, unknown>} [providerData] - Opaque provider-specific metadata.
  */
 
 /**
@@ -142,7 +142,7 @@ import { NotImplementedError } from '../errors.js'
  * @property {number} decimals - The number of decimal places for the token's base unit.
  * @property {string} [address] - The token contract address, if applicable.
  * @property {string} [name] - The token's full name.
- * @property {object} [providerData] - Opaque provider-specific metadata.
+ * @property {Record<string, unknown>} [providerData] - Opaque provider-specific metadata.
  */
 
 /**
@@ -171,16 +171,17 @@ export class ISwidgeProtocol {
    * @param {SwidgeProtocolConfig} [config] - Optional fee limits for the execution.
    * @returns {Promise<SwidgeResult>} The swidge execution result.
    */
-  async executeSwidge (quote, config) {
-    throw new NotImplementedError('executeSwidge(quote, config)')
+  async swidge (quote, config) {
+    throw new NotImplementedError('swidge(quote, config)')
   }
 
   /**
    * Retrieves the current status of an in-flight swidge.
    *
-   * @param {string} id - The swidge execution identifier returned by executeSwidge.
+   * @param {string} id - The swidge execution identifier returned by swidge.
    * @param {SwidgeStatusOptions} [options] - Optional hints to assist provider lookups.
    * @returns {Promise<SwidgeStatusResult>} The current swidge status.
+   * @throws {Error} If the id is invalid, or no swidge exists with the given identifier.
    */
   async getSwidgeStatus (id, options) {
     throw new NotImplementedError('getSwidgeStatus(id, options)')
@@ -271,17 +272,18 @@ export default class SwidgeProtocol {
    * @param {SwidgeProtocolConfig} [config] - Optional fee limits for the execution.
    * @returns {Promise<SwidgeResult>} The swidge execution result.
    */
-  async executeSwidge (quote, config) {
-    throw new NotImplementedError('executeSwidge(quote, config)')
+  async swidge (quote, config) {
+    throw new NotImplementedError('swidge(quote, config)')
   }
 
   /**
    * Retrieves the current status of an in-flight swidge.
    *
    * @abstract
-   * @param {string} id - The swidge execution identifier returned by executeSwidge.
+   * @param {string} id - The swidge execution identifier returned by swidge.
    * @param {SwidgeStatusOptions} [options] - Optional hints to assist provider lookups.
    * @returns {Promise<SwidgeStatusResult>} The current swidge status.
+   * @throws {Error} If the id is invalid, or no swidge exists with the given identifier.
    */
   async getSwidgeStatus (id, options) {
     throw new NotImplementedError('getSwidgeStatus(id, options)')
