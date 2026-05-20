@@ -87,6 +87,7 @@ import { NotImplementedError } from '../errors.js'
  * @property {SwidgeFee[]} [fees] - Itemized fee breakdown.
  * @property {number} [estimatedDuration] - Estimated duration in seconds.
  * @property {number} [expiry] - Unix timestamp (seconds) at which the quote expires.
+ * @property {number} [priceImpact] - Provider-reported estimated price impact as a decimal (e.g., 0.01 for 1%).
  * @property {object} providerData - Opaque provider-specific data required to execute the swidge.
  */
 
