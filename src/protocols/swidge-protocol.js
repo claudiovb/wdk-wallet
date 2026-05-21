@@ -89,7 +89,6 @@ import { NotImplementedError } from '../errors.js'
  * @property {number} [estimatedDuration] - Estimated duration in seconds.
  * @property {number} [expiry] - Unix timestamp (seconds) at which the quote expires.
  * @property {number} [priceImpact] - Provider-reported estimated price impact as a decimal (e.g., 0.01 for 1%).
- * @property {Record<string, unknown>} [providerData] - Opaque provider-specific quote metadata.
  */
 
 /**
@@ -101,30 +100,26 @@ import { NotImplementedError } from '../errors.js'
  * @property {bigint} fromTokenAmount - The actual amount of source tokens spent.
  * @property {bigint} toTokenAmount - The actual or expected amount of destination tokens.
  * @property {bigint} [toTokenAmountMin] - The minimum guaranteed amount after slippage.
- * @property {Record<string, unknown>} [providerData] - Opaque provider-specific data for status tracking.
  */
 
 /**
  * @typedef {Object} SwidgeStatusOptions
  * @property {string | number} [fromChain] - The source chain identifier.
  * @property {string | number} [toChain] - The destination chain identifier.
- * @property {Record<string, unknown>} [providerData] - Opaque provider-specific data to assist status lookup.
  */
 
 /**
  * @typedef {Object} SwidgeStatusResult
  * @property {SwidgeStatus} status - The current status of the swidge.
  * @property {SwidgeTransaction[]} [transactions] - Transactions associated with the swidge.
- * @property {Record<string, unknown>} [providerData] - Opaque provider-specific data.
  */
 
 /**
  * @typedef {Object} SwidgeSupportedChain
  * @property {string | number} id - The provider-specific chain identifier.
  * @property {string} name - The human-readable chain name.
- * @property {string} [type] - The chain or virtual machine type (e.g., 'evm', 'svm', 'utxo').
- * @property {string} [nativeToken] - The symbol of the chain's native token.
- * @property {Record<string, unknown>} [providerData] - Opaque provider-specific metadata.
+ * @property {string} type - The chain or virtual machine type (e.g., 'evm', 'svm', 'utxo').
+ * @property {string} nativeToken - The symbol of the chain's native token.
  */
 
 /**
@@ -135,7 +130,6 @@ import { NotImplementedError } from '../errors.js'
  * @property {number} decimals - The number of decimal places for the token's base unit.
  * @property {string} [address] - The token contract address, if applicable.
  * @property {string} [name] - The token's full name.
- * @property {Record<string, unknown>} [providerData] - Opaque provider-specific metadata.
  */
 
 /**
