@@ -25,11 +25,10 @@ export class ISigner {
    * Derive a child signer using a relative path (e.g., "0'/0/0").
    *
    * @param {string} relPath - The relative derivation path.
-   * @param {unknown} [config] - Optional chain-specific configuration.
    * @returns {Promise<ISigner>} The derived signer.
    */
-  async derive (relPath, config) {
-    throw new NotImplementedError('derive(relPath, config?)')
+  async derive (relPath) {
+    throw new NotImplementedError('derive(relPath)')
   }
 
   /**

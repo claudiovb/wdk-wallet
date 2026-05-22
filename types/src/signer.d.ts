@@ -8,10 +8,9 @@ export class ISigner {
      * Derive a child signer using a relative path (e.g., "0'/0/0").
      *
      * @param {string} relPath - The relative derivation path.
-     * @param {unknown} [config] - Optional chain-specific configuration.
      * @returns {Promise<ISigner>} The derived signer.
      */
-    derive(relPath: string, config?: unknown): Promise<ISigner>;
+    derive(relPath: string): Promise<ISigner>;
     /**
      * Returns the signer's address.
      *

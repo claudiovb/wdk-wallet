@@ -5,7 +5,7 @@ import { describe, expect, jest, test } from '@jest/globals'
 import WalletManager from '../index.js'
 
 class DummySigner {
-  async derive (relPath, options) {
+  async derive (relPath) {
     return this
   }
 
