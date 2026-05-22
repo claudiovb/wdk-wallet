@@ -33,12 +33,13 @@ import { NotImplementedError } from '../errors.js'
  */
 
 /**
- * @typedef {'gas' | 'protocol' | 'bridge' | 'relayer'
- *          | 'application' | 'affiliate' | 'liquidity' | 'other'} SwidgeFeeType
+ * @typedef {'network' | 'protocol' | 'affiliate' | 'other'} SwidgeFeeType
  */
 
 /**
  * @typedef {Object} SwidgeProtocolConfig
+ * @property {number | bigint} [maxNetworkFeeBps] - Maximum acceptable network fee in basis points of the input amount.
+ * @property {number | bigint} [maxProtocolFeeBps] - Maximum acceptable protocol fee in basis points of the input amount.
  */
 
 /**

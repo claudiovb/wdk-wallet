@@ -11,11 +11,12 @@
  *          | 'refund-pending' | 'refunded' | 'cancelled' | 'expired' | 'partial'} SwidgeStatus
  */
 /**
- * @typedef {'gas' | 'protocol' | 'bridge' | 'relayer'
- *          | 'application' | 'affiliate' | 'liquidity' | 'other'} SwidgeFeeType
+ * @typedef {'network' | 'protocol' | 'affiliate' | 'other'} SwidgeFeeType
  */
 /**
  * @typedef {Object} SwidgeProtocolConfig
+ * @property {number | bigint} [maxNetworkFeeBps] - Maximum acceptable network fee in basis points of the input amount.
+ * @property {number | bigint} [maxProtocolFeeBps] - Maximum acceptable protocol fee in basis points of the input amount.
  */
 /**
  * @typedef {SwidgeCommonOptions & (SwidgeExactInOptions | SwidgeExactOutOptions)} SwidgeOptions
@@ -281,8 +282,17 @@ export type IBridgeProtocol = import("./bridge-protocol.js").IBridgeProtocol;
 export type BridgeOptions = import("./bridge-protocol.js").BridgeOptions;
 export type BridgeResult = import("./bridge-protocol.js").BridgeResult;
 export type SwidgeStatus = "pending" | "action-required" | "completed" | "failed" | "refund-pending" | "refunded" | "cancelled" | "expired" | "partial";
-export type SwidgeFeeType = "gas" | "protocol" | "bridge" | "relayer" | "application" | "affiliate" | "liquidity" | "other";
-export type SwidgeProtocolConfig = {};
+export type SwidgeFeeType = "network" | "protocol" | "affiliate" | "other";
+export type SwidgeProtocolConfig = {
+    /**
+     * - Maximum acceptable network fee in basis points of the input amount.
+     */
+    maxNetworkFeeBps?: number | bigint | undefined;
+    /**
+     * - Maximum acceptable protocol fee in basis points of the input amount.
+     */
+    maxProtocolFeeBps?: number | bigint | undefined;
+};
 export type SwidgeOptions = SwidgeCommonOptions & (SwidgeExactInOptions | SwidgeExactOutOptions);
 export type SwidgeCommonOptions = {
     /**
