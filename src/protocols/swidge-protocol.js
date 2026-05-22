@@ -289,8 +289,8 @@ export default class SwidgeProtocol {
       fromTokenAmount: options.tokenInAmount,
       toTokenAmount: options.tokenOutAmount
     })
-    const fee = quote.fees.reduce((acc, f) => acc + f.amount, 0n)
-    return { fee, tokenInAmount: quote.fromTokenAmount, tokenOutAmount: quote.toTokenAmount }
+    const fee = result.fees.reduce((acc, f) => acc + f.amount, 0n)
+    return { fee, tokenInAmount: result.fromTokenAmount, tokenOutAmount: result.toTokenAmount }
   }
 
   /**
