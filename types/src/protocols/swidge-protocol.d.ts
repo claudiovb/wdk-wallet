@@ -235,7 +235,7 @@ export default class SwidgeProtocol implements ISwidgeProtocol, ISwapProtocol, I
      * @param {SwidgeOptions} options - The swidge options.
      * @returns {Promise<SwidgeQuote>} The quoted swidge details.
      */
-    quoteSwidge(options: SwidgeOptions): Promise<SwidgeQuote>;
+    abstract quoteSwidge(options: SwidgeOptions): Promise<SwidgeQuote>;
     /**
      * Executes a swidge operation.
      *
@@ -244,7 +244,7 @@ export default class SwidgeProtocol implements ISwidgeProtocol, ISwapProtocol, I
      * @param {SwidgeProtocolConfig} [config] - Optional provider-specific execution configuration.
      * @returns {Promise<SwidgeResult>} The swidge execution result.
      */
-    swidge(options: SwidgeOptions, config?: SwidgeProtocolConfig): Promise<SwidgeResult>;
+    abstract swidge(options: SwidgeOptions, config?: SwidgeProtocolConfig): Promise<SwidgeResult>;
     /**
      * Retrieves the current status of an in-flight swidge.
      *
@@ -254,14 +254,14 @@ export default class SwidgeProtocol implements ISwidgeProtocol, ISwapProtocol, I
      * @returns {Promise<SwidgeStatusResult>} The current swidge status.
      * @throws {Error} If the id is invalid, or no swidge exists with the given identifier.
      */
-    getSwidgeStatus(id: string, options?: SwidgeStatusOptions): Promise<SwidgeStatusResult>;
+    abstract getSwidgeStatus(id: string, options?: SwidgeStatusOptions): Promise<SwidgeStatusResult>;
     /**
      * Retrieves the chains supported by the provider for swidge operations.
      *
      * @abstract
      * @returns {Promise<SwidgeSupportedChain[]>} The supported chains.
      */
-    getSupportedChains(): Promise<SwidgeSupportedChain[]>;
+    abstract getSupportedChains(): Promise<SwidgeSupportedChain[]>;
     /**
      * Retrieves the tokens supported by the provider for swidge operations.
      *
@@ -269,7 +269,7 @@ export default class SwidgeProtocol implements ISwidgeProtocol, ISwapProtocol, I
      * @param {SwidgeSupportedTokensOptions} [options] - Optional filters for chain- or route-scoped token discovery.
      * @returns {Promise<SwidgeSupportedToken[]>} The supported tokens.
      */
-    getSupportedTokens(options?: SwidgeSupportedTokensOptions): Promise<SwidgeSupportedToken[]>;
+    abstract getSupportedTokens(options?: SwidgeSupportedTokensOptions): Promise<SwidgeSupportedToken[]>;
 }
 export type IWalletAccountReadOnly = import("../wallet-account-read-only.js").IWalletAccountReadOnly;
 export type IWalletAccount = import("../wallet-account.js").IWalletAccount;
