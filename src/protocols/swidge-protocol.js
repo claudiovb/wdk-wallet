@@ -262,6 +262,7 @@ export default class SwidgeProtocol {
    *
    * @param {SwapOptions} options - The swap's options.
    * @returns {Promise<SwapResult>} The swap's result.
+   * @throws {Error} If no account, or a read-only account was given at construction.
    */
   async swap (options) {
     const result = await this.swidge({
@@ -280,6 +281,7 @@ export default class SwidgeProtocol {
    *
    * @param {SwapOptions} options - The swap's options.
    * @returns {Promise<Omit<SwapResult, 'hash'>>} The swap's quotes.
+   * @throws {Error} If no account was given at construction.
    */
   async quoteSwap (options) {
     const result = await this.quoteSwidge({
@@ -298,6 +300,7 @@ export default class SwidgeProtocol {
    *
    * @param {BridgeOptions} options - The bridge's options.
    * @returns {Promise<BridgeResult>} The bridge's result.
+   * @throws {Error} If no account, or a read-only account was given at construction.
    */
   async bridge (options) {
     const { id: hash, fees } = await this.swidge({
@@ -319,6 +322,7 @@ export default class SwidgeProtocol {
    *
    * @param {BridgeOptions} options - The bridge's options.
    * @returns {Promise<Omit<BridgeResult, 'hash'>>} The bridge's quotes.
+   * @throws {Error} If no account was given at construction.
    */
   async quoteBridge (options) {
     const { fees } = await this.quoteSwidge({
@@ -343,6 +347,7 @@ export default class SwidgeProtocol {
    * @abstract
    * @param {SwidgeOptions} options - The swidge options.
    * @returns {Promise<SwidgeQuote>} The quoted swidge details.
+   * @throws {Error} If no account was given at construction.
    */
   async quoteSwidge (options) {
     throw new NotImplementedError('quoteSwidge(options)')
@@ -355,6 +360,7 @@ export default class SwidgeProtocol {
    * @param {SwidgeOptions} options - The swidge options.
    * @param {SwidgeProtocolConfig} [config] - Optional provider-specific execution configuration.
    * @returns {Promise<SwidgeResult>} The swidge execution result.
+   * @throws {Error} If no account, or a read-only account was given at construction.
    */
   async swidge (options, config) {
     throw new NotImplementedError('swidge(options, config)')
