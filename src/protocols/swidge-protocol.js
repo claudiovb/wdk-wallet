@@ -282,18 +282,13 @@ export default class SwidgeProtocol {
    * @returns {Promise<Omit<SwapResult, 'hash'>>} The swap's quotes.
    */
   async quoteSwap (options) {
-    const swidgeOptions = {
+    const result = await this.quoteSwidge({
       fromToken: options.tokenIn,
       toToken: options.tokenOut,
-      recipient: options.to
-    }
-    if (options.tokenInAmount !== undefined) {
-      swidgeOptions.fromTokenAmount = options.tokenInAmount
-    } else {
-      swidgeOptions.toTokenAmount = options.tokenOutAmount
-    }
-
-    const quote = await this.quoteSwidge(swidgeOptions)
+      recipient: options.to,
+      fromTokenAmount: options.tokenInAmount,
+      toTokenAmount: options.tokenOutAmount
+    })
     const fee = quote.fees.reduce((acc, f) => acc + f.amount, 0n)
     return { fee, tokenInAmount: quote.fromTokenAmount, tokenOutAmount: quote.toTokenAmount }
   }
