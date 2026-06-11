@@ -72,6 +72,12 @@ describe('WalletManager', () => {
       expect(() => wallet.getSigner())
         .toThrow('No default signer registered.')
     })
+    test('should store both transferMaxFee and transactionMaxFee in config', () => {
+      const wallet = new DummyWalletManager(SEED_PHRASE, { transferMaxFee: 100, transactionMaxFee: 500 })
+
+      expect(wallet._config.transferMaxFee).toBe(100)
+      expect(wallet._config.transactionMaxFee).toBe(500)
+    })
   })
 
   describe('static getRandomSeedPhrase', () => {

@@ -137,6 +137,10 @@ export type WalletConfig = {
    * - The maximum fee amount for transfer operations.
    */
   transferMaxFee?: number | bigint;
+  /**
+   * - The maximum fee amount for sendTransaction and signTransaction operations.
+   */
+  transactionMaxFee?: number | bigint;
 };
 export type FeeRates = {
   /**
