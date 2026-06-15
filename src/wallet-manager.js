@@ -188,7 +188,8 @@ export default class WalletManager {
    * @param {Object} [options] - Account options.
    * @param {string} [options.signerName] - The signer name. Omit to use the default signer.
    * @returns {Promise<IWalletAccount>} The account.
-   * @throws {Error} If a signer name is given but no signer exists with that name or signer don't support derivation and index is number
+   * @throws {Error} If a signer name is given but no signer exists with that name.
+   * @throws {SignerError} If the signer doesn't support account derivation.
    */
 
   /**
