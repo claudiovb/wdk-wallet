@@ -137,7 +137,7 @@ export default class WalletManager {
    * @throws {Error} If `signerName` is not a non-empty, non-blank string.
    */
   addSigner (signerName, signer) {
-    if (typeof signerName !== 'string' || signerName.trim() === '') {
+    if (!signerName.trim()) {
       throw new Error('The signer name cannot be an empty or blank string.')
     }
 
