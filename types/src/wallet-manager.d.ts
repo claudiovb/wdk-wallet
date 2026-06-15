@@ -73,7 +73,7 @@ export default abstract class WalletManager {
      * @param {string} signerName - The signer name.
      * @param {ISigner} signer - The signer.
      * @returns {WalletManager} The wallet manager.
-     * @throws {Error} If `signerName` is not a non-empty, non-blank string.
+     * @throws {Error} If `signerName` is an empty or blank string.
      */
     addSigner(signerName: string, signer: ISigner): WalletManager;
     /**
@@ -102,7 +102,8 @@ export default abstract class WalletManager {
      * @param {Object} [options] - Account options.
      * @param {string} [options.signerName] - The signer name. Omit to use the default signer.
      * @returns {Promise<IWalletAccount>} The account.
-     * @throws {Error} If a signer name is given but no signer exists with that name or signer don't support derivation and index is number
+     * @throws {Error} If a signer name is given but no signer exists with that name.
+     * @throws {SignerError} If the signer doesn't support account derivation.
      */
     abstract getAccount(
         index?: number,
@@ -111,7 +112,10 @@ export default abstract class WalletManager {
         },
     ): Promise<IWalletAccount>;
     /**
-     * Returns the wallet account for a non-derivable signer (e.g., a private-key signer).
+     * Returns the wallet account associated with a registered signer. For
+     * non-derivable signers (e.g., private-key signers), returns the signer's
+     * single account. For derivable signers, returns the wallet account at the
+     * signer's root, with no further derivation.
      *
      * @param {string} signerName - The signer name registered via {@link addSigner}.
      * @returns {Promise<IWalletAccount>} The account.
@@ -126,7 +130,8 @@ export default abstract class WalletManager {
      * @param {Object} [options] - Account options.
      * @param {string} [options.signerName] - The signer name. Omit to use the default signer.
      * @returns {Promise<IWalletAccount>} The account.
-     * @throws {Error} If a signer name is given but no signer exists with that name, or if the signer does not support derivation.
+     * @throws {Error} If a signer name is given but no signer exists with that name.
+     * @throws {SignerError} If the signer doesn't support account derivation.
      */
     abstract getAccountByPath(
         path: string,
@@ -148,6 +153,7 @@ export default abstract class WalletManager {
 }
 export type IWalletAccount = import("./wallet-account.js").IWalletAccount;
 export type ISigner = import("./signer.js").ISigner;
+export type SignerError = import("./errors.js").SignerError;
 export type WalletConfig = {
     /**
      * - The maximum fee amount for transfer operations.

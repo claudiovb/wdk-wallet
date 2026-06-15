@@ -134,7 +134,7 @@ export default class WalletManager {
    * @param {string} signerName - The signer name.
    * @param {ISigner} signer - The signer.
    * @returns {WalletManager} The wallet manager.
-   * @throws {Error} If `signerName` is not a non-empty, non-blank string.
+   * @throws {Error} If `signerName` is an empty or blank string.
    */
   addSigner (signerName, signer) {
     if (!signerName.trim()) {
@@ -193,7 +193,10 @@ export default class WalletManager {
    */
 
   /**
-   * Returns the wallet account for a non-derivable signer (e.g., a private-key signer)
+   * Returns the wallet account associated with a registered signer. For
+   * non-derivable signers (e.g., private-key signers), returns the signer's
+   * single account. For derivable signers, returns the wallet account at the
+   * signer's root, with no further derivation.
    *
    * @overload
    * @param {string} signerName - The signer name registered via {@link addSigner}.

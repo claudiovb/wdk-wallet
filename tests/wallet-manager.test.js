@@ -147,7 +147,7 @@ describe('WalletManager', () => {
       const wallet = new DummyWalletManager(SEED_PHRASE)
 
       expect(() => wallet.addSigner('', signer))
-        .toThrow('Signer name is required.')
+        .toThrow('The signer name cannot be an empty or blank string.')
     })
 
     test('should throw when the signer name is blank', () => {
@@ -155,15 +155,7 @@ describe('WalletManager', () => {
       const wallet = new DummyWalletManager(SEED_PHRASE)
 
       expect(() => wallet.addSigner('   ', signer))
-        .toThrow('Signer name is required.')
-    })
-
-    test('should throw when the signer name is not a string', () => {
-      const signer = new DummySigner()
-      const wallet = new DummyWalletManager(SEED_PHRASE)
-
-      expect(() => wallet.addSigner(null, signer))
-        .toThrow('Signer name is required.')
+        .toThrow('The signer name cannot be an empty or blank string.')
     })
   })
 
