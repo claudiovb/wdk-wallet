@@ -6,3 +6,11 @@ export class NotImplementedError extends Error {
      */
     constructor(methodName: string);
 }
+export class SignerError extends Error {
+    /**
+     * Create a new signer error.
+     *
+     * @param {string} message - The error's message.
+     */
+    constructor(message: string);
+}

@@ -25,3 +25,16 @@ export class NotImplementedError extends Error {
     this.name = 'NotImplementedError'
   }
 }
+
+export class SignerError extends Error {
+  /**
+   * Create a new signer error.
+   *
+   * @param {string} message - The error's message.
+   */
+  constructor (message) {
+    super(message)
+
+    this.name = 'SignerError'
+  }
+}

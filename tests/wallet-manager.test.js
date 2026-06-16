@@ -1,8 +1,24 @@
 import * as bip39 from 'bip39'
 
-import { describe, expect, test } from '@jest/globals'
+import { describe, expect, jest, test } from '@jest/globals'
 
 import WalletManager from '../index.js'
+
+class DummySigner {
+  async derive (relPath) {
+    return this
+  }
+
+  async signTransaction (tx) {
+    return null
+  }
+
+  async getAddress () {
+    return 'dummy-address'
+  }
+
+  dispose () {}
+}
 
 class DummyWalletManager extends WalletManager {
   async getAccount (index = 0) {
@@ -15,13 +31,9 @@ class DummyWalletManager extends WalletManager {
 
   async getFeeRates () {
     return {
-      normal: 0,
-      fast: 0
+      normal: 0n,
+      fast: 0n
     }
-  }
-
-  dispose () {
-
   }
 }
 
@@ -51,6 +63,19 @@ describe('WalletManager', () => {
         .toThrow('The seed phrase is invalid.')
     })
 
+    test('should set the provided signer as the default signer', () => {
+      const signer = new DummySigner()
+      const wallet = new DummyWalletManager(signer)
+
+      expect(wallet.getSigner()).toBe(signer)
+    })
+
+    test('should throw when requesting the default signer on a seed-based manager', () => {
+      const wallet = new DummyWalletManager(SEED_PHRASE)
+
+      expect(() => wallet.getSigner())
+        .toThrow('No default signer registered.')
+    })
     test('should store both transferMaxFee and transactionMaxFee in config', () => {
       const wallet = new DummyWalletManager(SEED_PHRASE, { transferMaxFee: 100, transactionMaxFee: 500 })
 
@@ -69,8 +94,7 @@ describe('WalletManager', () => {
       expect(words).toHaveLength(12)
 
       words.forEach(word => {
-        expect(bip39.wordlists.EN.includes(word))
-          .not.toBe(-1)
+        expect(bip39.wordlists.EN.includes(word)).toBe(true)
       })
     })
 
@@ -105,6 +129,59 @@ describe('WalletManager', () => {
     test('should return false for an empty string', () => {
       expect(WalletManager.isValidSeedPhrase(''))
         .toBe(false)
+    })
+  })
+
+  describe('addSigner', () => {
+    test('should register a signer that can be retrieved by name', () => {
+      const signer = new DummySigner()
+      const wallet = new DummyWalletManager(SEED_PHRASE)
+
+      wallet.addSigner('ledger', signer)
+
+      expect(wallet.getSigner('ledger')).toBe(signer)
+    })
+
+    test('should throw when the signer name is empty', () => {
+      const signer = new DummySigner()
+      const wallet = new DummyWalletManager(SEED_PHRASE)
+
+      expect(() => wallet.addSigner('', signer))
+        .toThrow('The signer name cannot be an empty or blank string.')
+    })
+
+    test('should throw when the signer name is blank', () => {
+      const signer = new DummySigner()
+      const wallet = new DummyWalletManager(SEED_PHRASE)
+
+      expect(() => wallet.addSigner('   ', signer))
+        .toThrow('The signer name cannot be an empty or blank string.')
+    })
+  })
+
+  describe('getSigner', () => {
+    test('should throw when requesting an unknown signer name', () => {
+      const signer = new DummySigner()
+      const wallet = new DummyWalletManager(signer)
+
+      expect(() => wallet.getSigner('ledger'))
+        .toThrow('No signer registered with name "ledger".')
+    })
+  })
+
+  describe('dispose', () => {
+    test('should delegate to WalletManager.dispose and clear signer maps', () => {
+      const signer = new DummySigner()
+      const disposeSpy = jest.spyOn(signer, 'dispose')
+      const wallet = new DummyWalletManager(signer)
+
+      expect(wallet.getSigner()).toBe(signer)
+
+      wallet.dispose()
+
+      expect(disposeSpy).toHaveBeenCalledTimes(1)
+      expect(() => wallet.getSigner())
+        .toThrow('No default signer registered.')
     })
   })
 })
