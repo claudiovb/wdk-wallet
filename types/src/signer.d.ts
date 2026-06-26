@@ -13,13 +13,6 @@ export class ISigner {
      */
     derive(relPath: string): Promise<ISigner>;
     /**
-     * Signs a transaction.
-     *
-     * @param {Transaction} tx - The transaction to sign.
-     * @returns {Promise<unknown>} The signed transaction.
-     */
-    signTransaction(tx: Transaction): Promise<unknown>;
-    /**
      * Returns the signer's address.
      *
      * @returns {Promise<string>} The address.
@@ -30,5 +23,4 @@ export class ISigner {
      */
     dispose(): void;
 }
-export type Transaction = import("./wallet-account-read-only.js").Transaction;
 export type SignerError = import("./errors.js").SignerError;

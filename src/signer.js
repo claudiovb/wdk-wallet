@@ -15,8 +15,6 @@
 
 import { NotImplementedError } from './errors.js'
 
-/** @typedef {import('./wallet-account-read-only.js').Transaction} Transaction */
-
 /**
  * A minimal, cross-chain signer interface.
  *
@@ -32,16 +30,6 @@ export class ISigner {
    */
   async derive (relPath) {
     throw new NotImplementedError('derive(relPath)')
-  }
-
-  /**
-   * Signs a transaction.
-   *
-   * @param {Transaction} tx - The transaction to sign.
-   * @returns {Promise<unknown>} The signed transaction.
-   */
-  async signTransaction (tx) {
-    throw new NotImplementedError('signTransaction(tx)')
   }
 
   /**
