@@ -164,25 +164,4 @@ describe('WalletManager', () => {
         .toThrow(new NoSuchElementError('No signer found with name "ledger".'))
     })
   })
-
-  describe('dispose', () => {
-    test('should clear signer references without disposing user-supplied signers', () => {
-      const defaultSigner = new DummySigner()
-      const namedSigner = new DummySigner()
-      const defaultDisposeSpy = jest.spyOn(defaultSigner, 'dispose')
-      const namedDisposeSpy = jest.spyOn(namedSigner, 'dispose')
-      const wallet = new DummyWalletManager(defaultSigner)
-      wallet.addSigner('ledger', namedSigner)
-
-      wallet.dispose()
-
-      expect(defaultDisposeSpy).not.toHaveBeenCalled()
-      expect(namedDisposeSpy).not.toHaveBeenCalled()
-      expect(() => wallet.getSigner())
-        .toThrow(new NoSuchElementError('No default signer set.'))
-      expect(() => wallet.getSigner('ledger'))
-        .toThrow(new NoSuchElementError('No signer found with name "ledger".'))
-      expect(wallet.getSigners()).toEqual({})
-    })
-  })
 })

@@ -1,6 +1,7 @@
 /**
  * @interface
- * @implements {IDisposable}
+ * @extends {IWalletAccountReadOnly}
+ * @extends {IDisposable}
  * @template [TSignedTransaction=unknown]
  */
 export interface IWalletAccount<TSignedTransaction = unknown> extends IWalletAccountReadOnly, IDisposable {

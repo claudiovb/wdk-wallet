@@ -150,13 +150,7 @@ export default abstract class WalletManager implements IDisposable {
      */
     abstract getFeeRates(): Promise<FeeRates>;
     /**
-     * Disposes all wallet accounts and clears references to registered signers.
-     *
-     * Signers are user-supplied and therefore not owned by the wallet manager; this
-     * method only drops the internal references so they can be garbage-collected
-     * once the caller also releases them. Downstream chain-specific wallet managers
-     * that create their own signers internally should override this method to
-     * dispose them.
+     * Disposes all wallet accounts, clearing secret material from memory.
      */
     dispose(): void;
 }

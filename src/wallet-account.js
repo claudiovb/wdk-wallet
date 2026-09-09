@@ -41,7 +41,8 @@ import { NotImplementedError } from './errors.js'
 
 /**
  * @interface
- * @implements {IDisposable}
+ * @extends {IWalletAccountReadOnly}
+ * @extends {IDisposable}
  * @template [TSignedTransaction=unknown]
  */
 export class IWalletAccount extends IWalletAccountReadOnly {
@@ -149,12 +150,5 @@ export class IWalletAccount extends IWalletAccountReadOnly {
    */
   async toReadOnlyAccount () {
     throw new NotImplementedError('toReadOnlyAccount()')
-  }
-
-  /**
-   * Disposes the wallet account, erasing the private key from the memory.
-   */
-  dispose () {
-    throw new NotImplementedError('dispose()')
   }
 }
