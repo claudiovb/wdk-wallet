@@ -17,4 +17,4 @@ export type ProviderErrorOptions = import("./src/errors.js").ProviderErrorOption
 export type TransactionErrorOptions = import("./src/errors.js").TransactionErrorOptions;
 export type TransferErrorOptions = import("./src/errors.js").TransferErrorOptions;
 export { default as WalletAccountReadOnly, IWalletAccountReadOnly, FINALITY } from "./src/wallet-account-read-only.js";
-export { AssertionError, InvalidTokenError, InvalidSignerError, MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderErrorReason, ProviderRequiredError, TimeoutError, TransactionError, TransactionErrorReason, TransferError, TransferErrorReason, UnsupportedOperationError, ValueError, WdkError } from "./src/errors.js";
+export { AssertionError, InvalidTokenError, InvalidSignerError, InvalidSignerError as SignerError, MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderErrorReason, ProviderRequiredError, TimeoutError, TransactionError, TransactionErrorReason, TransferError, TransferErrorReason, UnsupportedOperationError, ValueError, WdkError } from "./src/errors.js";

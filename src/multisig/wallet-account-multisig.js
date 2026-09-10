@@ -39,8 +39,8 @@ import { NotImplementedError } from './errors.js'
  */
 
 /**
- * @typedef {Object} MultisigAutoExecuteResult
- * @property {TransactionResult} [transaction] - If auto execute is set to true and the method call triggers the execution of the proposal, this field is set to the corresponding transaction's result (i.e., hash and fee).
+ * @typedef {Object} MultisigInteractionResult
+ * @property {TransactionResult} [transaction] - The on-chain transaction produced by this call, when the call itself settles on-chain — the execution transaction when a call triggers execution, or, on backends where every proposal/approval is its own on-chain transaction, that call's transaction. Undefined when the call only updates off-chain state. Its presence does not imply the proposal executed; execution is determined solely by `status`.
  */
 
 /** @interface */
@@ -88,7 +88,7 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
    *
    * @param {Transaction} tx - The transaction.
    * @param {MultisigTransactionOptions} [transactionOptions] - The multisig transaction's options.
-   * @returns {Promise<MultisigProposal>} The created proposal; its `status` is `'executed'` when `autoExecute` ran to completion, otherwise `'pending'`.
+   * @returns {Promise<MultisigProposal & MultisigInteractionResult>} The created proposal; its `status` is `'executed'` when `autoExecute` ran to completion, otherwise `'pending'`.
    * @throws {ValueError} If the transaction is not valid.
    * @throws {ProviderRequiredError} If the method requires a provider.
    * @throws {ProviderError} If the provider fails to propose the transaction.
@@ -102,7 +102,7 @@ export class IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
    * Approves a pending proposal.
    *
    * @param {string} proposalId - The proposal's id.
-   * @returns {Promise<MultisigProposal>} The multisig proposal.
+   * @returns {Promise<MultisigProposal & MultisigInteractionResult>} The multisig proposal.
    * @throws {ValueError} If the proposal's identifier is not a valid id.
    * @throws {NoSuchElementError} If no message exists for the given id.
    * @throws {AccountNotOwnerError} If the account is not an owner of the multisig wallet.

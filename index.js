@@ -41,4 +41,4 @@ export { ISigner } from './src/signer.js'
 
 export { IDisposable } from './src/disposable.js'
 
-export { AssertionError, InvalidTokenError, InvalidSignerError, MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderErrorReason, ProviderRequiredError, TimeoutError, TransactionError, TransactionErrorReason, TransferError, TransferErrorReason, UnsupportedOperationError, ValueError, WdkError } from './src/errors.js'
+export { AssertionError, InvalidTokenError, InvalidSignerError, InvalidSignerError as SignerError, MaximumFeeExceededError, NoSuchElementError, NotImplementedError, ProviderError, ProviderErrorReason, ProviderRequiredError, TimeoutError, TransactionError, TransactionErrorReason, TransferError, TransferErrorReason, UnsupportedOperationError, ValueError, WdkError } from './src/errors.js'

@@ -37,7 +37,7 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      * @throws {ProviderError} If the provider fails to propose the transaction.
      * @throws {AccountNotOwnerError} If the account is not an owner of the multisig wallet.
      */
-    propose(tx: Transaction, transactionOptions?: MultisigTransactionOptions): Promise<MultisigProposal>;
+    propose(tx: Transaction, transactionOptions?: MultisigTransactionOptions): Promise<MultisigProposal & MultisigInteractionResult>;
     /**
      * Approves a pending proposal.
      *
@@ -47,7 +47,7 @@ export interface IWalletAccountMultisig extends IWalletAccountReadOnlyMultisig {
      * @throws {NoSuchElementError} If no message exists for the given id.
      * @throws {AccountNotOwnerError} If the account is not an owner of the multisig wallet.
      */
-    approveProposal(proposalId: string): Promise<MultisigProposal>;
+    approveProposal(proposalId: string): Promise<MultisigProposal & MultisigInteractionResult>;
     /**
      * Rejects a pending proposal.
      *
@@ -92,9 +92,9 @@ export type MultisigTransactionOptions = {
      */
     autoExecute?: boolean;
 };
-export type MultisigAutoExecuteResult = {
+export type MultisigInteractionResult = {
     /**
-     * - If auto execute is set to true and the method call triggers the execution of the proposal, this field is set to the corresponding transaction's result (i.e., hash and fee).
+     * - The on-chain transaction produced by this call, when the call itself settles on-chain — the execution transaction when a call triggers execution, or, on backends where every proposal/approval is its own on-chain transaction, that call's transaction. Undefined when the call only updates off-chain state. Its presence does not imply the proposal executed; execution is determined solely by `status`.
      */
     transaction?: TransactionResult;
 };
