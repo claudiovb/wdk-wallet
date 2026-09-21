@@ -15,10 +15,10 @@ export default abstract class WalletManager {
      */
     static isValidSeedPhrase(seedPhrase: string): boolean;
     /**
-     * Creates a new wallet manager from a BIP-39 seed.
+     * Creates a new wallet manager from a seed.
      *
      * @overload
-     * @param {string | Uint8Array} seed - The BIP-39 seed phrase or raw seed bytes.
+     * @param {string | Uint8Array} seed - A BIP-39 mnemonic seed phrase, or a raw BIP-32 master seed (16-64 bytes).
      * @param {WalletConfig} [config] - The wallet configuration.
      * @throws {ValueError} If the seed is not a valid seed or BIP-39 seed phrase.
      */
