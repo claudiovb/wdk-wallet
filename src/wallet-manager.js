@@ -15,14 +15,13 @@
 
 import * as bip39 from 'bip39'
 
-import { NoSuchElementError, NotImplementedError, ValueError } from './errors.js'
+import { InvalidSignerError, NoSuchElementError, NotImplementedError, ValueError } from './errors.js'
 
 /** @typedef {import('./wallet-account.js').IWalletAccount} IWalletAccount */
 
 /** @typedef {import('./signer.js').ISigner} ISigner */
 /** @typedef {import('./disposable.js').IDisposable} IDisposable */
 
-/** @typedef {import('./errors.js').InvalidSignerError} InvalidSignerError */
 /** @typedef {import('./errors.js').ProviderError} ProviderError */
 /** @typedef {import('./errors.js').ProviderRequiredError} ProviderRequiredError */
 
@@ -59,10 +58,9 @@ export default class WalletManager {
    * @overload
    * @param {TSigner} signer - The default signer.
    * @param {WalletConfig} [config] - The wallet configuration.
+   * @throws {InvalidSignerError} If the given signer doesn't support account derivation.
    */
   constructor (seedOrSigner, config = {}) {
-    // TODO: Add check to assert that the default signer is derivable.
-
     if (typeof seedOrSigner === 'string') {
       if (!WalletManager.isValidSeedPhrase(seedOrSigner)) {
         throw new ValueError('Invalid seed phrase.')
@@ -72,6 +70,10 @@ export default class WalletManager {
     }
 
     const isSeed = seedOrSigner instanceof Uint8Array
+
+    if (!isSeed && !seedOrSigner.isDerivable) {
+      throw new InvalidSignerError('The default signer must be derivable. Non-derivable signers (e.g. private-key signers) can only be registered by name via addSigner.')
+    }
 
     /** @private */
     this._seed = isSeed ? seedOrSigner : undefined

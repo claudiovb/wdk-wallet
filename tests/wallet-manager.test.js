@@ -2,9 +2,13 @@ import * as bip39 from 'bip39'
 
 import { describe, expect, jest, test } from '@jest/globals'
 
-import WalletManager, { NoSuchElementError, ValueError } from '../index.js'
+import WalletManager, { InvalidSignerError, NoSuchElementError, ValueError } from '../index.js'
 
 class DummySigner {
+  get isDerivable () {
+    return true
+  }
+
   async derive (relPath) {
     return this
   }
@@ -14,6 +18,12 @@ class DummySigner {
   }
 
   dispose () {}
+}
+
+class NonDerivableSigner extends DummySigner {
+  get isDerivable () {
+    return false
+  }
 }
 
 class DummyWalletManager extends WalletManager {
@@ -64,6 +74,12 @@ describe('WalletManager', () => {
       const wallet = new DummyWalletManager(signer)
 
       expect(wallet.getSigner()).toBe(signer)
+    })
+
+    test('should throw if the default signer is not derivable', () => {
+      // eslint-disable-next-line no-new
+      expect(() => { new DummyWalletManager(new NonDerivableSigner()) })
+        .toThrow(new InvalidSignerError('The default signer must be derivable. Non-derivable signers (e.g. private-key signers) can only be registered by name via addSigner.'))
     })
 
     test('should throw when requesting the default signer on a seed-based manager', () => {
