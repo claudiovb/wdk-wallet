@@ -18,7 +18,8 @@ export class ISigner extends IDisposable {
      */
     get keyPair(): KeyPair | null;
     /**
-     * The BIP 0032 derivation path.
+     * The BIP 0032 derivation path, or null if the signer is not bound to a derivation position
+     * (e.g. private-key signers).
      *
      * @type {string | null}
      */
