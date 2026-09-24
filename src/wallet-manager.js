@@ -59,7 +59,6 @@ export default class WalletManager {
    * @overload
    * @param {TSigner} signer - The default signer.
    * @param {WalletConfig} [config] - The wallet configuration.
-   * @throws {InvalidSignerError} If the given signer doesn't support account derivation.
    */
   constructor (seedOrSigner, config = {}) {
     // TODO: Add check to assert that the default signer is derivable.

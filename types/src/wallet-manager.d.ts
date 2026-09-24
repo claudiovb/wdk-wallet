@@ -33,7 +33,6 @@ export default abstract class WalletManager<TSigner extends ISigner = ISigner> i
      * @overload
      * @param {TSigner} signer - The default signer.
      * @param {WalletConfig} [config] - The wallet configuration.
-     * @throws {InvalidSignerError} If the given signer doesn't support account derivation.
      */
     constructor(signer: TSigner, config?: WalletConfig);
     /** @private */
