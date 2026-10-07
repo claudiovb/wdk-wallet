@@ -2,7 +2,7 @@ import * as bip39 from 'bip39'
 
 import { describe, expect, jest, test } from '@jest/globals'
 
-import WalletManager, { InvalidSignerError, NoSuchElementError, ValueError } from '../index.js'
+import WalletManager, { DisposalError, InvalidSignerError, NoSuchElementError, ValueError } from '../index.js'
 
 class DummySigner {
   get isDerivable () {
@@ -168,6 +168,16 @@ describe('WalletManager', () => {
 
       expect(() => wallet.addSigner('   ', signer))
         .toThrow(new ValueError('The signer name cannot be an empty or blank string.'))
+    })
+
+    test('should throw when the wallet manager has been disposed', () => {
+      const signer = new DummySigner()
+      const wallet = new DummyWalletManager(SEED_PHRASE)
+
+      wallet.dispose()
+
+      expect(() => wallet.addSigner('ledger', signer))
+        .toThrow(new DisposalError('The wallet manager has been disposed.'))
     })
   })
 

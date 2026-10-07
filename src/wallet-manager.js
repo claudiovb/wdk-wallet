@@ -15,14 +15,13 @@
 
 import * as bip39 from 'bip39'
 
-import { InvalidSignerError, NoSuchElementError, NotImplementedError, ValueError } from './errors.js'
+import { DisposalError, InvalidSignerError, NoSuchElementError, NotImplementedError, ValueError } from './errors.js'
 
 /** @typedef {import('./wallet-account.js').IWalletAccount} IWalletAccount */
 
 /** @typedef {import('./signer.js').ISigner} ISigner */
 /** @typedef {import('./disposable.js').IDisposable} IDisposable */
 
-/** @typedef {import('./errors.js').DisposalError} DisposalError */
 /** @typedef {import('./errors.js').ProviderError} ProviderError */
 /** @typedef {import('./errors.js').ProviderRequiredError} ProviderRequiredError */
 
@@ -167,6 +166,10 @@ export default class WalletManager {
    * @throws {DisposalError} If the wallet manager has been disposed.
    */
   addSigner (signerName, signer) {
+    if (this.disposed) {
+      throw new DisposalError('The wallet manager has been disposed.')
+    }
+
     if (!signerName.trim()) {
       throw new ValueError('The signer name cannot be an empty or blank string.')
     }
